@@ -1,0 +1,33 @@
+{
+  "tests": [
+    {
+      "name": "Send auth code",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "send_code",
+        "telegram_username": "@testuser"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Verify invalid code",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "verify_code",
+        "telegram_username": "@testuser",
+        "code": "000000"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
