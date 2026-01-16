@@ -13,6 +13,8 @@ import ProgressIndicator from '@/components/ui/progress-indicator';
 import { MixesTable } from '@/components/ui/mixes-table';
 import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { UnsavePopup } from '@/components/ui/unsave-popup';
+import { Info } from 'lucide-react';
 
 
 
@@ -41,6 +43,13 @@ const Index = () => {
   const [tutorialPage, setTutorialPage] = useState(1);
   const [mixes, setMixes] = useState<any[]>([]);
   const [isLoadingMixes, setIsLoadingMixes] = useState(false);
+  const [showUnsavePopup, setShowUnsavePopup] = useState(false);
+  const [shouldBlockNav, setShouldBlockNav] = useState(false);
+  const [originalMixerData, setOriginalMixerData] = useState({
+    inputAddress: '',
+    outputAddress: '',
+    amount: '',
+  });
 
   const handleFileSelect = (settings: any) => {
     setMixerData(prev => ({ 
@@ -53,6 +62,12 @@ const Index = () => {
       description: settings.description || '',
     }));
     setSelectedFile(settings.name || '');
+    setShowUnsavePopup(false);
+    setOriginalMixerData({
+      inputAddress: '',
+      outputAddress: '',
+      amount: '',
+    });
   };
 
   const handleRequestCode = () => {
@@ -87,11 +102,44 @@ const Index = () => {
       alert('Please fill all fields');
       return;
     }
-    // Generate deposit address
     const generatedAddress = `${mixerData.currency}Mix${Math.random().toString(36).substring(2, 15)}`;
     setDepositAddress(generatedAddress);
     setShowMixConfirmation(true);
+    setShowUnsavePopup(false);
+    setOriginalMixerData({
+      inputAddress: mixerData.inputAddress,
+      outputAddress: mixerData.outputAddress,
+      amount: mixerData.amount,
+    });
   };
+
+  const handleMixerDataChange = (field: string, value: string) => {
+    setMixerData(prev => ({ ...prev, [field]: value }));
+    setShowUnsavePopup(true);
+  };
+
+  const handleSaveForm = async () => {
+    await new Promise(resolve => setTimeout(resolve, 800));
+    setShowUnsavePopup(false);
+    setOriginalMixerData({
+      inputAddress: mixerData.inputAddress,
+      outputAddress: mixerData.outputAddress,
+      amount: mixerData.amount,
+    });
+  };
+
+  const handleResetForm = () => {
+    setMixerData(prev => ({
+      ...prev,
+      inputAddress: originalMixerData.inputAddress,
+      outputAddress: originalMixerData.outputAddress,
+      amount: originalMixerData.amount,
+    }));
+    setShowUnsavePopup(false);
+    setShouldBlockNav(false);
+  };
+
+  const shouldBlockFn = () => shouldBlockNav;
 
   // Fetch mixes when user is authenticated and tab is active
   useEffect(() => {
@@ -688,7 +736,7 @@ const Index = () => {
                           <Input
                             placeholder="Enter your input address"
                             value={mixerData.inputAddress}
-                            onChange={(e) => setMixerData({ ...mixerData, inputAddress: e.target.value })}
+                            onChange={(e) => handleMixerDataChange('inputAddress', e.target.value)}
                           />
                         </div>
 
@@ -697,7 +745,7 @@ const Index = () => {
                           <Input
                             placeholder="Enter your output address"
                             value={mixerData.outputAddress}
-                            onChange={(e) => setMixerData({ ...mixerData, outputAddress: e.target.value })}
+                            onChange={(e) => handleMixerDataChange('outputAddress', e.target.value)}
                           />
                         </div>
 
@@ -708,7 +756,7 @@ const Index = () => {
                             step="0.00000001"
                             placeholder="0.00000000"
                             value={mixerData.amount}
-                            onChange={(e) => setMixerData({ ...mixerData, amount: e.target.value })}
+                            onChange={(e) => handleMixerDataChange('amount', e.target.value)}
                           />
                         </div>
 
@@ -1240,6 +1288,15 @@ const Index = () => {
           </div>
         </footer>
       </div>
+
+      <UnsavePopup
+        onSave={handleSaveForm}
+        onReset={handleResetForm}
+        shouldBlockFn={shouldBlockFn}
+        show={showUnsavePopup}
+      >
+        <Info className="h-4 w-4" /> Вы изменили данные формы. Сохранить изменения?
+      </UnsavePopup>
     </div>
   );
 };
