@@ -77,11 +77,11 @@ function FileItem({ node, depth, isLast, parentPath, onFileSelect, selectedFile 
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ paddingLeft: `${depth * 24 + 12}px` }}
+        style={{ paddingLeft: `${depth * 16 + 4}px` }}
       >
         {/* Tree lines */}
         {depth > 0 && (
-          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 24 + 24}px` }}>
+          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 16 + 16}px` }}>
             <div className={cn("w-px transition-colors duration-200", isHovered ? "bg-primary/40" : "bg-border/50")} />
           </div>
         )}
