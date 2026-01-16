@@ -61,13 +61,13 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
       >
         {depth > 0 && (
           <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 24 + 22}px` }}>
-            <div className={cn("w-px transition-colors duration-200", isHovered ? "bg-black/30" : "bg-black/10")} />
+            <div className={cn("w-px transition-colors [transition-duration:var(--default-transition-duration)]", isHovered ? "bg-black/30" : "bg-black/10")} />
           </div>
         )}
 
         <div
           className={cn(
-            "flex items-center justify-center w-4 h-4 transition-transform duration-200 ease-out",
+            "flex items-center justify-center w-4 h-4 transition-transform [transition-duration:var(--default-transition-duration)] [transition-timing-function:var(--ease-out)]",
             isFolder && isOpen && "rotate-90",
           )}
         >
@@ -77,7 +77,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               height="10"
               viewBox="0 0 6 8"
               fill="none"
-              className={cn("transition-colors duration-200", isHovered ? "text-black" : "text-gray-400")}
+              className={cn("transition-colors [transition-duration:var(--default-transition-duration)]", isHovered ? "text-black" : "text-gray-400")}
             >
               <path
                 d="M1 1L5 4L1 7"
@@ -88,13 +88,13 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               />
             </svg>
           ) : (
-            <span className={cn("text-xs transition-opacity duration-200", fileIcon.color)}>{fileIcon.icon}</span>
+            <span className={cn("text-xs transition-opacity [transition-duration:var(--default-transition-duration)]", fileIcon.color)}>{fileIcon.icon}</span>
           )}
         </div>
 
         <div
           className={cn(
-            "flex items-center justify-center w-5 h-5 rounded transition-all duration-200",
+            "flex items-center justify-center w-5 h-5 rounded transition-all [transition-duration:var(--default-transition-duration)]",
             isFolder
               ? "text-black/80"
               : cn(fileIcon.color),
@@ -114,7 +114,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
 
         <span
           className={cn(
-            "text-sm transition-colors duration-200",
+            "text-sm transition-colors [transition-duration:var(--default-transition-duration)] font-[family-name:var(--default-mono-font-family)]",
             isFolder
               ? "text-gray-800 font-medium"
               : "text-gray-600",
@@ -127,7 +127,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
       {hasChildren && (
         <div
           className={cn(
-            "overflow-hidden transition-all duration-300 ease-out",
+            "overflow-hidden transition-all duration-300 [transition-timing-function:var(--ease-out)]",
             isOpen ? "opacity-100" : "opacity-0 h-0",
           )}
           style={{
@@ -163,7 +163,7 @@ export function FileTree({ data, className }: FileTreeProps) {
           <div className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e]" />
           <div className="w-3.5 h-3.5 rounded-full bg-[#27c93f]" />
         </div>
-        <span className="text-sm text-gray-500 ml-2">explorer</span>
+        <span className="text-sm text-gray-500 ml-2 font-[family-name:var(--default-mono-font-family)]">explorer</span>
       </div>
 
       <div className="space-y-0.5">
