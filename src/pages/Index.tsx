@@ -402,7 +402,7 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="flex-1 px-8 py-12 overflow-y-auto">
+        <main className="flex-1 px-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
               <TabsTrigger value="mixer" className="font-medium">
