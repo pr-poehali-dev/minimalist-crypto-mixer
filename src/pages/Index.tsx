@@ -175,6 +175,88 @@ const Index = () => {
         },
       ]
     },
+    {
+      name: "USD Coin (USDC)",
+      type: "folder",
+      extension: "json",
+      children: [
+        {
+          name: "ERC20",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '1.4%', delay: '12-28 min', minimum: '50 USDC' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '2.1%', delay: '5-10 min', minimum: '100 USDC' } },
+          ]
+        },
+        {
+          name: "SOL",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '0.9%', delay: '8-16 min', minimum: '25 USDC' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '1.6%', delay: '3-7 min', minimum: '50 USDC' } },
+          ]
+        },
+        {
+          name: "BEP20",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '1.1%', delay: '10-22 min', minimum: '20 USDC' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '1.8%', delay: '4-9 min', minimum: '80 USDC' } },
+          ]
+        },
+      ]
+    },
+    {
+      name: "Dai (DAI)",
+      type: "folder",
+      extension: "json",
+      children: [
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '1.3%', delay: '15-35 min', minimum: '50 DAI' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '2.0%', delay: '6-12 min', minimum: '100 DAI' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '0.9%', delay: '45-90 min', minimum: '1000 DAI' } },
+      ]
+    },
+    {
+      name: "Litecoin (LTC)",
+      type: "folder",
+      extension: "json",
+      children: [
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '1.4%', delay: '12-30 min', minimum: '0.1 LTC' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '2.3%', delay: '5-12 min', minimum: '0.5 LTC' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '2.8%', delay: '50-100 min', minimum: '1 LTC' } },
+      ]
+    },
+    {
+      name: "Binance Coin (BNB)",
+      type: "folder",
+      extension: "json",
+      children: [
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '1.3%', delay: '10-25 min', minimum: '0.05 BNB' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '2.0%', delay: '4-10 min', minimum: '0.2 BNB' } },
+      ]
+    },
+    {
+      name: "Cardano (ADA)",
+      type: "folder",
+      extension: "json",
+      children: [
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '1.2%', delay: '15-30 min', minimum: '10 ADA' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '2.0%', delay: '6-14 min', minimum: '50 ADA' } },
+      ]
+    },
+    {
+      name: "Solana (SOL)",
+      type: "folder",
+      extension: "json",
+      children: [
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '1.1%', delay: '8-20 min', minimum: '0.5 SOL' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '1.9%', delay: '3-8 min', minimum: '2 SOL' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '2.5%', delay: '30-60 min', minimum: '5 SOL' } },
+      ]
+    },
   ];
 
   return (
