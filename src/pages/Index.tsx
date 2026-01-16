@@ -11,7 +11,8 @@ import { OTPVerification } from '@/components/ui/otp-input';
 import { FileTree } from '@/components/ui/file-tree';
 import ProgressIndicator from '@/components/ui/progress-indicator';
 import { MixesTable } from '@/components/ui/mixes-table';
-import GlassRadioGroup from '@/components/ui/glass-radio-group';
+import { GlassFilter } from "@/components/ui/liquid-radio";
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 
 
@@ -514,16 +515,32 @@ const Index = () => {
         <main className="flex-1 pl-4 pr-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex justify-center mb-12">
-              <GlassRadioGroup
-                options={[
-                  { id: 'mixer', label: 'Mixer' },
-                  { id: 'my-mixes', label: 'Мои миксы' },
-                  { id: 'faq', label: 'FAQ' }
-                ]}
-                name="tabs"
-                selectedValue={activeTab}
-                onChange={setActiveTab}
-              />
+              <div className="inline-flex h-11 rounded-lg bg-input/50 p-0.5">
+                <RadioGroup
+                  value={activeTab}
+                  onValueChange={setActiveTab}
+                  className="group relative inline-grid grid-cols-[1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-1/3 after:rounded-md after:bg-background/80 after:shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] after:transition-transform after:duration-300 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] has-[:focus-visible]:after:outline has-[:focus-visible]:after:outline-2 has-[:focus-visible]:after:outline-ring/70 data-[state=mixer]:after:translate-x-0 data-[state=my-mixes]:after:translate-x-full data-[state=faq]:after:translate-x-[200%] dark:after:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]"
+                  data-state={activeTab}
+                >
+                  <div
+                    className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md"
+                    style={{ filter: 'url("#radio-glass")' }}
+                  />
+                  <label className="relative z-10 inline-flex h-full min-w-8 cursor-pointer select-none items-center justify-center whitespace-nowrap px-6 transition-colors text-muted-foreground/70 group-data-[state=my-mixes]:text-muted-foreground/70 group-data-[state=faq]:text-muted-foreground/70 group-data-[state=mixer]:text-foreground">
+                    Mixer
+                    <RadioGroupItem id="tab-mixer" value="mixer" className="sr-only" />
+                  </label>
+                  <label className="relative z-10 inline-flex h-full min-w-8 cursor-pointer select-none items-center justify-center whitespace-nowrap px-6 transition-colors text-muted-foreground/70 group-data-[state=mixer]:text-muted-foreground/70 group-data-[state=faq]:text-muted-foreground/70 group-data-[state=my-mixes]:text-foreground">
+                    Мои миксы
+                    <RadioGroupItem id="tab-my-mixes" value="my-mixes" className="sr-only" />
+                  </label>
+                  <label className="relative z-10 inline-flex h-full min-w-8 cursor-pointer select-none items-center justify-center whitespace-nowrap px-6 transition-colors text-muted-foreground/70 group-data-[state=mixer]:text-muted-foreground/70 group-data-[state=my-mixes]:text-muted-foreground/70 group-data-[state=faq]:text-foreground">
+                    FAQ
+                    <RadioGroupItem id="tab-faq" value="faq" className="sr-only" />
+                  </label>
+                  <GlassFilter />
+                </RadioGroup>
+              </div>
             </div>
 
             <TabsContent value="mixer" className="animate-fade-in">
