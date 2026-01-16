@@ -24,16 +24,16 @@ interface FileItemProps {
 
 const getFileIcon = (extension?: string) => {
   const iconMap: Record<string, { color: string; icon: string }> = {
-    tsx: { color: "text-[oklch(0.65_0.18_220)]", icon: "⚛" },
-    ts: { color: "text-[oklch(0.6_0.15_230)]", icon: "◆" },
-    jsx: { color: "text-[oklch(0.7_0.2_200)]", icon: "⚛" },
-    js: { color: "text-[oklch(0.8_0.18_90)]", icon: "◆" },
-    css: { color: "text-[oklch(0.65_0.2_280)]", icon: "◈" },
-    json: { color: "text-[oklch(0.75_0.15_85)]", icon: "{}" },
-    md: { color: "text-muted-foreground", icon: "◊" },
-    svg: { color: "text-[oklch(0.7_0.15_160)]", icon: "◐" },
-    png: { color: "text-[oklch(0.65_0.12_160)]", icon: "◑" },
-    default: { color: "text-muted-foreground", icon: "◇" },
+    tsx: { color: "text-[#3178c6]", icon: "⚛" },
+    ts: { color: "text-[#3178c6]", icon: "◆" },
+    jsx: { color: "text-[#61dafb]", icon: "⚛" },
+    js: { color: "text-[#f7df1e]", icon: "◆" },
+    css: { color: "text-[#a78bfa]", icon: "◈" },
+    json: { color: "text-[#f7df1e]", icon: "{}" },
+    md: { color: "text-gray-500", icon: "◊" },
+    svg: { color: "text-[#10b981]", icon: "◐" },
+    png: { color: "text-[#10b981]", icon: "◑" },
+    default: { color: "text-gray-500", icon: "◇" },
   }
   return iconMap[extension || "default"] || iconMap.default
 }
@@ -57,17 +57,17 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
         onClick={() => isFolder && setIsOpen(!isOpen)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
+        style={{ paddingLeft: `${depth * 20 + 8}px` }}
       >
         {depth > 0 && (
-          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 16 + 16}px` }}>
-            <div className={cn("w-px transition-colors duration-200", isHovered ? "bg-black/40" : "bg-border/50")} />
+          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 20 + 18}px` }}>
+            <div className={cn("w-px transition-colors duration-200", isHovered ? "bg-black/30" : "bg-black/10")} />
           </div>
         )}
 
         <div
           className={cn(
-            "flex items-center justify-center w-4 h-4 transition-transform duration-200 ease-out",
+            "flex items-center justify-center w-3 h-3 transition-transform duration-200 ease-out",
             isFolder && isOpen && "rotate-90",
           )}
         >
@@ -77,7 +77,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               height="8"
               viewBox="0 0 6 8"
               fill="none"
-              className={cn("transition-colors duration-200", isHovered ? "text-black" : "text-muted-foreground")}
+              className={cn("transition-colors duration-200", isHovered ? "text-black" : "text-gray-400")}
             >
               <path
                 d="M1 1L5 4L1 7"
@@ -88,20 +88,16 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               />
             </svg>
           ) : (
-            <span className={cn("text-xs transition-opacity duration-200", fileIcon.color)}>{fileIcon.icon}</span>
+            <span className={cn("text-[10px] transition-opacity duration-200", fileIcon.color)}>{fileIcon.icon}</span>
           )}
         </div>
 
         <div
           className={cn(
-            "flex items-center justify-center w-5 h-5 rounded transition-all duration-200",
+            "flex items-center justify-center w-4 h-4 rounded transition-all duration-200",
             isFolder
-              ? isHovered
-                ? "text-black scale-110"
-                : "text-black/70"
-              : isHovered
-                ? cn(fileIcon.color, "scale-110")
-                : cn(fileIcon.color, "opacity-70"),
+              ? "text-black/80"
+              : cn(fileIcon.color),
           )}
         >
           {isFolder ? (
@@ -109,7 +105,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               <path d="M1.5 1C0.671573 1 0 1.67157 0 2.5V11.5C0 12.3284 0.671573 13 1.5 13H14.5C15.3284 13 16 12.3284 16 11.5V4.5C16 3.67157 15.3284 3 14.5 3H8L6.5 1H1.5Z" />
             </svg>
           ) : (
-            <svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor" opacity="0.8">
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor" opacity="0.9">
               <path d="M1.5 0C0.671573 0 0 0.671573 0 1.5V14.5C0 15.3284 0.671573 16 1.5 16H12.5C13.3284 16 14 15.3284 14 14.5V4.5L9.5 0H1.5Z" />
               <path d="M9 0V4.5H14" fill="currentColor" fillOpacity="0.5" />
             </svg>
@@ -118,25 +114,14 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
 
         <span
           className={cn(
-            "font-mono text-sm transition-colors duration-200",
+            "text-[13px] transition-colors duration-200",
             isFolder
-              ? isHovered
-                ? "text-foreground"
-                : "text-foreground/90"
-              : isHovered
-                ? "text-foreground"
-                : "text-muted-foreground",
+              ? "text-gray-800 font-medium"
+              : "text-gray-600",
           )}
         >
           {node.name}
         </span>
-
-        <div
-          className={cn(
-            "absolute right-2 w-1.5 h-1.5 rounded-full bg-black transition-all duration-200",
-            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-0",
-          )}
-        />
       </div>
 
       {hasChildren && (
@@ -168,17 +153,17 @@ export function FileTree({ data, className }: FileTreeProps) {
   return (
     <div
       className={cn(
-        "bg-white rounded-lg border border-black/10 p-3 font-mono shadow-lg",
+        "bg-white rounded-lg border border-black/10 p-3 shadow-lg",
         className,
       )}
     >
       <div className="flex items-center gap-2 pb-3 mb-2 border-b border-black/10">
         <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-black/20" />
-          <div className="w-2.5 h-2.5 rounded-full bg-black/20" />
-          <div className="w-2.5 h-2.5 rounded-full bg-black/20" />
+          <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+          <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+          <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
         </div>
-        <span className="text-xs text-muted-foreground ml-2">Настройки миксера</span>
+        <span className="text-xs text-gray-500 ml-2">explorer</span>
       </div>
 
       <div className="space-y-0.5">
