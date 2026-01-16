@@ -49,7 +49,7 @@ const getFileIcon = (extension?: string) => {
 }
 
 function FileItem({ node, depth, isLast, parentPath, onFileSelect, selectedFile }: FileItemProps) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
 
   const isFolder = node.type === "folder"
