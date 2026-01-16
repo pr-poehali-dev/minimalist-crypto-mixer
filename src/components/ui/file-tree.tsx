@@ -124,9 +124,13 @@ function FileItem({ node, depth, isLast, parentPath, onFileSelect, selectedFile 
           className={cn(
             "flex items-center justify-center w-6 h-6 rounded transition-all duration-200",
             isFolder
-              ? isHovered
-                ? "text-folder-icon scale-110"
-                : "text-folder-icon/80"
+              ? node.extension
+                ? isHovered
+                  ? cn(fileIcon.color, "scale-110")
+                  : cn(fileIcon.color, "opacity-80")
+                : isHovered
+                  ? "text-folder-icon scale-110"
+                  : "text-folder-icon/80"
               : isHovered
                 ? cn(fileIcon.color, "scale-110")
                 : cn(fileIcon.color, "opacity-70"),
