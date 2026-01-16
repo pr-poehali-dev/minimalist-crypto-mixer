@@ -1,26 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { CircleCheck } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const ProgressIndicator = () => {
-    const [step, setStep] = useState(1)
-    const [isExpanded, setIsExpanded] = useState(true)
+interface ProgressIndicatorProps {
+    step: number;
+    onStepChange: (step: number) => void;
+}
+
+const ProgressIndicator = ({ step, onStepChange }: ProgressIndicatorProps) => {
+    const isExpanded = step === 1
 
     const handleContinue = () => {
-
         if (step < 3) {
-            setStep(step + 1)
-            setIsExpanded(false)
+            onStepChange(step + 1)
         }
     }
 
     const handleBack = () => {
-        if (step == 2) {
-            setIsExpanded(true)
-        }
         if (step > 1) {
-            setStep(step - 1)
+            onStepChange(step - 1)
         }
     }
 
