@@ -351,6 +351,11 @@ const Index = () => {
                       </button>
                     </MenuItem>
                     <MenuItem>
+                      <button className="w-full text-left" onClick={() => setActiveTab('faq')}>
+                        FAQ
+                      </button>
+                    </MenuItem>
+                    <MenuItem>
                       <button className="w-full text-left" onClick={handleLogout}>
                         Logout
                       </button>
@@ -404,12 +409,15 @@ const Index = () => {
 
         <main className="flex-1 pl-4 pr-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-2 mb-12">
+            <TabsList className="grid w-full max-w-md grid-cols-3 mb-12">
               <TabsTrigger value="mixer" className="font-medium">
                 Mixer
               </TabsTrigger>
               <TabsTrigger value="my-mixes" className="font-medium">
                 Мои миксы
+              </TabsTrigger>
+              <TabsTrigger value="faq" className="font-medium">
+                FAQ
               </TabsTrigger>
             </TabsList>
 
@@ -628,6 +636,76 @@ const Index = () => {
                           </tr>
                         </tbody>
                       </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="faq" className="animate-fade-in">
+              <div className="max-w-4xl mx-auto">
+                <Card className="border-2">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">Frequently Asked Questions</CardTitle>
+                    <p className="text-gray-600 mt-2">
+                      Ответы на часто задаваемые вопросы о нашем сервисе
+                    </p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Что такое криптовалютный микшер?</h3>
+                        <p className="text-gray-700">
+                          Криптовалютный микшер — это сервис, который обеспечивает анонимность транзакций путём смешивания ваших монет с монетами других пользователей, делая невозможным отслеживание источника средств.
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Как работает процесс микширования?</h3>
+                        <p className="text-gray-700">
+                          1. Выберите профиль микса из списка<br/>
+                          2. Укажите адреса отправки и получения<br/>
+                          3. Отправьте криптовалюту на сгенерированный адрес<br/>
+                          4. Дождитесь обработки (время зависит от выбранного профиля)<br/>
+                          5. Получите чистые монеты на указанный адрес
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Какие комиссии взимаются?</h3>
+                        <p className="text-gray-700">
+                          Комиссии зависят от выбранного профиля микса:<br/>
+                          • Fast Mix: 13%<br/>
+                          • Standard Mix: 17%<br/>
+                          • Privacy Mix: 23%<br/>
+                          • Bulk Mix: 30%
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Как долго обрабатываются транзакции?</h3>
+                        <p className="text-gray-700">
+                          Время обработки зависит от выбранного профиля:<br/>
+                          • Fast Mix: 5-20 минут<br/>
+                          • Standard Mix: 20-60 минут<br/>
+                          • Privacy Mix: 1-4 часа<br/>
+                          • Bulk Mix: 6-12 часов
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Безопасно ли использовать ваш сервис?</h3>
+                        <p className="text-gray-700">
+                          Да, мы используем передовые технологии шифрования и не храним логи транзакций. Все данные удаляются сразу после завершения микширования.
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Какие криптовалюты поддерживаются?</h3>
+                        <p className="text-gray-700">
+                          Мы поддерживаем: Bitcoin (BTC), Ethereum (ETH), Tether (USDT), USD Coin (USDC), Dai (DAI) и Litecoin (LTC) в различных сетях.
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
