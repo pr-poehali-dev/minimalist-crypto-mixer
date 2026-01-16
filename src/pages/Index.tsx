@@ -10,26 +10,7 @@ import { FlowButton } from '@/components/ui/flow-button';
 import { OTPVerification } from '@/components/ui/otp-input';
 import { FileTree } from '@/components/ui/file-tree';
 
-const mockTransactions = [
-  {
-    id: 1,
-    date: '2024-01-15',
-    fromAddress: '1A1zP1...eP5QG',
-    toAddress: '3J98t1...wUt2d',
-    amount: '0.5',
-    currency: 'BTC',
-    status: 'completed'
-  },
-  {
-    id: 2,
-    date: '2024-01-14',
-    fromAddress: '0x742d...4c5B',
-    toAddress: '0x8a3c...9d2A',
-    amount: '2.5',
-    currency: 'ETH',
-    status: 'processing'
-  }
-];
+
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -423,12 +404,9 @@ const Index = () => {
 
         <main className="flex-1 pl-4 pr-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-3 mb-12">
+            <TabsList className="grid w-full max-w-md grid-cols-2 mb-12">
               <TabsTrigger value="mixer" className="font-medium">
                 Mixer
-              </TabsTrigger>
-              <TabsTrigger value="history" className="font-medium">
-                History
               </TabsTrigger>
               <TabsTrigger value="my-mixes" className="font-medium">
                 Мои миксы
@@ -616,42 +594,6 @@ const Index = () => {
                   </CardContent>
                 </Card>
                 )}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="history" className="animate-fade-in">
-              <div className="max-w-6xl mx-auto">
-                <div className="space-y-4">
-                  {mockTransactions.map((tx) => (
-                    <Card key={tx.id} className="border-2">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-4">
-                              <span className="text-sm text-gray-600">{tx.date}</span>
-                              <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                tx.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                tx.status === 'processing' ? 'bg-blue-100 text-blue-700' :
-                                'bg-yellow-100 text-yellow-700'
-                              }`}>
-                                {tx.status}
-                              </span>
-                            </div>
-                            <div className="text-sm text-gray-600">
-                              <span className="font-medium">From:</span> {tx.fromAddress}
-                            </div>
-                            <div className="text-sm text-gray-600">
-                              <span className="font-medium">To:</span> {tx.toAddress}
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold">{tx.amount} {tx.currency}</div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
               </div>
             </TabsContent>
 

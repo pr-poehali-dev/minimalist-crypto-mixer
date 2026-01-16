@@ -57,7 +57,7 @@ def handler(event: dict, context) -> dict:
                 'body': json.dumps({'error': 'mix_id and status are required'})
             }
         
-        allowed_statuses = ['В процессе', 'Принят в работу', 'Готово!']
+        allowed_statuses = ['В процессе', 'Принят в работу', 'Отправлено', 'Готово!']
         if new_status not in allowed_statuses:
             return {
                 'statusCode': 400,
