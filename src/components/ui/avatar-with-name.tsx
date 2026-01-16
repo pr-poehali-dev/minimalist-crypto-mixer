@@ -87,51 +87,18 @@ export function AvatarWithName({
         "relative inline-flex items-center justify-center",
         className
       )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        className={motionClassName}
-      >
-        <Avatar
-          className={cn(
-            sizeVariants[size],
-            "cursor-pointer ring-2 ring-border shadow-sm bg-secondary"
-          )}
-        >
-          <AvatarImage src={src} alt={name} />
-          <AvatarFallback className="text-muted-foreground font-semibold bg-secondary">
-            {fallback || getInitials(name)}
-          </AvatarFallback>
-        </Avatar>
-      </motion.div>
-
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div
-            initial={directionVariants[direction].initial}
-            animate={directionVariants[direction].animate}
-            exit={directionVariants[direction].exit}
-            transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 25,
-              opacity: { duration: 0.15 },
-            }}
-            className={cn(
-              "absolute z-10 whitespace-nowrap rounded-md bg-popover text-popover-foreground shadow-lg border pointer-events-none",
-              nameSizeVariants[size],
-              positionClasses[direction],
-              nameClassName
-            )}
-          >
-            <span className="font-medium">{name}</span>
-          </motion.div>
+      <Avatar
+        className={cn(
+          sizeVariants[size],
+          "cursor-pointer ring-2 ring-border shadow-sm bg-secondary"
         )}
-      </AnimatePresence>
+      >
+        <AvatarImage src={src} alt={name} />
+        <AvatarFallback className="text-muted-foreground font-semibold bg-secondary">
+          {fallback || getInitials(name)}
+        </AvatarFallback>
+      </Avatar>
     </div>
   );
 }
