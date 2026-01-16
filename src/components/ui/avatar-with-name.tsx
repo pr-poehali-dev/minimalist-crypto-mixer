@@ -53,32 +53,32 @@ export function AvatarWithName({
 
   const directionVariants = {
     top: {
-      initial: { y: 20, opacity: 0, filter: "blur(4px)" },
-      animate: { y: -8, opacity: 1, filter: "blur(0px)" },
-      exit: { y: 20, opacity: 0, filter: "blur(4px)" },
+      initial: { y: 10, opacity: 0, scale: 0.9 },
+      animate: { y: 0, opacity: 1, scale: 1 },
+      exit: { y: 10, opacity: 0, scale: 0.9 },
     },
     bottom: {
-      initial: { y: -20, opacity: 0, filter: "blur(4px)" },
-      animate: { y: 8, opacity: 1, filter: "blur(0px)" },
-      exit: { y: -20, opacity: 0, filter: "blur(4px)" },
+      initial: { y: -10, opacity: 0, scale: 0.9 },
+      animate: { y: 0, opacity: 1, scale: 1 },
+      exit: { y: -10, opacity: 0, scale: 0.9 },
     },
     left: {
-      initial: { x: 20, opacity: 0, filter: "blur(4px)" },
-      animate: { x: -8, opacity: 1, filter: "blur(0px)" },
-      exit: { x: 20, opacity: 0, filter: "blur(4px)" },
+      initial: { x: 10, opacity: 0, scale: 0.9 },
+      animate: { x: 0, opacity: 1, scale: 1 },
+      exit: { x: 10, opacity: 0, scale: 0.9 },
     },
     right: {
-      initial: { x: -20, opacity: 0, filter: "blur(4px)" },
-      animate: { x: 8, opacity: 1, filter: "blur(0px)" },
-      exit: { x: -20, opacity: 0, filter: "blur(4px)" },
+      initial: { x: -10, opacity: 0, scale: 0.9 },
+      animate: { x: 0, opacity: 1, scale: 1 },
+      exit: { x: -10, opacity: 0, scale: 0.9 },
     },
   };
 
   const positionClasses = {
-    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2",
+    top: "bottom-full left-1/2 -translate-x-1/2 mb-1",
+    bottom: "top-full left-1/2 -translate-x-1/2 mt-1",
+    left: "right-full top-1/2 -translate-y-1/2 mr-1",
+    right: "left-full top-1/2 -translate-y-1/2 ml-1",
   };
 
   return (
@@ -99,11 +99,11 @@ export function AvatarWithName({
         <Avatar
           className={cn(
             sizeVariants[size],
-            "cursor-pointer ring-2 ring-background shadow-lg"
+            "cursor-pointer ring-2 ring-border shadow-sm bg-secondary"
           )}
         >
-          <AvatarImage src={src || "/placeholder.svg"} alt={name} />
-          <AvatarFallback className="text-muted-foreground font-semibold">
+          <AvatarImage src={src} alt={name} />
+          <AvatarFallback className="text-muted-foreground font-semibold bg-secondary">
             {fallback || getInitials(name)}
           </AvatarFallback>
         </Avatar>
@@ -117,10 +117,9 @@ export function AvatarWithName({
             exit={directionVariants[direction].exit}
             transition={{
               type: "spring",
-              stiffness: 300,
+              stiffness: 400,
               damping: 25,
-              opacity: { duration: 0.2 },
-              filter: { duration: 0.2 },
+              opacity: { duration: 0.15 },
             }}
             className={cn(
               "absolute z-10 whitespace-nowrap rounded-md bg-popover text-popover-foreground shadow-lg border pointer-events-none",
