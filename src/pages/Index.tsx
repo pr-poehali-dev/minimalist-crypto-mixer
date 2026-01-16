@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { OTPVerification } from '@/components/ui/otp-input';
+import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from '@/components/ui/base-menu';
 
 interface Transaction {
   id: string;
@@ -88,12 +89,43 @@ const Index = () => {
           
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-medium">{telegramUsername}</span>
-                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                  <Icon name="User" size={20} className="text-white" />
-                </div>
-              </div>
+              <Menu>
+                <MenuTrigger
+                  render={
+                    <button className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                      <span className="text-sm font-medium">{telegramUsername}</span>
+                      <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                        <Icon name="User" size={20} className="text-white" />
+                      </div>
+                    </button>
+                  }
+                />
+                <MenuContent sideOffset={8} align="end" className="w-56">
+                  <MenuItem>
+                    <Icon name="User" />
+                    <span>Профиль</span>
+                  </MenuItem>
+                  <MenuItem>
+                    <Icon name="Settings" />
+                    <span>Настройки</span>
+                  </MenuItem>
+                  <MenuItem>
+                    <Icon name="History" />
+                    <span>История операций</span>
+                  </MenuItem>
+                  <MenuSeparator />
+                  <MenuItem
+                    variant="destructive"
+                    onClick={() => {
+                      setIsAuthenticated(false);
+                      setTelegramUsername('');
+                    }}
+                  >
+                    <Icon name="LogOut" />
+                    <span>Выйти</span>
+                  </MenuItem>
+                </MenuContent>
+              </Menu>
             ) : (
               <Button
                 onClick={() => setIsAuthOpen(true)}
