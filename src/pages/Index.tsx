@@ -38,6 +38,7 @@ const Index = () => {
     fee: '13%',
     minimum: '0.001 BTC',
     preset: 'Fast Mix',
+    description: '',
   });
 
   const [selectedFile, setSelectedFile] = useState('');
@@ -45,11 +46,12 @@ const Index = () => {
   const handleFileSelect = (settings: any) => {
     setMixerData(prev => ({ 
       ...prev, 
-      currency: settings.currency,
-      fee: settings.fee,
-      delay: settings.delay,
-      minimum: settings.minimum,
+      currency: settings.currency || prev.currency,
+      fee: settings.fee || prev.fee,
+      delay: settings.delay || prev.delay,
+      minimum: settings.minimum || prev.minimum,
       preset: settings.name || '',
+      description: settings.description || '',
     }));
     setSelectedFile(settings.name || '');
   };
@@ -290,6 +292,49 @@ const Index = () => {
         { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '30%', delay: '6-12 hours', minimum: '6 SOL', preset: 'Bulk Mix' } },
       ]
     },
+    {
+      name: "Help to choose",
+      type: "folder",
+      extension: "json",
+      children: [
+        { 
+          name: "Fast Mix", 
+          type: "file", 
+          extension: "css", 
+          settings: { 
+            preset: 'Fast Mix',
+            description: '⚡ Fast Mix - Quick & Efficient\n\n🕐 Processing Time: 5-20 minutes\n💰 Fee: 13%\n💵 Minimum: $100 equivalent\n\n📋 Best for:\n• Quick transactions when you need speed\n• Everyday mixing needs\n• Lower amounts that need fast processing\n\n✨ Features:\n• Fastest processing time\n• Moderate anonymity level\n• Ideal for time-sensitive operations\n• Lower minimum amount requirement\n\nRecommended for users who prioritize speed over maximum anonymity.'
+          }
+        },
+        { 
+          name: "Standard Mix", 
+          type: "file", 
+          extension: "css", 
+          settings: { 
+            preset: 'Standard Mix',
+            description: '⚖️ Standard Mix - Balanced Solution\n\n🕐 Processing Time: 20-60 minutes\n💰 Fee: 17%\n💵 Minimum: $100 equivalent\n\n📋 Best for:\n• Regular mixing operations\n• Balanced privacy and speed\n• Medium-sized transactions\n\n✨ Features:\n• Good balance of speed and privacy\n• Enhanced anonymity through extended mixing\n• Suitable for most use cases\n• Optimal cost-to-privacy ratio\n\nRecommended for users seeking a balance between processing time and privacy level.'
+          }
+        },
+        { 
+          name: "Privacy Mix", 
+          type: "file", 
+          extension: "css", 
+          settings: { 
+            preset: 'Privacy Mix',
+            description: '🔒 Privacy Mix - Maximum Anonymity\n\n🕐 Processing Time: 1-4 hours\n💰 Fee: 23%\n💵 Minimum: $500 equivalent\n\n📋 Best for:\n• High-value transactions\n• Maximum privacy requirements\n• Sensitive operations\n• Long-term security\n\n✨ Features:\n• Highest anonymity level\n• Multiple mixing rounds\n• Advanced obfuscation techniques\n• Maximum transaction unlinkability\n\nRecommended for users who prioritize privacy above all else and can wait longer for processing.'
+          }
+        },
+        { 
+          name: "Bulk Mix", 
+          type: "file", 
+          extension: "css", 
+          settings: { 
+            preset: 'Bulk Mix',
+            description: '📦 Bulk Mix - Large Volume Operations\n\n🕐 Processing Time: 6-12 hours\n💰 Fee: 30%\n💵 Minimum: $1,000 equivalent\n\n📋 Best for:\n• Large volume transactions\n• Enterprise-level operations\n• Maximum security requirements\n• Professional mixing needs\n\n✨ Features:\n• Ultimate privacy and security\n• Extended mixing periods\n• Multiple transaction splitting\n• Institutional-grade anonymization\n• Comprehensive trail elimination\n\nRecommended for large-scale operations where maximum security justifies higher fees and longer processing times.'
+          }
+        },
+      ]
+    },
   ];
 
   return (
@@ -420,62 +465,70 @@ const Index = () => {
                     </p>
                   </CardHeader>
                   <CardContent>
-                    <form onSubmit={handleMixerSubmit} className="space-y-6">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Currency</label>
-                          <Input value={mixerData.currency} disabled className="bg-gray-50" />
+                    {mixerData.description ? (
+                      <div className="mb-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <pre className="whitespace-pre-wrap text-sm font-mono text-gray-800 leading-relaxed">
+                          {mixerData.description}
+                        </pre>
+                      </div>
+                    ) : (
+                      <form onSubmit={handleMixerSubmit} className="space-y-6">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Currency</label>
+                            <Input value={mixerData.currency} disabled className="bg-gray-50" />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Fee</label>
+                            <Input value={mixerData.fee} disabled className="bg-gray-50" />
+                          </div>
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Fee</label>
-                          <Input value={mixerData.fee} disabled className="bg-gray-50" />
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Delay</label>
+                            <Input value={mixerData.delay} disabled className="bg-gray-50" />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Minimum</label>
+                            <Input value={mixerData.minimum} disabled className="bg-gray-50" />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium mb-2">Delay</label>
-                          <Input value={mixerData.delay} disabled className="bg-gray-50" />
+                          <label className="block text-sm font-medium mb-2">Input Address</label>
+                          <Input
+                            placeholder="Enter your input address"
+                            value={mixerData.inputAddress}
+                            onChange={(e) => setMixerData({ ...mixerData, inputAddress: e.target.value })}
+                          />
                         </div>
+
                         <div>
-                          <label className="block text-sm font-medium mb-2">Minimum</label>
-                          <Input value={mixerData.minimum} disabled className="bg-gray-50" />
+                          <label className="block text-sm font-medium mb-2">Output Address</label>
+                          <Input
+                            placeholder="Enter your output address"
+                            value={mixerData.outputAddress}
+                            onChange={(e) => setMixerData({ ...mixerData, outputAddress: e.target.value })}
+                          />
                         </div>
-                      </div>
 
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Input Address</label>
-                        <Input
-                          placeholder="Enter your input address"
-                          value={mixerData.inputAddress}
-                          onChange={(e) => setMixerData({ ...mixerData, inputAddress: e.target.value })}
-                        />
-                      </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2">Amount</label>
+                          <Input
+                            type="number"
+                            step="0.00000001"
+                            placeholder="0.00000000"
+                            value={mixerData.amount}
+                            onChange={(e) => setMixerData({ ...mixerData, amount: e.target.value })}
+                          />
+                        </div>
 
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Output Address</label>
-                        <Input
-                          placeholder="Enter your output address"
-                          value={mixerData.outputAddress}
-                          onChange={(e) => setMixerData({ ...mixerData, outputAddress: e.target.value })}
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Amount</label>
-                        <Input
-                          type="number"
-                          step="0.00000001"
-                          placeholder="0.00000000"
-                          value={mixerData.amount}
-                          onChange={(e) => setMixerData({ ...mixerData, amount: e.target.value })}
-                        />
-                      </div>
-
-                      <Button type="submit" className="w-full h-12 text-base" disabled={!selectedFile}>
-                        Start Mixing
-                      </Button>
-                    </form>
+                        <Button type="submit" className="w-full h-12 text-base" disabled={!selectedFile}>
+                          Start Mixing
+                        </Button>
+                      </form>
+                    )}
                   </CardContent>
                 </Card>
               </div>
