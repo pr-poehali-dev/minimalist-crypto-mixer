@@ -402,7 +402,7 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="flex-1 px-4 py-12 overflow-y-auto">
+        <main className="flex-1 pl-8 pr-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
               <TabsTrigger value="mixer" className="font-medium">
@@ -414,7 +414,7 @@ const Index = () => {
             </TabsList>
 
             <TabsContent value="mixer" className="animate-fade-in">
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-4xl">
                 <Card className="border-2">
                   <CardHeader>
                     <CardTitle className="text-2xl">Mix Your Cryptocurrency</CardTitle>
