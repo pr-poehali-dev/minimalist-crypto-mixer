@@ -10,6 +10,7 @@ import { FlowButton } from '@/components/ui/flow-button';
 import { OTPVerification } from '@/components/ui/otp-input';
 import { FileTree } from '@/components/ui/file-tree';
 import ProgressIndicator from '@/components/ui/progress-indicator';
+import { MixesTable } from '@/components/ui/mixes-table';
 
 
 
@@ -608,39 +609,14 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="my-mixes" className="animate-fade-in">
-              <div className="max-w-7xl mx-auto">
-                <Card className="border-2">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Мои миксы</CardTitle>
-                    <p className="text-gray-600 mt-2">
-                      История всех ваших транзакций микширования
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="border-b">
-                            <th className="text-left p-4 font-medium text-gray-600">ID</th>
-                            <th className="text-left p-4 font-medium text-gray-600">Дата</th>
-                            <th className="text-left p-4 font-medium text-gray-600">Валюта</th>
-                            <th className="text-left p-4 font-medium text-gray-600">Сумма</th>
-                            <th className="text-left p-4 font-medium text-gray-600">Статус</th>
-                            <th className="text-left p-4 font-medium text-gray-600">Input Address</th>
-                            <th className="text-left p-4 font-medium text-gray-600">Output Address</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="border-b">
-                            <td colSpan={7} className="p-8 text-center text-gray-500">
-                              У вас пока нет миксов
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </CardContent>
-                </Card>
+              <div className="max-w-[1400px] mx-auto">
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold text-gray-900">Мои миксы</h2>
+                  <p className="text-gray-600 mt-2">
+                    История всех ваших транзакций микширования
+                  </p>
+                </div>
+                <MixesTable mixes={[]} />
               </div>
             </TabsContent>
 
