@@ -8,6 +8,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { OTPVerification } from '@/components/ui/otp-input';
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from '@/components/ui/base-menu';
 import { FileTree } from '@/components/ui/file-tree';
+import { AvatarWithName } from '@/components/ui/avatar-with-name';
 
 interface Transaction {
   id: string;
@@ -101,11 +102,13 @@ const Index = () => {
               <Menu>
                 <MenuTrigger
                   render={
-                    <button className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                      <span className="text-sm font-medium">{telegramUsername}</span>
-                      <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                        <Icon name="User" size={20} className="text-white" />
-                      </div>
+                    <button className="flex items-center gap-3">
+                      <AvatarWithName
+                        name={telegramUsername}
+                        fallback={telegramUsername.slice(1, 3).toUpperCase()}
+                        size="sm"
+                        direction="bottom"
+                      />
                     </button>
                   }
                 />
