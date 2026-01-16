@@ -37,7 +37,7 @@ const OTPSuccess = () => {
         transition={{ delay: 0.4, duration: 0.4 }}
         className="text-green-600 dark:text-green-400 font-semibold text-lg"
       >
-        Вход выполнен!
+        Signed in!
       </motion.p>
     </div>
   )
@@ -52,7 +52,7 @@ const OTPError = () => {
       transition={{ duration: 0.2 }}
       className="text-center text-red-500 dark:text-red-400 font-medium mt-2 absolute -bottom-8 w-full"
     >
-      Неверный код. Попробуйте снова.
+      Invalid code. Try again.
     </motion.div>
   )
 }
@@ -265,7 +265,7 @@ export function OTPVerification({
         </div>
 
         <h1 className="text-2xl font-semibold text-center text-gray-900 mb-2">
-          {state === "success" ? "Вход выполнен!" : "Введите код из Telegram"}
+          {state === "success" ? "Signed in!" : "Enter code from Telegram"}
         </h1>
 
         <AnimatePresence mode="wait">
@@ -290,7 +290,7 @@ export function OTPVerification({
               transition={{ duration: 0.2 }}
             >
               <p className="text-center text-gray-600 mt-2 mb-8">
-                Мы отправили {inputCount}-значный код в Telegram
+                We sent a {inputCount}-digit code to Telegram
                 <br /> <span className="font-medium text-gray-800">{telegram_username}</span>
               </p>
 
@@ -304,15 +304,15 @@ export function OTPVerification({
               </div>
 
               <div className="text-center">
-                <span className="text-gray-600">Не пришёл код? </span>
+                <span className="text-gray-600">Didn't receive code? </span>
                 {isResendDisabled ? (
-                  <span className="text-gray-500">Повтор через {countdown}с</span>
+                  <span className="text-gray-500">Retry in {countdown}s</span>
                 ) : (
                   <button
                     onClick={handleResend}
                     className="font-medium text-gray-900 hover:underline focus:outline-none focus:ring-2 focus:ring-gray-400 rounded"
                   >
-                    Отправить снова
+                    Resend code
                   </button>
                 )}
               </div>

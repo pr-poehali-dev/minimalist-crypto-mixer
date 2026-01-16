@@ -115,20 +115,20 @@ const Index = () => {
                 <MenuContent sideOffset={8} align="end" className="w-56">
                   <MenuItem>
                     <Icon name="User" />
-                    <span>Профиль</span>
+                    <span>Profile</span>
                   </MenuItem>
                   <MenuItem>
                     <Icon name="Settings" />
-                    <span>Настройки</span>
+                    <span>Settings</span>
                   </MenuItem>
                   <MenuItem onClick={() => setActiveTab('history')}>
                     <Icon name="History" />
-                    <span>История операций</span>
+                    <span>Transaction History</span>
                   </MenuItem>
                   <MenuSeparator />
                   <MenuItem variant="destructive" onClick={handleLogout}>
                     <Icon name="LogOut" />
-                    <span>Выйти</span>
+                    <span>Logout</span>
                   </MenuItem>
                 </MenuContent>
               </Menu>
@@ -138,7 +138,7 @@ const Index = () => {
                 className="bg-black text-white hover:bg-black/90 font-medium"
               >
                 <Icon name="Send" size={16} className="mr-2" />
-                Войти через Telegram
+                Sign in via Telegram
               </Button>
             )}
           </div>
@@ -149,10 +149,10 @@ const Index = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
             <TabsTrigger value="mixer" className="font-medium">
-              Миксер
+              Mixer
             </TabsTrigger>
             <TabsTrigger value="history" className="font-medium">
-              История
+              History
             </TabsTrigger>
           </TabsList>
 
@@ -161,24 +161,24 @@ const Index = () => {
               <FileTree
                 data={[
                   {
-                    name: "Параметры миксера",
+                    name: "Mixer Settings",
                     type: "folder",
                     children: [
-                      { name: "Задержка: 15-45 мин", type: "file", extension: "ts" },
-                      { name: "Комиссия: 1.5%", type: "file", extension: "ts" },
-                      { name: "Минимум: 0.001 BTC", type: "file", extension: "ts" },
+                      { name: "Delay: 15-45 min", type: "file", extension: "ts" },
+                      { name: "Fee: 1.5%", type: "file", extension: "ts" },
+                      { name: "Minimum: 0.001 BTC", type: "file", extension: "ts" },
                     ],
                   },
                   {
-                    name: "Безопасность",
+                    name: "Security",
                     type: "folder",
                     children: [
-                      { name: "Шифрование: AES-256", type: "file", extension: "ts" },
-                      { name: "No-logs политика", type: "file", extension: "md" },
+                      { name: "Encryption: AES-256", type: "file", extension: "ts" },
+                      { name: "No-logs policy", type: "file", extension: "md" },
                     ],
                   },
                   {
-                    name: "Сети",
+                    name: "Networks",
                     type: "folder",
                     children: [
                       { name: "Bitcoin (BTC)", type: "file", extension: "json" },
@@ -192,15 +192,15 @@ const Index = () => {
               
               <Card className="border-black/10 shadow-lg">
                 <CardHeader className="border-b border-black/10">
-                  <CardTitle className="text-2xl">Микшировать криптовалюту</CardTitle>
+                  <CardTitle className="text-2xl">Mix Cryptocurrency</CardTitle>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Обеспечьте анонимность ваших транзакций
+                    Ensure anonymity of your transactions
                   </p>
                 </CardHeader>
                 <CardContent className="pt-6">
                   <form onSubmit={handleMixerSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Валюта</label>
+                    <label className="text-sm font-medium">Currency</label>
                     <div className="flex gap-2">
                       {['BTC', 'ETH', 'USDT'].map((curr) => (
                         <Button
@@ -221,9 +221,9 @@ const Index = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Входящий адрес</label>
+                    <label className="text-sm font-medium">Input Address</label>
                     <Input
-                      placeholder="Введите адрес отправителя"
+                      placeholder="Enter sender address"
                       value={mixerData.inputAddress}
                       onChange={(e) =>
                         setMixerData({ ...mixerData, inputAddress: e.target.value })
@@ -233,9 +233,9 @@ const Index = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Исходящий адрес</label>
+                    <label className="text-sm font-medium">Output Address</label>
                     <Input
-                      placeholder="Введите адрес получателя"
+                      placeholder="Enter recipient address"
                       value={mixerData.outputAddress}
                       onChange={(e) =>
                         setMixerData({ ...mixerData, outputAddress: e.target.value })
@@ -245,7 +245,7 @@ const Index = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Сумма</label>
+                    <label className="text-sm font-medium">Amount</label>
                     <Input
                       type="number"
                       step="0.00000001"
@@ -258,12 +258,12 @@ const Index = () => {
 
                   <div className="bg-secondary/50 p-4 rounded-lg space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Комиссия сервиса</span>
+                      <span className="text-muted-foreground">Service Fee</span>
                       <span className="font-medium">1.5%</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Время обработки</span>
-                      <span className="font-medium">15-45 мин</span>
+                      <span className="text-muted-foreground">Processing Time</span>
+                      <span className="font-medium">15-45 min</span>
                     </div>
                   </div>
 
@@ -272,7 +272,7 @@ const Index = () => {
                     className="w-full bg-black text-white hover:bg-black/90 h-12 text-base font-medium"
                   >
                     <Icon name="Shuffle" size={18} className="mr-2" />
-                    Начать микширование
+                    Start Mixing
                   </Button>
                 </form>
               </CardContent>
@@ -282,22 +282,22 @@ const Index = () => {
 
           <TabsContent value="history" className="animate-fade-in">
             <div className="max-w-4xl mx-auto space-y-4">
-              <h2 className="text-2xl font-bold mb-6">История операций</h2>
+              <h2 className="text-2xl font-bold mb-6">Transaction History</h2>
               
               {!isAuthenticated ? (
                 <Card className="border-black/10">
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <Icon name="Lock" size={48} className="text-muted-foreground mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">Требуется авторизация</h3>
+                    <h3 className="text-xl font-semibold mb-2">Authentication Required</h3>
                     <p className="text-muted-foreground text-center mb-6">
-                      Войдите через Telegram, чтобы просмотреть историю операций
+                      Sign in via Telegram to view transaction history
                     </p>
                     <Button
                       onClick={() => setIsAuthOpen(true)}
                       className="bg-black text-white hover:bg-black/90"
                     >
                       <Icon name="Send" size={16} className="mr-2" />
-                      Войти через Telegram
+                      Sign in via Telegram
                     </Button>
                   </CardContent>
                 </Card>
@@ -321,10 +321,10 @@ const Index = () => {
                               }`}
                             >
                               {tx.status === 'completed'
-                                ? 'Завершено'
+                                ? 'Completed'
                                 : tx.status === 'processing'
-                                ? 'В обработке'
-                                : 'Ожидание'}
+                                ? 'Processing'
+                                : 'Pending'}
                             </span>
                           </div>
                           
@@ -365,9 +365,9 @@ const Index = () => {
                 </div>
               </div>
               
-              <h2 className="text-2xl font-semibold text-center mb-2">Вход через Telegram</h2>
+              <h2 className="text-2xl font-semibold text-center mb-2">Sign in via Telegram</h2>
               <p className="text-center text-gray-600 mb-8">
-                Введите ваш username, мы отправим 6-значный код
+                Enter your username, we'll send you a 4-digit code
               </p>
               
               <div className="space-y-4">
@@ -383,7 +383,7 @@ const Index = () => {
                   className="w-full bg-black text-white hover:bg-black/90 h-12"
                   disabled={!inputUsername.trim()}
                 >
-                  Получить код
+                  Get Code
                 </Button>
               </div>
             </div>
@@ -401,10 +401,10 @@ const Index = () => {
       <footer className="border-t border-black/10 mt-20">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <p>© 2026 CryptoMixer. Анонимность гарантирована.</p>
+            <p>© 2026 CryptoMixer. Anonymity guaranteed.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-foreground transition-colors">
-                Поддержка
+                Support
               </a>
               <a href="#" className="hover:text-foreground transition-colors">
                 FAQ
