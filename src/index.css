@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700;800&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,16 +41,14 @@
 
     /* Design System Variables */
     --font-sans:
-      ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --font-mono:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
+      Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --spacing: 0.25rem;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --default-transition-duration: 0.15s;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    --default-font-family: var(--font-sans);
+    --default-font-family: var(--font-mono);
     --default-mono-font-family: var(--font-mono);
   }
 }
@@ -63,8 +59,9 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    font-family: "Roboto", sans-serif;
+    @apply bg-background text-foreground;
+    font-family:
+      Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
 
   h1,
@@ -73,6 +70,7 @@
   h4,
   h5,
   h6 {
-    font-family: "Montserrat", sans-serif;
+    font-family:
+      Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   }
 }
