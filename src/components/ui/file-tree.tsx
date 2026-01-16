@@ -208,6 +208,7 @@ export function FileTree({ data, className, onFileSelect, selectedFile }: FileTr
           <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.18_150)]" />
         </div>
         <span className="text-sm text-muted-foreground ml-2">explorer</span>
+        <span className="text-sm font-bold ml-auto">CRYPTOMIXER</span>
       </div>
 
       {/* Tree */}
