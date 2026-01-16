@@ -50,18 +50,18 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
     <div className="select-none">
       <div
         className={cn(
-          "group relative flex items-center gap-2 py-1 px-2 rounded-md cursor-pointer",
+          "group relative flex items-center gap-3 py-2 px-3 rounded-md cursor-pointer",
           "transition-all duration-200 ease-out",
           isHovered && "bg-file-tree-hover",
         )}
         onClick={() => isFolder && setIsOpen(!isOpen)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
+        style={{ paddingLeft: `${depth * 24 + 12}px` }}
       >
         {/* Tree lines */}
         {depth > 0 && (
-          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 16 + 16}px` }}>
+          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 24 + 24}px` }}>
             <div className={cn("w-px transition-colors duration-200", isHovered ? "bg-primary/40" : "bg-border/50")} />
           </div>
         )}
@@ -69,7 +69,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
         {/* Folder/File indicator */}
         <div
           className={cn(
-            "flex items-center justify-center w-4 h-4 transition-transform duration-200 ease-out",
+            "flex items-center justify-center w-5 h-5 transition-transform duration-200 ease-out",
             isFolder && isOpen && "rotate-90",
           )}
         >
@@ -97,7 +97,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
         {/* Icon */}
         <div
           className={cn(
-            "flex items-center justify-center w-5 h-5 rounded transition-all duration-200",
+            "flex items-center justify-center w-6 h-6 rounded transition-all duration-200",
             isFolder
               ? isHovered
                 ? "text-folder-icon scale-110"
@@ -122,7 +122,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
         {/* Name */}
         <span
           className={cn(
-            "font-mono text-sm transition-colors duration-200",
+            "font-mono text-base transition-colors duration-200",
             isFolder
               ? isHovered
                 ? "text-foreground"
@@ -138,7 +138,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
         {/* Hover indicator */}
         <div
           className={cn(
-            "absolute right-2 w-1.5 h-1.5 rounded-full bg-primary transition-all duration-200",
+            "absolute right-3 w-2 h-2 rounded-full bg-primary transition-all duration-200",
             isHovered ? "opacity-100 scale-100" : "opacity-0 scale-0",
           )}
         />
@@ -174,22 +174,22 @@ export function FileTree({ data, className }: FileTreeProps) {
   return (
     <div
       className={cn(
-        "bg-file-tree-bg rounded-lg border border-border/50 p-3 font-mono",
+        "bg-file-tree-bg rounded-lg border border-border/50 p-6 font-mono text-base",
         className,
       )}
     >
       {/* Header */}
-      <div className="flex items-center gap-2 pb-3 mb-2 border-b border-border/30">
-        <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-[oklch(0.65_0.2_25)]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[oklch(0.75_0.18_85)]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[oklch(0.65_0.18_150)]" />
+      <div className="flex items-center gap-3 pb-4 mb-4 border-b border-border/30">
+        <div className="flex gap-2">
+          <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
+          <div className="w-3 h-3 rounded-full bg-[oklch(0.75_0.18_85)]" />
+          <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.18_150)]" />
         </div>
-        <span className="text-xs text-muted-foreground ml-2">explorer</span>
+        <span className="text-sm text-muted-foreground ml-2">explorer</span>
       </div>
 
       {/* Tree */}
-      <div className="space-y-0.5">
+      <div className="space-y-1">
         {data.map((node, index) => (
           <FileItem key={node.name} node={node} depth={0} isLast={index === data.length - 1} parentPath={[]} />
         ))}
