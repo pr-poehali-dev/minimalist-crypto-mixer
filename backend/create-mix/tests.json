@@ -1,0 +1,49 @@
+{
+  "tests": [
+    {
+      "name": "Create mix - no username",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "currency": "BTC",
+        "amount": "1.5",
+        "fee": "13%",
+        "delay": "5-20 min",
+        "minimum": "0.01 BTC",
+        "preset": "Fast Mix",
+        "input_address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        "output_address": "3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "Username is required"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Create mix - with username",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "body": {
+        "currency": "BTC",
+        "amount": "1.5",
+        "fee": "13%",
+        "delay": "5-20 min",
+        "minimum": "0.01 BTC",
+        "preset": "Fast Mix",
+        "input_address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+        "output_address": "3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "mix_id": "number",
+        "deposit_address": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

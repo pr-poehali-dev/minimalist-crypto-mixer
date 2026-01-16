@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Update status - no admin access",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@regularuser"
+      },
+      "body": {
+        "mix_id": 1,
+        "status": "Готово!"
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "Access denied. Admin only."
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Update status - missing fields",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@admin"
+      },
+      "body": {},
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "mix_id and status are required"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

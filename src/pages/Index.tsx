@@ -365,6 +365,11 @@ const Index = () => {
                   />
                   <MenuContent sideOffset={8} align="end" className="w-56">
                     <MenuItem>
+                      <button className="w-full text-left" onClick={() => setActiveTab('my-mixes')}>
+                        Мои миксы
+                      </button>
+                    </MenuItem>
+                    <MenuItem>
                       <button className="w-full text-left" onClick={handleLogout}>
                         Logout
                       </button>
@@ -418,12 +423,15 @@ const Index = () => {
 
         <main className="flex-1 pl-4 pr-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-2 mb-12">
+            <TabsList className="grid w-full max-w-md grid-cols-3 mb-12">
               <TabsTrigger value="mixer" className="font-medium">
                 Mixer
               </TabsTrigger>
               <TabsTrigger value="history" className="font-medium">
                 History
+              </TabsTrigger>
+              <TabsTrigger value="my-mixes" className="font-medium">
+                Мои миксы
               </TabsTrigger>
             </TabsList>
 
@@ -644,6 +652,43 @@ const Index = () => {
                     </Card>
                   ))}
                 </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="my-mixes" className="animate-fade-in">
+              <div className="max-w-7xl mx-auto">
+                <Card className="border-2">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">Мои миксы</CardTitle>
+                    <p className="text-gray-600 mt-2">
+                      История всех ваших транзакций микширования
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left p-4 font-medium text-gray-600">ID</th>
+                            <th className="text-left p-4 font-medium text-gray-600">Дата</th>
+                            <th className="text-left p-4 font-medium text-gray-600">Валюта</th>
+                            <th className="text-left p-4 font-medium text-gray-600">Сумма</th>
+                            <th className="text-left p-4 font-medium text-gray-600">Статус</th>
+                            <th className="text-left p-4 font-medium text-gray-600">Input Address</th>
+                            <th className="text-left p-4 font-medium text-gray-600">Output Address</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="border-b">
+                            <td colSpan={7} className="p-8 text-center text-gray-500">
+                              У вас пока нет миксов
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </TabsContent>
           </Tabs>

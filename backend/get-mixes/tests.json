@@ -1,0 +1,27 @@
+{
+  "tests": [
+    {
+      "name": "Get mixes - no username",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "Username is required"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get mixes - with username",
+      "method": "GET",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "mixes": []
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
