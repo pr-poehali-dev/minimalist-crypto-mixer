@@ -274,6 +274,595 @@ const Index = () => {
                       },
                     ],
                   },
+                  {
+                    name: "USD Coin (USDC)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (5-15 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (5-15 min, 2.5%)",
+                          currency: 'USDC', 
+                          delay: '5-15 min', 
+                          fee: '2.5%', 
+                          minimum: '100 USDC' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (20-40 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (20-40 min, 2.0%)",
+                          currency: 'USDC', 
+                          delay: '20-40 min', 
+                          fee: '2.0%', 
+                          minimum: '500 USDC' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Binance Coin (BNB)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (10-20 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (10-20 min, 2.0%)",
+                          currency: 'BNB', 
+                          delay: '10-20 min', 
+                          fee: '2.0%', 
+                          minimum: '0.1 BNB' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-45 min, 1.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-45 min, 1.5%)",
+                          currency: 'BNB', 
+                          delay: '30-45 min', 
+                          fee: '1.5%', 
+                          minimum: '0.5 BNB' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Solana (SOL)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (8-18 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (8-18 min, 2.0%)",
+                          currency: 'SOL', 
+                          delay: '8-18 min', 
+                          fee: '2.0%', 
+                          minimum: '0.5 SOL' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (25-40 min, 1.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (25-40 min, 1.5%)",
+                          currency: 'SOL', 
+                          delay: '25-40 min', 
+                          fee: '1.5%', 
+                          minimum: '2 SOL' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Cardano (ADA)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (12-25 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (12-25 min, 2.5%)",
+                          currency: 'ADA', 
+                          delay: '12-25 min', 
+                          fee: '2.5%', 
+                          minimum: '100 ADA' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-50 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-50 min, 2.0%)",
+                          currency: 'ADA', 
+                          delay: '30-50 min', 
+                          fee: '2.0%', 
+                          minimum: '500 ADA' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Ripple (XRP)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (5-12 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (5-12 min, 2.5%)",
+                          currency: 'XRP', 
+                          delay: '5-12 min', 
+                          fee: '2.5%', 
+                          minimum: '50 XRP' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (20-35 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (20-35 min, 2.0%)",
+                          currency: 'XRP', 
+                          delay: '20-35 min', 
+                          fee: '2.0%', 
+                          minimum: '200 XRP' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Polkadot (DOT)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (15-25 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (15-25 min, 2.0%)",
+                          currency: 'DOT', 
+                          delay: '15-25 min', 
+                          fee: '2.0%', 
+                          minimum: '5 DOT' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (35-50 min, 1.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (35-50 min, 1.5%)",
+                          currency: 'DOT', 
+                          delay: '35-50 min', 
+                          fee: '1.5%', 
+                          minimum: '20 DOT' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Dogecoin (DOGE)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (10-20 min, 3.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (10-20 min, 3.0%)",
+                          currency: 'DOGE', 
+                          delay: '10-20 min', 
+                          fee: '3.0%', 
+                          minimum: '1000 DOGE' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-45 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-45 min, 2.5%)",
+                          currency: 'DOGE', 
+                          delay: '30-45 min', 
+                          fee: '2.5%', 
+                          minimum: '5000 DOGE' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Avalanche (AVAX)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (10-20 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (10-20 min, 2.0%)",
+                          currency: 'AVAX', 
+                          delay: '10-20 min', 
+                          fee: '2.0%', 
+                          minimum: '1 AVAX' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-45 min, 1.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-45 min, 1.5%)",
+                          currency: 'AVAX', 
+                          delay: '30-45 min', 
+                          fee: '1.5%', 
+                          minimum: '5 AVAX' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Polygon (MATIC)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (8-15 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (8-15 min, 2.5%)",
+                          currency: 'MATIC', 
+                          delay: '8-15 min', 
+                          fee: '2.5%', 
+                          minimum: '50 MATIC' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (25-40 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (25-40 min, 2.0%)",
+                          currency: 'MATIC', 
+                          delay: '25-40 min', 
+                          fee: '2.0%', 
+                          minimum: '200 MATIC' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Litecoin (LTC)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (12-25 min, 1.8%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (12-25 min, 1.8%)",
+                          currency: 'LTC', 
+                          delay: '12-25 min', 
+                          fee: '1.8%', 
+                          minimum: '0.1 LTC' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-50 min, 1.3%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-50 min, 1.3%)",
+                          currency: 'LTC', 
+                          delay: '30-50 min', 
+                          fee: '1.3%', 
+                          minimum: '0.5 LTC' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Chainlink (LINK)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (15-28 min, 2.2%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (15-28 min, 2.2%)",
+                          currency: 'LINK', 
+                          delay: '15-28 min', 
+                          fee: '2.2%', 
+                          minimum: '10 LINK' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (35-50 min, 1.8%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (35-50 min, 1.8%)",
+                          currency: 'LINK', 
+                          delay: '35-50 min', 
+                          fee: '1.8%', 
+                          minimum: '50 LINK' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Monero (XMR)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (20-35 min, 1.2%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (20-35 min, 1.2%)",
+                          currency: 'XMR', 
+                          delay: '20-35 min', 
+                          fee: '1.2%', 
+                          minimum: '0.5 XMR' 
+                        }
+                      },
+                      { 
+                        name: "Deep Mix (1-3 hours, 0.8%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Deep Mix (1-3 hours, 0.8%)",
+                          currency: 'XMR', 
+                          delay: '1-3 hours', 
+                          fee: '0.8%', 
+                          minimum: '2 XMR' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Tron (TRX)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (8-18 min, 2.8%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (8-18 min, 2.8%)",
+                          currency: 'TRX', 
+                          delay: '8-18 min', 
+                          fee: '2.8%', 
+                          minimum: '500 TRX' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (25-40 min, 2.3%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (25-40 min, 2.3%)",
+                          currency: 'TRX', 
+                          delay: '25-40 min', 
+                          fee: '2.3%', 
+                          minimum: '2000 TRX' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Shiba Inu (SHIB)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (10-22 min, 3.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (10-22 min, 3.5%)",
+                          currency: 'SHIB', 
+                          delay: '10-22 min', 
+                          fee: '3.5%', 
+                          minimum: '1000000 SHIB' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-48 min, 3.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-48 min, 3.0%)",
+                          currency: 'SHIB', 
+                          delay: '30-48 min', 
+                          fee: '3.0%', 
+                          minimum: '5000000 SHIB' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Uniswap (UNI)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (12-25 min, 2.3%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (12-25 min, 2.3%)",
+                          currency: 'UNI', 
+                          delay: '12-25 min', 
+                          fee: '2.3%', 
+                          minimum: '5 UNI' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-45 min, 1.9%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-45 min, 1.9%)",
+                          currency: 'UNI', 
+                          delay: '30-45 min', 
+                          fee: '1.9%', 
+                          minimum: '20 UNI' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Cosmos (ATOM)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (15-28 min, 2.1%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (15-28 min, 2.1%)",
+                          currency: 'ATOM', 
+                          delay: '15-28 min', 
+                          fee: '2.1%', 
+                          minimum: '5 ATOM' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (35-52 min, 1.7%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (35-52 min, 1.7%)",
+                          currency: 'ATOM', 
+                          delay: '35-52 min', 
+                          fee: '1.7%', 
+                          minimum: '20 ATOM' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "DAI Stablecoin (DAI)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (5-15 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (5-15 min, 2.5%)",
+                          currency: 'DAI', 
+                          delay: '5-15 min', 
+                          fee: '2.5%', 
+                          minimum: '100 DAI' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (20-40 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (20-40 min, 2.0%)",
+                          currency: 'DAI', 
+                          delay: '20-40 min', 
+                          fee: '2.0%', 
+                          minimum: '500 DAI' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Arbitrum (ARB)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (8-18 min, 2.4%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (8-18 min, 2.4%)",
+                          currency: 'ARB', 
+                          delay: '8-18 min', 
+                          fee: '2.4%', 
+                          minimum: '50 ARB' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (25-42 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (25-42 min, 2.0%)",
+                          currency: 'ARB', 
+                          delay: '25-42 min', 
+                          fee: '2.0%', 
+                          minimum: '200 ARB' 
+                        }
+                      },
+                    ],
+                  },
+                  {
+                    name: "Optimism (OP)",
+                    type: "folder",
+                    extension: "json",
+                    children: [
+                      { 
+                        name: "Fast Mix (10-22 min, 2.3%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (10-22 min, 2.3%)",
+                          currency: 'OP', 
+                          delay: '10-22 min', 
+                          fee: '2.3%', 
+                          minimum: '20 OP' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (28-45 min, 1.9%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (28-45 min, 1.9%)",
+                          currency: 'OP', 
+                          delay: '28-45 min', 
+                          fee: '1.9%', 
+                          minimum: '100 OP' 
+                        }
+                      },
+                    ],
+                  },
                 ]}
                 className="h-fit"
               />
