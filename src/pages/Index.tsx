@@ -138,7 +138,6 @@ const Index = () => {
                 onClick={() => setIsAuthOpen(true)}
                 className="font-medium px-6 py-2 text-foreground"
               >
-                <Icon name="Send" size={16} />
                 Sign in
               </InteractiveHoverButton>
             )}
@@ -297,7 +296,6 @@ const Index = () => {
                       onClick={() => setIsAuthOpen(true)}
                       className="font-medium px-6 py-2 text-foreground"
                     >
-                      <Icon name="Send" size={16} />
                       Sign in
                     </InteractiveHoverButton>
                   </CardContent>
