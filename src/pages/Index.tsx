@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
@@ -37,6 +37,8 @@ const Index = () => {
   const [showMixConfirmation, setShowMixConfirmation] = useState(false);
   const [depositAddress, setDepositAddress] = useState('');
   const [tutorialPage, setTutorialPage] = useState(1);
+  const [mixes, setMixes] = useState<any[]>([]);
+  const [isLoadingMixes, setIsLoadingMixes] = useState(false);
 
   const handleFileSelect = (settings: any) => {
     setMixerData(prev => ({ 
@@ -88,6 +90,104 @@ const Index = () => {
     setDepositAddress(generatedAddress);
     setShowMixConfirmation(true);
   };
+
+  // Fetch mixes when user is authenticated and tab is active
+  useEffect(() => {
+    if (isAuthenticated && activeTab === 'my-mixes') {
+      setIsLoadingMixes(true);
+      // Временные тестовые данные
+      // После деплоя backend раскомментируйте fetch запрос ниже
+      const mockMixes = [
+        {
+          id: 1,
+          user_username: telegramUsername,
+          currency: 'BTC',
+          amount: '0.5',
+          fee: '13%',
+          delay: '5-20 min',
+          minimum: '0.0015 BTC',
+          preset: 'Fast Mix',
+          input_address: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+          output_address: '3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy',
+          deposit_address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+          status: 'В процессе',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        },
+        {
+          id: 2,
+          user_username: telegramUsername,
+          currency: 'ETH',
+          amount: '2.3',
+          fee: '17%',
+          delay: '20-60 min',
+          minimum: '0.03 ETH',
+          preset: 'Standard Mix',
+          input_address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb1',
+          output_address: '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed',
+          deposit_address: '0x8ba1f109551bD432803012645Ac136ddd64DBA72',
+          status: 'Принят в работу',
+          created_at: new Date(Date.now() - 86400000).toISOString(),
+          updated_at: new Date(Date.now() - 43200000).toISOString()
+        },
+        {
+          id: 3,
+          user_username: telegramUsername,
+          currency: 'USDT-TRC20',
+          amount: '1500',
+          fee: '23%',
+          delay: '1-4 hours',
+          minimum: '100 USDT',
+          preset: 'Privacy Mix',
+          input_address: 'TRxJ4vKWLVg8KnNP3BdUNJTNTJNTwXLR5h',
+          output_address: 'TYASr5UV6HEcXatwdFQfmLVUqQQQMUxHLS',
+          deposit_address: 'TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7',
+          status: 'Отправлено',
+          created_at: new Date(Date.now() - 172800000).toISOString(),
+          updated_at: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+          id: 4,
+          user_username: telegramUsername,
+          currency: 'BTC',
+          amount: '1.2',
+          fee: '13%',
+          delay: '5-20 min',
+          minimum: '0.0015 BTC',
+          preset: 'Fast Mix',
+          input_address: '3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5',
+          output_address: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
+          deposit_address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
+          status: 'Готово!',
+          created_at: new Date(Date.now() - 259200000).toISOString(),
+          updated_at: new Date(Date.now() - 172800000).toISOString()
+        }
+      ];
+      
+      setTimeout(() => {
+        setMixes(mockMixes);
+        setIsLoadingMixes(false);
+      }, 500);
+
+      /* РАСКОММЕНТИРУЙТЕ ПОСЛЕ ДЕПЛОЯ BACKEND:
+      fetch('YOUR_BACKEND_URL/get-mixes', {
+        headers: {
+          'X-User-Username': telegramUsername
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          setMixes(data.mixes || []);
+          setIsLoadingMixes(false);
+        })
+        .catch(err => {
+          console.error('Error fetching mixes:', err);
+          setMixes([]);
+          setIsLoadingMixes(false);
+        });
+      */
+    }
+  }, [isAuthenticated, activeTab, telegramUsername]);
 
   const fileTreeData = [
     {
@@ -616,7 +716,13 @@ const Index = () => {
                     История всех ваших транзакций микширования
                   </p>
                 </div>
-                <MixesTable mixes={[]} />
+                {isLoadingMixes ? (
+                  <div className="flex items-center justify-center py-12">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+                  </div>
+                ) : (
+                  <MixesTable mixes={mixes} />
+                )}
               </div>
             </TabsContent>
 
