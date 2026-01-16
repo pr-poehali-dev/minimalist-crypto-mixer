@@ -108,7 +108,7 @@ const Index = () => {
                         name={telegramUsername}
                         fallback={telegramUsername.slice(1, 3).toUpperCase()}
                         size="sm"
-                        direction="top"
+                        direction="left"
                       />
                     </button>
                   }
