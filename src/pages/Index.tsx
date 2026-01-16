@@ -280,7 +280,6 @@ const Index = () => {
     {
       name: "Help to choose",
       type: "folder",
-      extension: "json",
       children: [
         { 
           name: "Fast Mix", 
