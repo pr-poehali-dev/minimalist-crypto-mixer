@@ -34,9 +34,10 @@ const Index = () => {
     outputAddress: '',
     amount: '',
     currency: 'BTC',
-    delay: '15-45 min',
-    fee: '1.5%',
+    delay: '5-20 min',
+    fee: '13%',
     minimum: '0.001 BTC',
+    preset: 'Fast Mix',
   });
 
   const [selectedFile, setSelectedFile] = useState('');
@@ -108,9 +109,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '1.5%', delay: '15-45 min', minimum: '0.001 BTC' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '2.5%', delay: '5-15 min', minimum: '0.005 BTC' } },
-        { name: "Stealth Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '3.0%', delay: '60-120 min', minimum: '0.01 BTC' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '13%', delay: '5-20 min', minimum: '0.0015 BTC', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '17%', delay: '20-60 min', minimum: '0.0015 BTC', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '23%', delay: '1-4 hours', minimum: '0.0075 BTC', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'BTC', fee: '30%', delay: '6-12 hours', minimum: '0.015 BTC', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -118,8 +120,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'ETH', fee: '1.2%', delay: '10-30 min', minimum: '0.01 ETH' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'ETH', fee: '2.0%', delay: '5-10 min', minimum: '0.05 ETH' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'ETH', fee: '13%', delay: '5-20 min', minimum: '0.03 ETH', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'ETH', fee: '17%', delay: '20-60 min', minimum: '0.03 ETH', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'ETH', fee: '23%', delay: '1-4 hours', minimum: '0.15 ETH', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'ETH', fee: '30%', delay: '6-12 hours', minimum: '0.3 ETH', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -127,7 +131,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'XMR', fee: '0.8%', delay: '20-40 min', minimum: '0.1 XMR' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'XMR', fee: '13%', delay: '5-20 min', minimum: '0.6 XMR', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'XMR', fee: '17%', delay: '20-60 min', minimum: '0.6 XMR', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'XMR', fee: '23%', delay: '1-4 hours', minimum: '3 XMR', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'XMR', fee: '30%', delay: '6-12 hours', minimum: '6 XMR', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -140,9 +147,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '1.0%', delay: '10-20 min', minimum: '10 USDT' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '1.8%', delay: '3-8 min', minimum: '50 USDT' } },
-            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '0.8%', delay: '30-60 min', minimum: '500 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '13%', delay: '5-20 min', minimum: '100 USDT', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '17%', delay: '20-60 min', minimum: '100 USDT', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '23%', delay: '1-4 hours', minimum: '500 USDT', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '30%', delay: '6-12 hours', minimum: '1000 USDT', preset: 'Bulk Mix' } },
           ]
         },
         {
@@ -150,8 +158,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '1.5%', delay: '15-30 min', minimum: '50 USDT' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '2.2%', delay: '5-12 min', minimum: '100 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '13%', delay: '5-20 min', minimum: '100 USDT', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '17%', delay: '20-60 min', minimum: '100 USDT', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '23%', delay: '1-4 hours', minimum: '500 USDT', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '30%', delay: '6-12 hours', minimum: '1000 USDT', preset: 'Bulk Mix' } },
           ]
         },
         {
@@ -159,9 +169,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '0.9%', delay: '8-18 min', minimum: '20 USDT' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '1.5%', delay: '2-6 min', minimum: '50 USDT' } },
-            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '1.2%', delay: '25-45 min', minimum: '100 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '13%', delay: '5-20 min', minimum: '100 USDT', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '17%', delay: '20-60 min', minimum: '100 USDT', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '23%', delay: '1-4 hours', minimum: '500 USDT', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '30%', delay: '6-12 hours', minimum: '1000 USDT', preset: 'Bulk Mix' } },
           ]
         },
         {
@@ -169,8 +180,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '1.0%', delay: '10-25 min', minimum: '15 USDT' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '1.7%', delay: '4-10 min', minimum: '75 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '13%', delay: '5-20 min', minimum: '100 USDT', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '17%', delay: '20-60 min', minimum: '100 USDT', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '23%', delay: '1-4 hours', minimum: '500 USDT', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '30%', delay: '6-12 hours', minimum: '1000 USDT', preset: 'Bulk Mix' } },
           ]
         },
       ]
@@ -185,8 +198,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '1.4%', delay: '12-28 min', minimum: '50 USDC' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '2.1%', delay: '5-10 min', minimum: '100 USDC' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '13%', delay: '5-20 min', minimum: '100 USDC', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '17%', delay: '20-60 min', minimum: '100 USDC', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '23%', delay: '1-4 hours', minimum: '500 USDC', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDC-ERC20', fee: '30%', delay: '6-12 hours', minimum: '1000 USDC', preset: 'Bulk Mix' } },
           ]
         },
         {
@@ -194,8 +209,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '0.9%', delay: '8-16 min', minimum: '25 USDC' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '1.6%', delay: '3-7 min', minimum: '50 USDC' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '13%', delay: '5-20 min', minimum: '100 USDC', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '17%', delay: '20-60 min', minimum: '100 USDC', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '23%', delay: '1-4 hours', minimum: '500 USDC', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDC-SOL', fee: '30%', delay: '6-12 hours', minimum: '1000 USDC', preset: 'Bulk Mix' } },
           ]
         },
         {
@@ -203,8 +220,10 @@ const Index = () => {
           type: "folder",
           extension: "json",
           children: [
-            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '1.1%', delay: '10-22 min', minimum: '20 USDC' } },
-            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '1.8%', delay: '4-9 min', minimum: '80 USDC' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '13%', delay: '5-20 min', minimum: '100 USDC', preset: 'Fast Mix' } },
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '17%', delay: '20-60 min', minimum: '100 USDC', preset: 'Standard Mix' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '23%', delay: '1-4 hours', minimum: '500 USDC', preset: 'Privacy Mix' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDC-BEP20', fee: '30%', delay: '6-12 hours', minimum: '1000 USDC', preset: 'Bulk Mix' } },
           ]
         },
       ]
@@ -214,9 +233,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '1.3%', delay: '15-35 min', minimum: '50 DAI' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '2.0%', delay: '6-12 min', minimum: '100 DAI' } },
-        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '0.9%', delay: '45-90 min', minimum: '1000 DAI' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '13%', delay: '5-20 min', minimum: '100 DAI', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '17%', delay: '20-60 min', minimum: '100 DAI', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '23%', delay: '1-4 hours', minimum: '500 DAI', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'DAI', fee: '30%', delay: '6-12 hours', minimum: '1000 DAI', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -224,9 +244,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '1.4%', delay: '12-30 min', minimum: '0.1 LTC' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '2.3%', delay: '5-12 min', minimum: '0.5 LTC' } },
-        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '2.8%', delay: '50-100 min', minimum: '1 LTC' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '13%', delay: '5-20 min', minimum: '1 LTC', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '17%', delay: '20-60 min', minimum: '1 LTC', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '23%', delay: '1-4 hours', minimum: '5 LTC', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'LTC', fee: '30%', delay: '6-12 hours', minimum: '10 LTC', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -234,8 +255,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '1.3%', delay: '10-25 min', minimum: '0.05 BNB' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '2.0%', delay: '4-10 min', minimum: '0.2 BNB' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '13%', delay: '5-20 min', minimum: '0.2 BNB', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '17%', delay: '20-60 min', minimum: '0.2 BNB', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '23%', delay: '1-4 hours', minimum: '0.8 BNB', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'BNB', fee: '30%', delay: '6-12 hours', minimum: '1.6 BNB', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -243,8 +266,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '1.2%', delay: '15-30 min', minimum: '10 ADA' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '2.0%', delay: '6-14 min', minimum: '50 ADA' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '13%', delay: '5-20 min', minimum: '100 ADA', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '17%', delay: '20-60 min', minimum: '100 ADA', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '23%', delay: '1-4 hours', minimum: '500 ADA', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'ADA', fee: '30%', delay: '6-12 hours', minimum: '1000 ADA', preset: 'Bulk Mix' } },
       ]
     },
     {
@@ -252,9 +277,10 @@ const Index = () => {
       type: "folder",
       extension: "json",
       children: [
-        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '1.1%', delay: '8-20 min', minimum: '0.5 SOL' } },
-        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '1.9%', delay: '3-8 min', minimum: '2 SOL' } },
-        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '2.5%', delay: '30-60 min', minimum: '5 SOL' } },
+        { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '13%', delay: '5-20 min', minimum: '0.6 SOL', preset: 'Fast Mix' } },
+        { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '17%', delay: '20-60 min', minimum: '0.6 SOL', preset: 'Standard Mix' } },
+        { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '23%', delay: '1-4 hours', minimum: '3 SOL', preset: 'Privacy Mix' } },
+        { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'SOL', fee: '30%', delay: '6-12 hours', minimum: '6 SOL', preset: 'Bulk Mix' } },
       ]
     },
   ];
