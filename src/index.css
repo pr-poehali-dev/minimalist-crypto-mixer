@@ -36,6 +36,11 @@
 
     --radius: 0.375rem;
 
+    /* File Tree Variables */
+    --file-tree-bg: 0 0% 100%;
+    --file-tree-hover: 0 0% 96%;
+    --folder-icon: 0 0% 20%;
+
     /* Design System Variables */
     --font-sans:
       ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
