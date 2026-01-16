@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { OTPVerification } from '@/components/ui/otp-input';
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from '@/components/ui/base-menu';
 import { FileTree } from '@/components/ui/file-tree';
@@ -144,9 +144,53 @@ const Index = () => {
                 </MenuContent>
               </Menu>
             ) : (
-              <div onClick={() => setIsAuthOpen(true)}>
-                <FlowButton text="Sign in" />
-              </div>
+              <Popover open={isAuthOpen} onOpenChange={setIsAuthOpen}>
+                <PopoverTrigger asChild>
+                  <div>
+                    <FlowButton text="Sign in" />
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className="w-96 p-0" align="end" sideOffset={12}>
+                  {authStep === 'username' ? (
+                    <div className="bg-white rounded-xl p-6">
+                      <div className="flex justify-center mb-4">
+                        <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      
+                      <h2 className="text-xl font-semibold text-center mb-2">Sign in via Telegram</h2>
+                      <p className="text-center text-gray-600 mb-6 text-sm">
+                        Enter your username, we'll send you a 4-digit code
+                      </p>
+                      
+                      <div className="space-y-4">
+                        <Input
+                          placeholder="@username"
+                          value={inputUsername}
+                          onChange={(e) => setInputUsername(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
+                          className="border-black/20 focus:border-black h-12"
+                        />
+                        <div onClick={handleRequestCode} className="w-full">
+                          <FlowButton text="Get Code" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-6">
+                      <OTPVerification
+                        inputCount={4}
+                        onVerify={handleVerifyCode}
+                        onResend={handleResendCode}
+                        telegram_username={telegramUsername}
+                      />
+                    </div>
+                  )}
+                </PopoverContent>
+              </Popover>
             )}
           </div>
         </div>
@@ -963,9 +1007,53 @@ const Index = () => {
                     <p className="text-muted-foreground text-center mb-6">
                       Sign in via Telegram to view transaction history
                     </p>
-                    <div onClick={() => setIsAuthOpen(true)}>
-                      <FlowButton text="Sign in" />
-                    </div>
+                    <Popover open={isAuthOpen} onOpenChange={setIsAuthOpen}>
+                      <PopoverTrigger asChild>
+                        <div>
+                          <FlowButton text="Sign in" />
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-96 p-0" align="center" sideOffset={12}>
+                        {authStep === 'username' ? (
+                          <div className="bg-white rounded-xl p-6">
+                            <div className="flex justify-center mb-4">
+                              <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                              </div>
+                            </div>
+                            
+                            <h2 className="text-xl font-semibold text-center mb-2">Sign in via Telegram</h2>
+                            <p className="text-center text-gray-600 mb-6 text-sm">
+                              Enter your username, we'll send you a 4-digit code
+                            </p>
+                            
+                            <div className="space-y-4">
+                              <Input
+                                placeholder="@username"
+                                value={inputUsername}
+                                onChange={(e) => setInputUsername(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
+                                className="border-black/20 focus:border-black h-12"
+                              />
+                              <div onClick={handleRequestCode} className="w-full">
+                                <FlowButton text="Get Code" />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="p-6">
+                            <OTPVerification
+                              inputCount={4}
+                              onVerify={handleVerifyCode}
+                              onResend={handleResendCode}
+                              telegram_username={telegramUsername}
+                            />
+                          </div>
+                        )}
+                      </PopoverContent>
+                    </Popover>
                   </CardContent>
                 </Card>
               ) : (
@@ -1020,46 +1108,7 @@ const Index = () => {
         </Tabs>
       </main>
 
-      <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-        <DialogContent className="sm:max-w-md p-0 bg-transparent border-none shadow-none">
-          {authStep === 'username' ? (
-            <div className="bg-white rounded-3xl p-8 shadow-2xl">
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
-                </div>
-              </div>
-              
-              <h2 className="text-2xl font-semibold text-center mb-2">Sign in via Telegram</h2>
-              <p className="text-center text-gray-600 mb-8">
-                Enter your username, we'll send you a 4-digit code
-              </p>
-              
-              <div className="space-y-4">
-                <Input
-                  placeholder="@username"
-                  value={inputUsername}
-                  onChange={(e) => setInputUsername(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
-                  className="border-black/20 focus:border-black h-12"
-                />
-                <div onClick={handleRequestCode} className="w-full">
-                  <FlowButton text="Get Code" />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <OTPVerification
-              inputCount={4}
-              onVerify={handleVerifyCode}
-              onResend={handleResendCode}
-              telegram_username={telegramUsername}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+
 
       <footer className="border-t border-black/10 mt-20">
         <div className="container mx-auto px-4 py-8">
