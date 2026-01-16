@@ -9,6 +9,7 @@ import { OTPVerification } from '@/components/ui/otp-input';
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from '@/components/ui/base-menu';
 import { FileTree } from '@/components/ui/file-tree';
 import { AvatarWithName } from '@/components/ui/avatar-with-name';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 
 interface Transaction {
   id: string;
@@ -133,13 +134,13 @@ const Index = () => {
                 </MenuContent>
               </Menu>
             ) : (
-              <Button
+              <InteractiveHoverButton
                 onClick={() => setIsAuthOpen(true)}
-                className="bg-black text-white hover:bg-black/90 font-medium"
+                className="bg-black text-white hover:bg-black/90 font-medium flex items-center gap-2"
               >
-                <Icon name="Send" size={16} className="mr-2" />
+                <Icon name="Send" size={16} />
                 Sign in via Telegram
-              </Button>
+              </InteractiveHoverButton>
             )}
           </div>
         </div>
@@ -292,13 +293,13 @@ const Index = () => {
                     <p className="text-muted-foreground text-center mb-6">
                       Sign in via Telegram to view transaction history
                     </p>
-                    <Button
+                    <InteractiveHoverButton
                       onClick={() => setIsAuthOpen(true)}
-                      className="bg-black text-white hover:bg-black/90"
+                      className="bg-black text-white hover:bg-black/90 flex items-center gap-2"
                     >
-                      <Icon name="Send" size={16} className="mr-2" />
+                      <Icon name="Send" size={16} />
                       Sign in via Telegram
-                    </Button>
+                    </InteractiveHoverButton>
                   </CardContent>
                 </Card>
               ) : (
@@ -378,13 +379,13 @@ const Index = () => {
                   onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
                   className="border-black/20 focus:border-black h-12"
                 />
-                <Button
+                <InteractiveHoverButton
                   onClick={handleRequestCode}
                   className="w-full bg-black text-white hover:bg-black/90 h-12"
                   disabled={!inputUsername.trim()}
                 >
                   Get Code
-                </Button>
+                </InteractiveHoverButton>
               </div>
             </div>
           ) : (
