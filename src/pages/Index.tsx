@@ -4,8 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { OTPVerification } from '@/components/ui/otp-input';
 
 interface Transaction {
   id: string;
@@ -19,10 +19,10 @@ interface Transaction {
 
 const Index = () => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [authStep, setAuthStep] = useState<'phone' | 'code'>('phone');
-  const [otpCode, setOtpCode] = useState('');
+  const [authStep, setAuthStep] = useState<'username' | 'code'>('username');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [telegramUsername, setTelegramUsername] = useState('');
+  const [inputUsername, setInputUsername] = useState('');
 
   const [mixerData, setMixerData] = useState({
     inputAddress: '',
@@ -52,16 +52,28 @@ const Index = () => {
     },
   ];
 
-  const handleAuthSubmit = () => {
-    if (authStep === 'phone') {
-      setAuthStep('code');
-    } else if (authStep === 'code' && otpCode.length === 6) {
+  const handleRequestCode = () => {
+    if (!inputUsername.trim()) return;
+    const username = inputUsername.startsWith('@') ? inputUsername : '@' + inputUsername;
+    setTelegramUsername(username);
+    setAuthStep('code');
+  };
+
+  const handleVerifyCode = async (code: string) => {
+    if (code.length === 6) {
       setIsAuthenticated(true);
-      setTelegramUsername('@cryptouser');
-      setIsAuthOpen(false);
-      setAuthStep('phone');
-      setOtpCode('');
+      setTimeout(() => {
+        setIsAuthOpen(false);
+        setAuthStep('username');
+        setInputUsername('');
+      }, 2000);
+      return true;
     }
+    return false;
+  };
+
+  const handleResendCode = () => {
+    console.log('Resending code to', telegramUsername);
   };
 
   const handleMixerSubmit = (e: React.FormEvent) => {
@@ -270,66 +282,47 @@ const Index = () => {
       </main>
 
       <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">
-              {authStep === 'phone' ? 'Вход через Telegram' : 'Введите код'}
-            </DialogTitle>
-          </DialogHeader>
-
-          <div className="space-y-6 py-4">
-            {authStep === 'phone' ? (
-              <>
-                <p className="text-sm text-muted-foreground">
-                  Введите ваш Telegram username, мы отправим 6-значный код для входа
-                </p>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Telegram username</label>
-                  <Input
-                    placeholder="@username"
-                    className="border-black/20 focus:border-black"
-                  />
+        <DialogContent className="sm:max-w-md p-0 bg-transparent border-none shadow-none">
+          {authStep === 'username' ? (
+            <div className="bg-white rounded-3xl p-8 shadow-2xl">
+              <div className="flex justify-center mb-6">
+                <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
                 </div>
+              </div>
+              
+              <h2 className="text-2xl font-semibold text-center mb-2">Вход через Telegram</h2>
+              <p className="text-center text-gray-600 mb-8">
+                Введите ваш username, мы отправим 6-значный код
+              </p>
+              
+              <div className="space-y-4">
+                <Input
+                  placeholder="@username"
+                  value={inputUsername}
+                  onChange={(e) => setInputUsername(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
+                  className="border-black/20 focus:border-black h-12"
+                />
                 <Button
-                  onClick={handleAuthSubmit}
-                  className="w-full bg-black text-white hover:bg-black/90"
+                  onClick={handleRequestCode}
+                  className="w-full bg-black text-white hover:bg-black/90 h-12"
+                  disabled={!inputUsername.trim()}
                 >
                   Получить код
                 </Button>
-              </>
-            ) : (
-              <>
-                <p className="text-sm text-muted-foreground text-center">
-                  Мы отправили 6-значный код в ваш Telegram
-                </p>
-                <div className="flex justify-center">
-                  <InputOTP maxLength={6} value={otpCode} onChange={setOtpCode}>
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} className="border-black/20" />
-                      <InputOTPSlot index={1} className="border-black/20" />
-                      <InputOTPSlot index={2} className="border-black/20" />
-                      <InputOTPSlot index={3} className="border-black/20" />
-                      <InputOTPSlot index={4} className="border-black/20" />
-                      <InputOTPSlot index={5} className="border-black/20" />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </div>
-                <Button
-                  onClick={handleAuthSubmit}
-                  disabled={otpCode.length !== 6}
-                  className="w-full bg-black text-white hover:bg-black/90 disabled:opacity-50"
-                >
-                  Войти
-                </Button>
-                <button
-                  onClick={() => setAuthStep('phone')}
-                  className="w-full text-sm text-muted-foreground hover:text-foreground"
-                >
-                  Изменить username
-                </button>
-              </>
-            )}
-          </div>
+              </div>
+            </div>
+          ) : (
+            <OTPVerification
+              inputCount={6}
+              onVerify={handleVerifyCode}
+              onResend={handleResendCode}
+              telegram_username={telegramUsername}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
