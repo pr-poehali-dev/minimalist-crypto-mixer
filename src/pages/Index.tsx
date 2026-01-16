@@ -334,9 +334,7 @@ const Index = () => {
 
       <div className="flex-1 flex flex-col">
         <header className="border-b border-border/50">
-          <div className="px-8 py-6 flex items-center justify-between">
-            <h1 className="text-3xl font-bold tracking-tight">CRYPTOMIXER</h1>
-            
+          <div className="px-8 py-6 flex items-center justify-end">
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
                 <Menu>
