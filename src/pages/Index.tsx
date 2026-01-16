@@ -644,101 +644,175 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="faq" className="animate-fade-in">
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-6xl mx-auto space-y-8">
                 <Card className="border-2">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Frequently Asked Questions</CardTitle>
+                  <CardHeader className="text-center">
+                    <CardTitle className="text-3xl">Как пользоваться платформой</CardTitle>
                     <p className="text-gray-600 mt-2">
-                      Ответы на часто задаваемые вопросы о нашем сервисе
+                      Пошаговое руководство по созданию микса
                     </p>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-2 border-blue-200">
-                      <h3 className="font-semibold text-xl mb-4 text-center text-blue-900">Обучение: Как использовать микшер</h3>
-                      <p className="text-gray-700 mb-6 text-center">
-                        Пройдите интерактивное руководство по использованию нашего сервиса
-                      </p>
-                      <div className="bg-white p-8 rounded-lg">
-                        <ProgressIndicator />
-                      </div>
-                      <div className="mt-6 space-y-3">
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold flex-shrink-0">1</div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900">Выберите профиль микса</h4>
-                            <p className="text-sm text-gray-600">В левом меню выберите криптовалюту и тип микширования (Fast, Standard, Privacy, Bulk)</p>
+                  <CardContent>
+                    <div className="relative">
+                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gradient-to-b from-blue-500 via-green-500 to-purple-500"></div>
+                      
+                      <div className="space-y-12">
+                        <div className="flex gap-6 relative">
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
+                            1
+                          </div>
+                          <div className="flex-1 pt-2">
+                            <h3 className="text-2xl font-bold mb-3">Авторизация</h3>
+                            <p className="text-gray-700 mb-4 text-lg">
+                              Нажмите кнопку "Login with Telegram" в правом верхнем углу
+                            </p>
+                            <div className="bg-gray-50 p-6 rounded-xl border-2 border-gray-200">
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                  <span className="text-gray-700">Введите ваш Telegram username (например: @username)</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                  <span className="text-gray-700">Получите 4-значный код в боте</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                  <span className="text-gray-700">Введите код для входа</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold flex-shrink-0">2</div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900">Заполните данные</h4>
-                            <p className="text-sm text-gray-600">Укажите входящий и исходящий адреса кошельков, а также сумму для микширования</p>
+
+                        <div className="flex gap-6 relative">
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
+                            2
+                          </div>
+                          <div className="flex-1 pt-2">
+                            <h3 className="text-2xl font-bold mb-3">Выбор профиля микса</h3>
+                            <p className="text-gray-700 mb-4 text-lg">
+                              В левой панели выберите криптовалюту и тип микширования
+                            </p>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                                <div className="font-bold text-blue-900 mb-2">⚡ Fast Mix</div>
+                                <div className="text-sm text-gray-700">Комиссия: 13%</div>
+                                <div className="text-sm text-gray-700">Время: 5-20 мин</div>
+                              </div>
+                              <div className="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                                <div className="font-bold text-green-900 mb-2">🔧 Standard Mix</div>
+                                <div className="text-sm text-gray-700">Комиссия: 17%</div>
+                                <div className="text-sm text-gray-700">Время: 20-60 мин</div>
+                              </div>
+                              <div className="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+                                <div className="font-bold text-purple-900 mb-2">🔒 Privacy Mix</div>
+                                <div className="text-sm text-gray-700">Комиссия: 23%</div>
+                                <div className="text-sm text-gray-700">Время: 1-4 часа</div>
+                              </div>
+                              <div className="bg-orange-50 p-4 rounded-xl border-2 border-orange-200">
+                                <div className="font-bold text-orange-900 mb-2">📦 Bulk Mix</div>
+                                <div className="text-sm text-gray-700">Комиссия: 30%</div>
+                                <div className="text-sm text-gray-700">Время: 6-12 часов</div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold flex-shrink-0">3</div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900">Отслеживайте статус</h4>
-                            <p className="text-sm text-gray-600">В разделе "Мои миксы" вы можете отслеживать статус ваших транзакций</p>
+
+                        <div className="flex gap-6 relative">
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
+                            3
+                          </div>
+                          <div className="flex-1 pt-2">
+                            <h3 className="text-2xl font-bold mb-3">Заполнение данных</h3>
+                            <p className="text-gray-700 mb-4 text-lg">
+                              Укажите адреса кошельков и сумму транзакции
+                            </p>
+                            <div className="bg-gray-50 p-6 rounded-xl border-2 border-gray-200 space-y-4">
+                              <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 rounded-lg bg-purple-500 text-white flex items-center justify-center font-bold flex-shrink-0">📥</div>
+                                <div>
+                                  <div className="font-semibold text-gray-900">Input Address</div>
+                                  <div className="text-sm text-gray-600">Адрес вашего кошелька, с которого отправляете</div>
+                                </div>
+                              </div>
+                              <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 rounded-lg bg-purple-500 text-white flex items-center justify-center font-bold flex-shrink-0">📤</div>
+                                <div>
+                                  <div className="font-semibold text-gray-900">Output Address</div>
+                                  <div className="text-sm text-gray-600">Адрес, на который получите чистые монеты</div>
+                                </div>
+                              </div>
+                              <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 rounded-lg bg-purple-500 text-white flex items-center justify-center font-bold flex-shrink-0">💰</div>
+                                <div>
+                                  <div className="font-semibold text-gray-900">Amount</div>
+                                  <div className="text-sm text-gray-600">Сумма для микширования</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-6 relative">
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
+                            4
+                          </div>
+                          <div className="flex-1 pt-2">
+                            <h3 className="text-2xl font-bold mb-3">Отправка криптовалюты</h3>
+                            <p className="text-gray-700 mb-4 text-lg">
+                              После нажатия "Start Mixing" вы получите адрес для депозита
+                            </p>
+                            <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200">
+                              <div className="space-y-3">
+                                <div className="font-semibold text-orange-900">⚠️ Важно:</div>
+                                <div className="text-sm text-gray-700">• Отправьте ТОЧНУЮ сумму на указанный адрес</div>
+                                <div className="text-sm text-gray-700">• Используйте кнопку "Copy Address" для копирования</div>
+                                <div className="text-sm text-gray-700">• Сохраните адрес депозита до завершения транзакции</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-6 relative">
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
+                            5
+                          </div>
+                          <div className="flex-1 pt-2">
+                            <h3 className="text-2xl font-bold mb-3">Отслеживание статуса</h3>
+                            <p className="text-gray-700 mb-4 text-lg">
+                              Перейдите в раздел "Мои миксы" для просмотра статуса
+                            </p>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200">
+                                <div className="font-bold text-yellow-900 mb-2">⏳ В процессе</div>
+                                <div className="text-sm text-gray-700">Микс создан, ожидает депозита</div>
+                              </div>
+                              <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+                                <div className="font-bold text-blue-900 mb-2">🔄 Принят в работу</div>
+                                <div className="text-sm text-gray-700">Средства получены, начато микширование</div>
+                              </div>
+                              <div className="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+                                <div className="font-bold text-purple-900 mb-2">📤 Отправлено</div>
+                                <div className="text-sm text-gray-700">Средства отправлены на выходной адрес</div>
+                              </div>
+                              <div className="bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                                <div className="font-bold text-green-900 mb-2">✅ Готово!</div>
+                                <div className="text-sm text-gray-700">Транзакция успешно завершена</div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Что такое криптовалютный микшер?</h3>
-                        <p className="text-gray-700">
-                          Криптовалютный микшер — это сервис, который обеспечивает анонимность транзакций путём смешивания ваших монет с монетами других пользователей, делая невозможным отслеживание источника средств.
-                        </p>
+                    <div className="mt-12 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200">
+                      <div className="bg-white p-8 rounded-xl">
+                        <ProgressIndicator />
                       </div>
-
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Навигация по сайту</h3>
-                        <p className="text-gray-700">
-                          • <strong>Mixer</strong> — основная страница для создания нового микса<br/>
-                          • <strong>Мои миксы</strong> — история всех ваших транзакций со статусами<br/>
-                          • <strong>FAQ</strong> — ответы на часто задаваемые вопросы и обучение<br/>
-                          • <strong>Левая панель</strong> — дерево профилей миксов, сгруппированных по криптовалютам
-                        </p>
-                      </div>
-
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Какие комиссии взимаются?</h3>
-                        <p className="text-gray-700">
-                          Комиссии зависят от выбранного профиля микса:<br/>
-                          • Fast Mix: 13%<br/>
-                          • Standard Mix: 17%<br/>
-                          • Privacy Mix: 23%<br/>
-                          • Bulk Mix: 30%
-                        </p>
-                      </div>
-
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Как долго обрабатываются транзакции?</h3>
-                        <p className="text-gray-700">
-                          Время обработки зависит от выбранного профиля:<br/>
-                          • Fast Mix: 5-20 минут<br/>
-                          • Standard Mix: 20-60 минут<br/>
-                          • Privacy Mix: 1-4 часа<br/>
-                          • Bulk Mix: 6-12 часов
-                        </p>
-                      </div>
-
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Безопасно ли использовать ваш сервис?</h3>
-                        <p className="text-gray-700">
-                          Да, мы используем передовые технологии шифрования и не храним логи транзакций. Все данные удаляются сразу после завершения микширования.
-                        </p>
-                      </div>
-
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Какие криптовалюты поддерживаются?</h3>
-                        <p className="text-gray-700">
-                          Мы поддерживаем: Bitcoin (BTC), Ethereum (ETH), Tether (USDT), USD Coin (USDC), Dai (DAI) и Litecoin (LTC) в различных сетях.
-                        </p>
-                      </div>
+                      <p className="text-center text-gray-700 mt-4 font-medium">
+                        Используйте интерактивный переключатель выше для навигации по этапам
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
