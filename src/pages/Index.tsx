@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/ui/menu';
+import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/ui/base-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { AvatarWithName } from '@/components/ui/avatar-with-name';
 import { FlowButton } from '@/components/ui/flow-button';
-import OTPVerification from '@/components/OTPVerification';
-import FileTree from '@/components/FileTree';
+import { OTPVerification } from '@/components/ui/otp-input';
+import { FileTree } from '@/components/ui/file-tree';
 
 const mockTransactions = [
   {
