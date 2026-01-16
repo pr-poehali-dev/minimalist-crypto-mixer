@@ -43,7 +43,14 @@ const Index = () => {
   const [selectedFile, setSelectedFile] = useState('');
 
   const handleFileSelect = (settings: any) => {
-    setMixerData({ ...mixerData, ...settings });
+    setMixerData(prev => ({ 
+      ...prev, 
+      currency: settings.currency,
+      fee: settings.fee,
+      delay: settings.delay,
+      minimum: settings.minimum,
+      preset: settings.name || '',
+    }));
     setSelectedFile(settings.name || '');
   };
 
