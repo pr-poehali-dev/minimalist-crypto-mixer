@@ -113,6 +113,11 @@ function FileItem({ node, depth, isLast, parentPath, onFileSelect, selectedFile 
             <span className={cn("text-xs transition-opacity duration-200", fileIcon.color)}>{fileIcon.icon}</span>
           )}
         </div>
+        
+        {/* Extension badge for folders */}
+        {isFolder && node.extension && (
+          <span className={cn("text-xs transition-opacity duration-200 ml-1", fileIcon.color)}>{fileIcon.icon}</span>
+        )}
 
         {/* Icon */}
         <div
