@@ -34,7 +34,17 @@ const Index = () => {
     outputAddress: '',
     amount: '',
     currency: 'BTC',
+    delay: '15-45 min',
+    fee: '1.5%',
+    minimum: '0.001 BTC',
   });
+
+  const [selectedFile, setSelectedFile] = useState('');
+
+  const handleFileSelect = (settings: any) => {
+    setMixerData({ ...mixerData, ...settings });
+    setSelectedFile(settings.name || '');
+  };
 
   const mockTransactions: Transaction[] = [
     {
@@ -156,31 +166,112 @@ const Index = () => {
           <TabsContent value="mixer" className="animate-fade-in">
             <div className="grid grid-cols-1 lg:grid-cols-[600px_1fr] gap-6 max-w-7xl mx-auto">
               <FileTree
+                onFileSelect={handleFileSelect}
+                selectedFile={selectedFile}
                 data={[
                   {
-                    name: "Mixer Settings",
+                    name: "Bitcoin (BTC)",
                     type: "folder",
+                    extension: "json",
                     children: [
-                      { name: "Delay: 15-45 min", type: "file", extension: "ts" },
-                      { name: "Fee: 1.5%", type: "file", extension: "ts" },
-                      { name: "Minimum: 0.001 BTC", type: "file", extension: "ts" },
+                      { 
+                        name: "Fast Mix (15-30 min, 1.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (15-30 min, 1.5%)",
+                          currency: 'BTC', 
+                          delay: '15-30 min', 
+                          fee: '1.5%', 
+                          minimum: '0.001 BTC' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-60 min, 1.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-60 min, 1.0%)",
+                          currency: 'BTC', 
+                          delay: '30-60 min', 
+                          fee: '1.0%', 
+                          minimum: '0.005 BTC' 
+                        }
+                      },
+                      { 
+                        name: "Deep Mix (2-4 hours, 0.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Deep Mix (2-4 hours, 0.5%)",
+                          currency: 'BTC', 
+                          delay: '2-4 hours', 
+                          fee: '0.5%', 
+                          minimum: '0.01 BTC' 
+                        }
+                      },
                     ],
                   },
                   {
-                    name: "Security",
+                    name: "Ethereum (ETH)",
                     type: "folder",
+                    extension: "json",
                     children: [
-                      { name: "Encryption: AES-256", type: "file", extension: "ts" },
-                      { name: "No-logs policy", type: "file", extension: "md" },
+                      { 
+                        name: "Fast Mix (10-20 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (10-20 min, 2.0%)",
+                          currency: 'ETH', 
+                          delay: '10-20 min', 
+                          fee: '2.0%', 
+                          minimum: '0.05 ETH' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (30-45 min, 1.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (30-45 min, 1.5%)",
+                          currency: 'ETH', 
+                          delay: '30-45 min', 
+                          fee: '1.5%', 
+                          minimum: '0.1 ETH' 
+                        }
+                      },
                     ],
                   },
                   {
-                    name: "Networks",
+                    name: "Tether (USDT)",
                     type: "folder",
+                    extension: "json",
                     children: [
-                      { name: "Bitcoin (BTC)", type: "file", extension: "json" },
-                      { name: "Ethereum (ETH)", type: "file", extension: "json" },
-                      { name: "Tether (USDT)", type: "file", extension: "json" },
+                      { 
+                        name: "Fast Mix (5-15 min, 2.5%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Fast Mix (5-15 min, 2.5%)",
+                          currency: 'USDT', 
+                          delay: '5-15 min', 
+                          fee: '2.5%', 
+                          minimum: '100 USDT' 
+                        }
+                      },
+                      { 
+                        name: "Standard Mix (20-40 min, 2.0%)", 
+                        type: "file", 
+                        extension: "json",
+                        settings: { 
+                          name: "Standard Mix (20-40 min, 2.0%)",
+                          currency: 'USDT', 
+                          delay: '20-40 min', 
+                          fee: '2.0%', 
+                          minimum: '500 USDT' 
+                        }
+                      },
                     ],
                   },
                 ]}
@@ -196,24 +287,10 @@ const Index = () => {
                 </CardHeader>
                 <CardContent className="pt-6">
                   <form onSubmit={handleMixerSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Currency</label>
-                    <div className="flex gap-2">
-                      {['BTC', 'ETH', 'USDT'].map((curr) => (
-                        <Button
-                          key={curr}
-                          type="button"
-                          variant={mixerData.currency === curr ? 'default' : 'outline'}
-                          className={
-                            mixerData.currency === curr
-                              ? 'bg-black text-white hover:bg-black/90'
-                              : 'border-black/20 hover:border-black'
-                          }
-                          onClick={() => setMixerData({ ...mixerData, currency: curr })}
-                        >
-                          {curr}
-                        </Button>
-                      ))}
+                  <div className="bg-primary/5 p-4 rounded-lg border border-primary/20">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Selected Currency</span>
+                      <span className="text-lg font-bold">{mixerData.currency}</span>
                     </div>
                   </div>
 
@@ -255,12 +332,20 @@ const Index = () => {
 
                   <div className="bg-secondary/50 p-4 rounded-lg space-y-2">
                     <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Selected Profile</span>
+                      <span className="font-medium">{selectedFile || 'None'}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Service Fee</span>
-                      <span className="font-medium">1.5%</span>
+                      <span className="font-medium">{mixerData.fee}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Processing Time</span>
-                      <span className="font-medium">15-45 min</span>
+                      <span className="font-medium">{mixerData.delay}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Minimum Amount</span>
+                      <span className="font-medium">{mixerData.minimum}</span>
                     </div>
                   </div>
 

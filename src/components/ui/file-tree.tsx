@@ -8,11 +8,19 @@ interface FileNode {
   type: "file" | "folder"
   children?: FileNode[]
   extension?: string
+  settings?: {
+    currency?: string
+    delay?: string
+    fee?: string
+    minimum?: string
+  }
 }
 
 interface FileTreeProps {
   data: FileNode[]
   className?: string
+  onFileSelect?: (settings: any) => void
+  selectedFile?: string
 }
 
 interface FileItemProps {
@@ -20,6 +28,8 @@ interface FileItemProps {
   depth: number
   isLast: boolean
   parentPath: boolean[]
+  onFileSelect?: (settings: any) => void
+  selectedFile?: string
 }
 
 const getFileIcon = (extension?: string) => {
@@ -38,13 +48,22 @@ const getFileIcon = (extension?: string) => {
   return iconMap[extension || "default"] || iconMap.default
 }
 
-function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
+function FileItem({ node, depth, isLast, parentPath, onFileSelect, selectedFile }: FileItemProps) {
   const [isOpen, setIsOpen] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
 
   const isFolder = node.type === "folder"
   const hasChildren = isFolder && node.children && node.children.length > 0
   const fileIcon = getFileIcon(node.extension)
+  const isSelected = selectedFile === node.name
+
+  const handleClick = () => {
+    if (isFolder) {
+      setIsOpen(!isOpen)
+    } else if (node.settings && onFileSelect) {
+      onFileSelect(node.settings)
+    }
+  }
 
   return (
     <div className="select-none">
@@ -52,9 +71,10 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
         className={cn(
           "group relative flex items-center gap-3 py-2 px-3 rounded-md cursor-pointer",
           "transition-all duration-200 ease-out",
-          isHovered && "bg-file-tree-hover",
+          isSelected && "bg-primary/10 border border-primary/30",
+          !isSelected && isHovered && "bg-file-tree-hover",
         )}
-        onClick={() => isFolder && setIsOpen(!isOpen)}
+        onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{ paddingLeft: `${depth * 24 + 12}px` }}
@@ -162,6 +182,8 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               depth={depth + 1}
               isLast={index === node.children!.length - 1}
               parentPath={[...parentPath, !isLast]}
+              onFileSelect={onFileSelect}
+              selectedFile={selectedFile}
             />
           ))}
         </div>
@@ -170,7 +192,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
   )
 }
 
-export function FileTree({ data, className }: FileTreeProps) {
+export function FileTree({ data, className, onFileSelect, selectedFile }: FileTreeProps) {
   return (
     <div
       className={cn(
@@ -191,7 +213,15 @@ export function FileTree({ data, className }: FileTreeProps) {
       {/* Tree */}
       <div className="space-y-1">
         {data.map((node, index) => (
-          <FileItem key={node.name} node={node} depth={0} isLast={index === data.length - 1} parentPath={[]} />
+          <FileItem 
+            key={node.name} 
+            node={node} 
+            depth={0} 
+            isLast={index === data.length - 1} 
+            parentPath={[]} 
+            onFileSelect={onFileSelect}
+            selectedFile={selectedFile}
+          />
         ))}
       </div>
     </div>
