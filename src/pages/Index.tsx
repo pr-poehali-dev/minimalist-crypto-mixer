@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/ui/base-menu';
@@ -11,7 +11,6 @@ import { OTPVerification } from '@/components/ui/otp-input';
 import { FileTree } from '@/components/ui/file-tree';
 import ProgressIndicator from '@/components/ui/progress-indicator';
 import { MixesTable } from '@/components/ui/mixes-table';
-import GlassRadioGroup from '@/components/ui/glass-radio-group';
 
 
 
@@ -513,18 +512,17 @@ const Index = () => {
 
         <main className="flex-1 pl-4 pr-4 py-12 overflow-y-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="flex justify-center mb-12">
-              <GlassRadioGroup
-                options={[
-                  { id: 'mixer', label: 'Mixer' },
-                  { id: 'my-mixes', label: 'Мои миксы' },
-                  { id: 'faq', label: 'FAQ' }
-                ]}
-                name="tabs"
-                selectedValue={activeTab}
-                onChange={setActiveTab}
-              />
-            </div>
+            <TabsList className="grid w-full max-w-md grid-cols-3 mb-12">
+              <TabsTrigger value="mixer" className="font-medium">
+                Mixer
+              </TabsTrigger>
+              <TabsTrigger value="my-mixes" className="font-medium">
+                Мои миксы
+              </TabsTrigger>
+              <TabsTrigger value="faq" className="font-medium">
+                FAQ
+              </TabsTrigger>
+            </TabsList>
 
             <TabsContent value="mixer" className="animate-fade-in">
               <div className="max-w-4xl">
