@@ -50,31 +50,31 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
     <div className="select-none">
       <div
         className={cn(
-          "group relative flex items-center gap-2 py-1 px-2 rounded-md cursor-pointer",
+          "group relative flex items-center gap-3 py-2 px-3 rounded-md cursor-pointer",
           "transition-all duration-200 ease-out",
           isHovered && "bg-black/5",
         )}
         onClick={() => isFolder && setIsOpen(!isOpen)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{ paddingLeft: `${depth * 20 + 8}px` }}
+        style={{ paddingLeft: `${depth * 24 + 12}px` }}
       >
         {depth > 0 && (
-          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 20 + 18}px` }}>
+          <div className="absolute left-0 top-0 bottom-0 flex" style={{ left: `${(depth - 1) * 24 + 22}px` }}>
             <div className={cn("w-px transition-colors duration-200", isHovered ? "bg-black/30" : "bg-black/10")} />
           </div>
         )}
 
         <div
           className={cn(
-            "flex items-center justify-center w-3 h-3 transition-transform duration-200 ease-out",
+            "flex items-center justify-center w-4 h-4 transition-transform duration-200 ease-out",
             isFolder && isOpen && "rotate-90",
           )}
         >
           {isFolder ? (
             <svg
-              width="6"
-              height="8"
+              width="8"
+              height="10"
               viewBox="0 0 6 8"
               fill="none"
               className={cn("transition-colors duration-200", isHovered ? "text-black" : "text-gray-400")}
@@ -88,24 +88,24 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
               />
             </svg>
           ) : (
-            <span className={cn("text-[10px] transition-opacity duration-200", fileIcon.color)}>{fileIcon.icon}</span>
+            <span className={cn("text-xs transition-opacity duration-200", fileIcon.color)}>{fileIcon.icon}</span>
           )}
         </div>
 
         <div
           className={cn(
-            "flex items-center justify-center w-4 h-4 rounded transition-all duration-200",
+            "flex items-center justify-center w-5 h-5 rounded transition-all duration-200",
             isFolder
               ? "text-black/80"
               : cn(fileIcon.color),
           )}
         >
           {isFolder ? (
-            <svg width="16" height="14" viewBox="0 0 16 14" fill="currentColor">
+            <svg width="18" height="16" viewBox="0 0 16 14" fill="currentColor">
               <path d="M1.5 1C0.671573 1 0 1.67157 0 2.5V11.5C0 12.3284 0.671573 13 1.5 13H14.5C15.3284 13 16 12.3284 16 11.5V4.5C16 3.67157 15.3284 3 14.5 3H8L6.5 1H1.5Z" />
             </svg>
           ) : (
-            <svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor" opacity="0.9">
+            <svg width="16" height="18" viewBox="0 0 14 16" fill="currentColor" opacity="0.9">
               <path d="M1.5 0C0.671573 0 0 0.671573 0 1.5V14.5C0 15.3284 0.671573 16 1.5 16H12.5C13.3284 16 14 15.3284 14 14.5V4.5L9.5 0H1.5Z" />
               <path d="M9 0V4.5H14" fill="currentColor" fillOpacity="0.5" />
             </svg>
@@ -114,7 +114,7 @@ function FileItem({ node, depth, isLast, parentPath }: FileItemProps) {
 
         <span
           className={cn(
-            "text-[13px] transition-colors duration-200",
+            "text-sm transition-colors duration-200",
             isFolder
               ? "text-gray-800 font-medium"
               : "text-gray-600",
@@ -157,13 +157,13 @@ export function FileTree({ data, className }: FileTreeProps) {
         className,
       )}
     >
-      <div className="flex items-center gap-2 pb-3 mb-2 border-b border-black/10">
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-          <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-          <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+      <div className="flex items-center gap-2 pb-4 mb-3 border-b border-black/10">
+        <div className="flex gap-2">
+          <div className="w-3.5 h-3.5 rounded-full bg-[#ff5f56]" />
+          <div className="w-3.5 h-3.5 rounded-full bg-[#ffbd2e]" />
+          <div className="w-3.5 h-3.5 rounded-full bg-[#27c93f]" />
         </div>
-        <span className="text-xs text-gray-500 ml-2">explorer</span>
+        <span className="text-sm text-gray-500 ml-2">explorer</span>
       </div>
 
       <div className="space-y-0.5">
