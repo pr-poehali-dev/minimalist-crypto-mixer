@@ -130,6 +130,51 @@ const Index = () => {
         { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'XMR', fee: '0.8%', delay: '20-40 min', minimum: '0.1 XMR' } },
       ]
     },
+    {
+      name: "Tether (USDT)",
+      type: "folder",
+      extension: "json",
+      children: [
+        {
+          name: "TRC20",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '1.0%', delay: '10-20 min', minimum: '10 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '1.8%', delay: '3-8 min', minimum: '50 USDT' } },
+            { name: "Bulk Mix", type: "file", extension: "json", settings: { currency: 'USDT-TRC20', fee: '0.8%', delay: '30-60 min', minimum: '500 USDT' } },
+          ]
+        },
+        {
+          name: "ERC20",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '1.5%', delay: '15-30 min', minimum: '50 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-ERC20', fee: '2.2%', delay: '5-12 min', minimum: '100 USDT' } },
+          ]
+        },
+        {
+          name: "SOL",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '0.9%', delay: '8-18 min', minimum: '20 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '1.5%', delay: '2-6 min', minimum: '50 USDT' } },
+            { name: "Privacy Mix", type: "file", extension: "json", settings: { currency: 'USDT-SOL', fee: '1.2%', delay: '25-45 min', minimum: '100 USDT' } },
+          ]
+        },
+        {
+          name: "BEP20",
+          type: "folder",
+          extension: "json",
+          children: [
+            { name: "Standard Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '1.0%', delay: '10-25 min', minimum: '15 USDT' } },
+            { name: "Fast Mix", type: "file", extension: "json", settings: { currency: 'USDT-BEP20', fee: '1.7%', delay: '4-10 min', minimum: '75 USDT' } },
+          ]
+        },
+      ]
+    },
   ];
 
   return (
