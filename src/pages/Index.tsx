@@ -51,6 +51,8 @@ const Index = () => {
   });
 
   const [selectedFile, setSelectedFile] = useState('');
+  const [showMixConfirmation, setShowMixConfirmation] = useState(false);
+  const [depositAddress, setDepositAddress] = useState('');
 
   const handleFileSelect = (settings: any) => {
     setMixerData(prev => ({ 
@@ -89,6 +91,18 @@ const Index = () => {
 
   const handleMixerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      alert('Please login to start mixing');
+      return;
+    }
+    if (!mixerData.inputAddress || !mixerData.outputAddress || !mixerData.amount) {
+      alert('Please fill all fields');
+      return;
+    }
+    // Generate deposit address
+    const generatedAddress = `${mixerData.currency}Mix${Math.random().toString(36).substring(2, 15)}`;
+    setDepositAddress(generatedAddress);
+    setShowMixConfirmation(true);
   };
 
   const fileTreeData = [
@@ -415,15 +429,106 @@ const Index = () => {
 
             <TabsContent value="mixer" className="animate-fade-in">
               <div className="max-w-4xl">
-                <Card className="border-2">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Mix Your Cryptocurrency</CardTitle>
-                    <p className="text-gray-600 mt-2">
-                      {selectedFile ? `Using: ${selectedFile}` : 'Select a mixing profile from the sidebar'}
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    {mixerData.description ? (
+                {showMixConfirmation ? (
+                  <Card className="border-2">
+                    <CardHeader>
+                      <CardTitle className="text-2xl">Send Cryptocurrency for Mixing</CardTitle>
+                      <p className="text-gray-600 mt-2">
+                        Send your crypto to the address below to start the mixing process
+                      </p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-2 border-blue-200">
+                        <h3 className="text-lg font-semibold mb-4 text-blue-900">Deposit Address</h3>
+                        <div className="bg-white p-4 rounded-md border border-blue-300 font-mono text-sm break-all">
+                          {depositAddress}
+                        </div>
+                        <Button 
+                          onClick={() => navigator.clipboard.writeText(depositAddress)}
+                          variant="outline"
+                          className="w-full mt-4"
+                        >
+                          Copy Address
+                        </Button>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">Mix Details</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="p-4 bg-gray-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Currency</p>
+                            <p className="text-lg font-semibold">{mixerData.currency}</p>
+                          </div>
+                          <div className="p-4 bg-gray-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Amount</p>
+                            <p className="text-lg font-semibold">{mixerData.amount} {mixerData.currency}</p>
+                          </div>
+                          <div className="p-4 bg-gray-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Fee</p>
+                            <p className="text-lg font-semibold">{mixerData.fee}</p>
+                          </div>
+                          <div className="p-4 bg-gray-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Delay</p>
+                            <p className="text-lg font-semibold">{mixerData.delay}</p>
+                          </div>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                          <p className="text-sm text-gray-600 mb-2">Input Address</p>
+                          <p className="font-mono text-sm break-all">{mixerData.inputAddress}</p>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                          <p className="text-sm text-gray-600 mb-2">Output Address</p>
+                          <p className="font-mono text-sm break-all">{mixerData.outputAddress}</p>
+                        </div>
+
+                        <div className="p-4 bg-gray-50 rounded-lg">
+                          <p className="text-sm text-gray-600 mb-2">Mixing Profile</p>
+                          <p className="font-semibold">{selectedFile}</p>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <p className="text-sm text-yellow-800">
+                          ⚠️ Please send exactly <strong>{mixerData.amount} {mixerData.currency}</strong> to the deposit address above. 
+                          The mixing process will start automatically after {mixerData.delay}.
+                        </p>
+                      </div>
+
+                      <Button 
+                        onClick={() => {
+                          setShowMixConfirmation(false);
+                          setMixerData({
+                            inputAddress: '',
+                            outputAddress: '',
+                            amount: '',
+                            currency: 'BTC',
+                            delay: '5-20 min',
+                            fee: '13%',
+                            minimum: '0.001 BTC',
+                            preset: 'Fast Mix',
+                            description: '',
+                          });
+                          setSelectedFile('');
+                        }}
+                        variant="outline"
+                        className="w-full h-12"
+                      >
+                        Start New Mix
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <Card className="border-2">
+                    <CardHeader>
+                      <CardTitle className="text-2xl">Mix Your Cryptocurrency</CardTitle>
+                      <p className="text-gray-600 mt-2">
+                        {selectedFile ? `Using: ${selectedFile}` : 'Select a mixing profile from the sidebar'}
+                      </p>
+                    </CardHeader>
+                    <CardContent>
+                      {mixerData.description ? (
                       <div className="space-y-4">
                         <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-gray-200">
                           <pre className="whitespace-pre-wrap text-sm text-gray-800 leading-relaxed">
@@ -498,6 +603,7 @@ const Index = () => {
                     )}
                   </CardContent>
                 </Card>
+                )}
               </div>
             </TabsContent>
 
