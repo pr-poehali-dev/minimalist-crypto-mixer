@@ -323,7 +323,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white flex">
-      <aside className="w-[600px] h-screen flex-shrink-0 border-r border-border/50">
+      <aside className="w-[400px] h-screen flex-shrink-0 border-r border-border/50">
         <FileTree
           onFileSelect={handleFileSelect}
           selectedFile={selectedFile}
