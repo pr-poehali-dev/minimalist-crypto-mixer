@@ -290,7 +290,7 @@ export function OTPVerification({
               transition={{ duration: 0.2 }}
             >
               <p className="text-center text-gray-600 mt-2 mb-8">
-                Мы отправили 6-значный код в Telegram
+                Мы отправили {inputCount}-значный код в Telegram
                 <br /> <span className="font-medium text-gray-800">{telegram_username}</span>
               </p>
 

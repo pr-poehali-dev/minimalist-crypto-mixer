@@ -24,6 +24,7 @@ const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [telegramUsername, setTelegramUsername] = useState('');
   const [inputUsername, setInputUsername] = useState('');
+  const [activeTab, setActiveTab] = useState('mixer');
 
   const [mixerData, setMixerData] = useState({
     inputAddress: '',
@@ -61,7 +62,7 @@ const Index = () => {
   };
 
   const handleVerifyCode = async (code: string) => {
-    if (code.length === 6) {
+    if (code.length === 4) {
       setIsAuthenticated(true);
       setTimeout(() => {
         setIsAuthOpen(false);
@@ -71,6 +72,13 @@ const Index = () => {
       return true;
     }
     return false;
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setTelegramUsername('');
+    setInputUsername('');
+    setActiveTab('mixer');
   };
 
   const handleResendCode = () => {
@@ -109,18 +117,12 @@ const Index = () => {
                     <Icon name="Settings" />
                     <span>Настройки</span>
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem onClick={() => setActiveTab('history')}>
                     <Icon name="History" />
                     <span>История операций</span>
                   </MenuItem>
                   <MenuSeparator />
-                  <MenuItem
-                    variant="destructive"
-                    onClick={() => {
-                      setIsAuthenticated(false);
-                      setTelegramUsername('');
-                    }}
-                  >
+                  <MenuItem variant="destructive" onClick={handleLogout}>
                     <Icon name="LogOut" />
                     <span>Выйти</span>
                   </MenuItem>
@@ -140,7 +142,7 @@ const Index = () => {
       </header>
 
       <main className="container mx-auto px-4 py-12">
-        <Tabs defaultValue="mixer" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
             <TabsTrigger value="mixer" className="font-medium">
               Миксер
@@ -349,7 +351,7 @@ const Index = () => {
             </div>
           ) : (
             <OTPVerification
-              inputCount={6}
+              inputCount={4}
               onVerify={handleVerifyCode}
               onResend={handleResendCode}
               telegram_username={telegramUsername}
