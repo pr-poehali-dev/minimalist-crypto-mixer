@@ -521,8 +521,11 @@ const Index = () => {
                   onValueChange={setActiveTab}
                   className="group relative inline-grid grid-cols-[1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-1/3 after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3),inset_3px_3px_0.5px_-3px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.3),inset_0_0_12px_6px_rgba(59,130,246,0.15)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] has-[:focus-visible]:after:outline has-[:focus-visible]:after:outline-2 has-[:focus-visible]:after:outline-ring/70 data-[state=mixer]:after:translate-x-0 data-[state=my-mixes]:after:translate-x-full data-[state=faq]:after:translate-x-[200%]"
                   data-state={activeTab}
-                  style={{ filter: 'url("#radio-glass")' }}
                 >
+                  <div
+                    className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md pointer-events-none"
+                    style={{ filter: 'url("#radio-glass")' }}
+                  />
                   <label className="relative z-10 inline-flex h-full min-w-[100px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-4 transition-colors text-gray-600 group-data-[state=my-mixes]:text-gray-600 group-data-[state=faq]:text-gray-600 group-data-[state=mixer]:text-white group-data-[state=mixer]:font-semibold">
                     Mixer
                     <RadioGroupItem id="tab-mixer" value="mixer" className="sr-only" />
