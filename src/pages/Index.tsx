@@ -139,7 +139,7 @@ const Index = () => {
                 className="font-medium px-6 py-2 text-foreground"
               >
                 <Icon name="Send" size={16} />
-                Sign in via Telegram
+                Sign in
               </InteractiveHoverButton>
             )}
           </div>
@@ -298,7 +298,7 @@ const Index = () => {
                       className="font-medium px-6 py-2 text-foreground"
                     >
                       <Icon name="Send" size={16} />
-                      Sign in via Telegram
+                      Sign in
                     </InteractiveHoverButton>
                   </CardContent>
                 </Card>
