@@ -9,7 +9,7 @@ import { OTPVerification } from '@/components/ui/otp-input';
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from '@/components/ui/base-menu';
 import { FileTree } from '@/components/ui/file-tree';
 import { AvatarWithName } from '@/components/ui/avatar-with-name';
-import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
+import { FlowButton } from '@/components/ui/flow-button';
 
 interface Transaction {
   id: string;
@@ -134,12 +134,9 @@ const Index = () => {
                 </MenuContent>
               </Menu>
             ) : (
-              <InteractiveHoverButton
-                onClick={() => setIsAuthOpen(true)}
-                className="font-medium px-6 py-2 text-foreground"
-              >
-                Sign in
-              </InteractiveHoverButton>
+              <div onClick={() => setIsAuthOpen(true)}>
+                <FlowButton text="Sign in" />
+              </div>
             )}
           </div>
         </div>
@@ -292,12 +289,9 @@ const Index = () => {
                     <p className="text-muted-foreground text-center mb-6">
                       Sign in via Telegram to view transaction history
                     </p>
-                    <InteractiveHoverButton
-                      onClick={() => setIsAuthOpen(true)}
-                      className="font-medium px-6 py-2 text-foreground"
-                    >
-                      Sign in
-                    </InteractiveHoverButton>
+                    <div onClick={() => setIsAuthOpen(true)}>
+                      <FlowButton text="Sign in" />
+                    </div>
                   </CardContent>
                 </Card>
               ) : (
@@ -377,13 +371,9 @@ const Index = () => {
                   onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
                   className="border-black/20 focus:border-black h-12"
                 />
-                <InteractiveHoverButton
-                  onClick={handleRequestCode}
-                  className="w-full h-12 font-medium text-foreground"
-                  disabled={!inputUsername.trim()}
-                >
-                  Get Code
-                </InteractiveHoverButton>
+                <div onClick={handleRequestCode} className="w-full">
+                  <FlowButton text="Get Code" />
+                </div>
               </div>
             </div>
           ) : (
