@@ -7,6 +7,7 @@ import Icon from '@/components/ui/icon';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { OTPVerification } from '@/components/ui/otp-input';
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from '@/components/ui/base-menu';
+import { FileTree } from '@/components/ui/file-tree';
 
 interface Transaction {
   id: string;
@@ -25,6 +26,7 @@ const Index = () => {
   const [telegramUsername, setTelegramUsername] = useState('');
   const [inputUsername, setInputUsername] = useState('');
   const [activeTab, setActiveTab] = useState('mixer');
+  const [showSettings, setShowSettings] = useState(false);
 
   const [mixerData, setMixerData] = useState({
     inputAddress: '',
@@ -93,7 +95,15 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <header className="border-b border-black/10">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">CRYPTOMIXER</h1>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="w-10 h-10 flex items-center justify-center hover:bg-black/5 rounded-md transition-colors"
+            >
+              <Icon name={showSettings ? "X" : "Settings"} size={20} />
+            </button>
+            <h1 className="text-3xl font-bold tracking-tight">CRYPTOMIXER</h1>
+          </div>
           
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
@@ -141,7 +151,42 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
+      <main className="container mx-auto px-4 py-12 relative">
+        {showSettings && (
+          <div className="fixed left-4 top-24 w-80 z-10">
+            <FileTree
+              data={[
+                {
+                  name: "Параметры миксера",
+                  type: "folder",
+                  children: [
+                    { name: "Задержка: 15-45 мин", type: "file", extension: "ts" },
+                    { name: "Комиссия: 1.5%", type: "file", extension: "ts" },
+                    { name: "Минимум: 0.001 BTC", type: "file", extension: "ts" },
+                  ],
+                },
+                {
+                  name: "Безопасность",
+                  type: "folder",
+                  children: [
+                    { name: "Шифрование: AES-256", type: "file", extension: "ts" },
+                    { name: "No-logs политика", type: "file", extension: "md" },
+                  ],
+                },
+                {
+                  name: "Сети",
+                  type: "folder",
+                  children: [
+                    { name: "Bitcoin (BTC)", type: "file", extension: "json" },
+                    { name: "Ethereum (ETH)", type: "file", extension: "json" },
+                    { name: "Tether (USDT)", type: "file", extension: "json" },
+                  ],
+                },
+              ]}
+            />
+          </div>
+        )}
+
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
             <TabsTrigger value="mixer" className="font-medium">
