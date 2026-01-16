@@ -136,7 +136,7 @@ const Index = () => {
             ) : (
               <InteractiveHoverButton
                 onClick={() => setIsAuthOpen(true)}
-                className="bg-black text-white hover:bg-black/90 font-medium flex items-center gap-2"
+                className="font-medium px-6 py-2 text-foreground"
               >
                 <Icon name="Send" size={16} />
                 Sign in via Telegram
@@ -295,7 +295,7 @@ const Index = () => {
                     </p>
                     <InteractiveHoverButton
                       onClick={() => setIsAuthOpen(true)}
-                      className="bg-black text-white hover:bg-black/90 flex items-center gap-2"
+                      className="font-medium px-6 py-2 text-foreground"
                     >
                       <Icon name="Send" size={16} />
                       Sign in via Telegram
@@ -381,7 +381,7 @@ const Index = () => {
                 />
                 <InteractiveHoverButton
                   onClick={handleRequestCode}
-                  className="w-full bg-black text-white hover:bg-black/90 h-12"
+                  className="w-full h-12 font-medium text-foreground"
                   disabled={!inputUsername.trim()}
                 >
                   Get Code

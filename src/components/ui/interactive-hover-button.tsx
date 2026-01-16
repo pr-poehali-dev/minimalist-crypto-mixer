@@ -1,7 +1,5 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface InteractiveHoverButtonProps
@@ -9,55 +7,31 @@ interface InteractiveHoverButtonProps
   text?: string;
 }
 
-export function InteractiveHoverButton({
-  text = "Button",
-  className,
-  children,
-  ...props
-}: InteractiveHoverButtonProps) {
+const InteractiveHoverButton = React.forwardRef<
+  HTMLButtonElement,
+  InteractiveHoverButtonProps
+>(({ text = "Button", className, children, ...props }, ref) => {
   return (
-    <motion.button
-      initial={{ "--x": "100%", scale: 1 } as any}
-      animate={{ "--x": "-100%" } as any}
-      whileTap={{ scale: 0.97 }}
-      transition={{
-        repeat: Infinity,
-        repeatType: "loop",
-        repeatDelay: 1,
-        type: "spring",
-        stiffness: 20,
-        damping: 15,
-        mass: 2,
-        scale: {
-          type: "spring",
-          stiffness: 200,
-          damping: 5,
-          mass: 0.5,
-        },
-      }}
+    <button
+      ref={ref}
       className={cn(
-        "relative rounded-md bg-black px-6 py-2 font-medium text-white transition-colors hover:bg-black/90",
-        "radial-gradient",
-        className
+        "group relative cursor-pointer overflow-hidden rounded-md border border-black/20 bg-transparent p-2 text-center font-semibold transition-colors",
+        className,
       )}
       {...props}
     >
-      <span
-        className="relative linear-mask block h-full w-full font-light tracking-wide text-white"
-        style={{
-          maskImage:
-            "linear-gradient(-75deg, white calc(var(--x) + 20%), transparent calc(var(--x) + 30%), white calc(var(--x) + 100%))",
-        }}
-      >
+      <span className="inline-flex items-center gap-2 translate-x-1 transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0">
         {children || text}
       </span>
-      <span
-        className="absolute inset-0 block rounded-md p-px linear-overlay"
-        style={{
-          backgroundImage:
-            "linear-gradient(-75deg, rgba(255,255,255,0.1) calc(var(--x) + 20%), rgba(255,255,255,0.5) calc(var(--x) + 25%), rgba(255,255,255,0.1) calc(var(--x) + 100%))",
-        }}
-      />
-    </motion.button>
+      <div className="absolute top-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-white opacity-0 transition-all duration-300 group-hover:-translate-x-1 group-hover:opacity-100">
+        <span className="inline-flex items-center gap-2">{children || text}</span>
+        <ArrowRight className="h-4 w-4" />
+      </div>
+      <div className="absolute left-[20%] top-[40%] h-2 w-2 scale-[1] rounded-lg bg-black transition-all duration-300 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[1.8]"></div>
+    </button>
   );
-}
+});
+
+InteractiveHoverButton.displayName = "InteractiveHoverButton";
+
+export { InteractiveHoverButton };
