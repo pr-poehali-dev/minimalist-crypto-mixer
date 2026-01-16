@@ -596,7 +596,11 @@ const Index = () => {
                           />
                         </div>
 
-                        <Button type="submit" className="w-full h-12 text-base" disabled={!selectedFile}>
+                        <Button 
+                          type="submit" 
+                          className="w-full h-12 text-base" 
+                          disabled={!selectedFile || !mixerData.inputAddress || !mixerData.outputAddress || !mixerData.amount}
+                        >
                           Start Mixing
                         </Button>
                       </form>
