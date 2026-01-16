@@ -466,10 +466,19 @@ const Index = () => {
                   </CardHeader>
                   <CardContent>
                     {mixerData.description ? (
-                      <div className="mb-6 p-6 bg-gray-50 rounded-lg border border-gray-200">
-                        <pre className="whitespace-pre-wrap text-sm font-mono text-gray-800 leading-relaxed">
-                          {mixerData.description}
-                        </pre>
+                      <div className="space-y-4">
+                        <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-gray-200">
+                          <pre className="whitespace-pre-wrap text-sm text-gray-800 leading-relaxed">
+                            {mixerData.description}
+                          </pre>
+                        </div>
+                        <Button 
+                          onClick={() => setMixerData(prev => ({ ...prev, description: '' }))}
+                          variant="outline"
+                          className="w-full h-12"
+                        >
+                          Back to Mixer Form
+                        </Button>
                       </div>
                     ) : (
                       <form onSubmit={handleMixerSubmit} className="space-y-6">
