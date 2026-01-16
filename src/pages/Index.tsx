@@ -9,6 +9,7 @@ import { AvatarWithName } from '@/components/ui/avatar-with-name';
 import { FlowButton } from '@/components/ui/flow-button';
 import { OTPVerification } from '@/components/ui/otp-input';
 import { FileTree } from '@/components/ui/file-tree';
+import ProgressIndicator from '@/components/ui/progress-indicator';
 
 
 
@@ -652,6 +653,39 @@ const Index = () => {
                     </p>
                   </CardHeader>
                   <CardContent className="space-y-6">
+                    <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-2 border-blue-200">
+                      <h3 className="font-semibold text-xl mb-4 text-center text-blue-900">Обучение: Как использовать микшер</h3>
+                      <p className="text-gray-700 mb-6 text-center">
+                        Пройдите интерактивное руководство по использованию нашего сервиса
+                      </p>
+                      <div className="bg-white p-8 rounded-lg">
+                        <ProgressIndicator />
+                      </div>
+                      <div className="mt-6 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold flex-shrink-0">1</div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Выберите профиль микса</h4>
+                            <p className="text-sm text-gray-600">В левом меню выберите криптовалюту и тип микширования (Fast, Standard, Privacy, Bulk)</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold flex-shrink-0">2</div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Заполните данные</h4>
+                            <p className="text-sm text-gray-600">Укажите входящий и исходящий адреса кошельков, а также сумму для микширования</p>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold flex-shrink-0">3</div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Отслеживайте статус</h4>
+                            <p className="text-sm text-gray-600">В разделе "Мои миксы" вы можете отслеживать статус ваших транзакций</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="space-y-4">
                       <div className="p-4 bg-gray-50 rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Что такое криптовалютный микшер?</h3>
@@ -661,13 +695,12 @@ const Index = () => {
                       </div>
 
                       <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Как работает процесс микширования?</h3>
+                        <h3 className="font-semibold text-lg mb-2">Навигация по сайту</h3>
                         <p className="text-gray-700">
-                          1. Выберите профиль микса из списка<br/>
-                          2. Укажите адреса отправки и получения<br/>
-                          3. Отправьте криптовалюту на сгенерированный адрес<br/>
-                          4. Дождитесь обработки (время зависит от выбранного профиля)<br/>
-                          5. Получите чистые монеты на указанный адрес
+                          • <strong>Mixer</strong> — основная страница для создания нового микса<br/>
+                          • <strong>Мои миксы</strong> — история всех ваших транзакций со статусами<br/>
+                          • <strong>FAQ</strong> — ответы на часто задаваемые вопросы и обучение<br/>
+                          • <strong>Левая панель</strong> — дерево профилей миксов, сгруппированных по криптовалютам
                         </p>
                       </div>
 
