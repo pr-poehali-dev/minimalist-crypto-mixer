@@ -95,7 +95,6 @@ const Index = () => {
     {
       name: "Mixer",
       type: "folder",
-      extension: "json",
       children: [
         {
           name: "Bitcoin (BTC)",
