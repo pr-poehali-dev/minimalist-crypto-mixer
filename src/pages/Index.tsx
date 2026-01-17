@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/ui/base-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/radix-dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { AvatarWithName } from '@/components/ui/avatar-with-name';
 import { FlowButton } from '@/components/ui/flow-button';
@@ -484,31 +484,29 @@ const Index = () => {
           <div className="px-8 py-6 flex items-center justify-end">
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
-                <Menu>
-                  <MenuTrigger
-                    render={
-                      <button className="flex items-center gap-3">
-                        <AvatarWithName
-                          name={telegramUsername}
-                          fallback={telegramUsername.slice(1, 3).toUpperCase()}
-                          size="sm"
-                          direction="left"
-                        />
-                      </button>
-                    }
-                  />
-                  <MenuContent sideOffset={8} align="end" className="w-56">
-                    <MenuItem onClick={() => setActiveTab('my-mixes')}>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-3">
+                      <AvatarWithName
+                        name={telegramUsername}
+                        fallback={telegramUsername.slice(1, 3).toUpperCase()}
+                        size="sm"
+                        direction="left"
+                      />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent sideOffset={8} align="end" className="w-56">
+                    <DropdownMenuItem onClick={() => setActiveTab('my-mixes')}>
                       Мои миксы
-                    </MenuItem>
-                    <MenuItem onClick={() => setActiveTab('faq')}>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setActiveTab('faq')}>
                       FAQ
-                    </MenuItem>
-                    <MenuItem onClick={handleLogout}>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
                       Logout
-                    </MenuItem>
-                  </MenuContent>
-                </Menu>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <Popover>
                   <PopoverTrigger>
