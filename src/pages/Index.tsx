@@ -498,20 +498,14 @@ const Index = () => {
                     }
                   />
                   <MenuContent sideOffset={8} align="end" className="w-56">
-                    <MenuItem>
-                      <button className="w-full text-left" onClick={() => setActiveTab('my-mixes')}>
-                        Мои миксы
-                      </button>
+                    <MenuItem onClick={() => setActiveTab('my-mixes')}>
+                      Мои миксы
                     </MenuItem>
-                    <MenuItem>
-                      <button className="w-full text-left" onClick={() => setActiveTab('faq')}>
-                        FAQ
-                      </button>
+                    <MenuItem onClick={() => setActiveTab('faq')}>
+                      FAQ
                     </MenuItem>
-                    <MenuItem>
-                      <button className="w-full text-left" onClick={handleLogout}>
-                        Logout
-                      </button>
+                    <MenuItem onClick={handleLogout}>
+                      Logout
                     </MenuItem>
                   </MenuContent>
                 </Menu>
