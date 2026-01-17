@@ -205,12 +205,12 @@ export function FileTree({ data, className, onFileSelect, selectedFile }: FileTr
   return (
     <div
       className={cn(
-        "bg-file-tree-bg rounded-lg border border-border/50 p-6 font-mono text-base",
+        "bg-file-tree-bg rounded-lg border border-border/50 font-mono text-base h-full flex flex-col",
         className,
       )}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 pb-4 mb-4 border-b border-border/30">
+      <div className="flex items-center gap-3 px-6 py-6 border-b border-border/30">
         <div className="flex gap-2">
           <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
           <div className="w-3 h-3 rounded-full bg-[oklch(0.75_0.18_85)]" />
@@ -220,7 +220,7 @@ export function FileTree({ data, className, onFileSelect, selectedFile }: FileTr
       </div>
 
       {/* Tree */}
-      <div className="space-y-1">
+      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-1">
         {data.map((node, index) => (
           <FileItem 
             key={node.name} 
