@@ -89,8 +89,8 @@ function MenuItem({
       className={cn(
         'text-foreground relative flex cursor-default select-none items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-hidden transition-colors data-disabled:pointer-events-none data-disabled:opacity-50',
         '[&_svg]:pointer-events-none [&_svg:not([role=img]):not([class*=text-])]:opacity-60 [&_svg:not([class*=size-])]:size-4 [&_svg]:shrink-0',
-        'hover:bg-black/5 hover:text-foreground focus:bg-black/5 focus:text-foreground',
-        'data-[highlighted=true]:bg-black/5 data-[highlighted=true]:text-foreground',
+        'hover:bg-black/10 hover:text-foreground focus:bg-black/10 focus:text-foreground',
+        'data-[highlighted=true]:bg-black/10 data-[highlighted=true]:text-foreground',
         inset && 'ps-7',
         variant === 'destructive' &&
           'text-destructive hover:text-destructive focus:text-destructive hover:bg-destructive/5 focus:bg-destructive/5 data-[active=true]:bg-destructive/5',
