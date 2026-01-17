@@ -478,7 +478,10 @@ const Index = () => {
 
       <div className="flex-1 flex flex-col">
         <header className="border-b border-border/50">
-          <div className="px-8 py-6 flex items-center justify-end">
+          <div className="px-8 py-6 flex items-center justify-between">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              MIXER
+            </h1>
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
                 <DropdownMenu>
