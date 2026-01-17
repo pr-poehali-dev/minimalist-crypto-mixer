@@ -62,12 +62,6 @@ const Index = () => {
       description: settings.description || '',
     }));
     setSelectedFile(settings.name || '');
-    setShowUnsavePopup(false);
-    setOriginalMixerData({
-      inputAddress: '',
-      outputAddress: '',
-      amount: '',
-    });
   };
 
   const handleRequestCode = () => {
@@ -115,7 +109,10 @@ const Index = () => {
 
   const handleMixerDataChange = (field: string, value: string) => {
     setMixerData(prev => ({ ...prev, [field]: value }));
-    setShowUnsavePopup(true);
+    if (['inputAddress', 'outputAddress', 'amount'].includes(field)) {
+      setShowUnsavePopup(true);
+      setShouldBlockNav(true);
+    }
   };
 
   const handleSaveForm = async () => {
@@ -509,7 +506,7 @@ const Index = () => {
                 </DropdownMenu>
               ) : (
                 <Popover>
-                  <PopoverTrigger>
+                  <PopoverTrigger asChild>
                     <Button variant="outline">Login with Telegram</Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-80 p-0" align="end">
@@ -655,18 +652,19 @@ const Index = () => {
                       <Button 
                         onClick={() => {
                           setShowMixConfirmation(false);
-                          setMixerData({
+                          setMixerData(prev => ({
+                            ...prev,
                             inputAddress: '',
                             outputAddress: '',
                             amount: '',
-                            currency: 'BTC',
-                            delay: '5-20 min',
-                            fee: '13%',
-                            minimum: '0.001 BTC',
-                            preset: 'Fast Mix',
-                            description: '',
+                          }));
+                          setOriginalMixerData({
+                            inputAddress: '',
+                            outputAddress: '',
+                            amount: '',
                           });
-                          setSelectedFile('');
+                          setShowUnsavePopup(false);
+                          setShouldBlockNav(false);
                         }}
                         variant="outline"
                         className="w-full h-12"
