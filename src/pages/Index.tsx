@@ -469,7 +469,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white flex">
       <aside className="w-[400px] h-screen flex-shrink-0 border-r border-border/50 flex flex-col">
-        <div className="px-6 py-6 border-b border-border/50">
+        <div className="px-8 py-6 border-b border-border/50 h-[73px] flex items-center">
           <div className="flex items-center gap-3">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
@@ -490,7 +490,7 @@ const Index = () => {
 
       <div className="flex-1 flex flex-col">
         <header className="border-b border-border/50">
-          <div className="px-8 py-6 flex items-center justify-between">
+          <div className="px-8 py-6 flex items-center justify-between h-[73px]">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               MIXER
             </h1>
