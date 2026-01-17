@@ -468,12 +468,24 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white flex">
-      <aside className="w-[400px] h-screen flex-shrink-0 border-r border-border/50">
-        <FileTree
-          onFileSelect={handleFileSelect}
-          selectedFile={selectedFile}
-          data={fileTreeData}
-        />
+      <aside className="w-[400px] h-screen flex-shrink-0 border-r border-border/50 flex flex-col">
+        <div className="px-6 py-6 border-b border-border/50">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
+              <div className="w-3 h-3 rounded-full bg-[oklch(0.75_0.18_85)]" />
+              <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.18_150)]" />
+            </div>
+            <span className="text-sm text-muted-foreground ml-2">explorer</span>
+          </div>
+        </div>
+        <div className="flex-1 overflow-hidden">
+          <FileTree
+            onFileSelect={handleFileSelect}
+            selectedFile={selectedFile}
+            data={fileTreeData}
+          />
+        </div>
       </aside>
 
       <div className="flex-1 flex flex-col">
