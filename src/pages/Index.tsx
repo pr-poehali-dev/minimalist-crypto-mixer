@@ -14,7 +14,7 @@ import { MixesTable } from '@/components/ui/mixes-table';
 import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { UnsavePopup } from '@/components/ui/unsave-popup';
-import { Info, Lock, FolderTree, FileEdit, Send, BarChart3, Copy, Wallet, CheckCircle2, Clock, RefreshCw, Mail, Shield } from 'lucide-react';
+import { Info, Lock, FolderTree, FileEdit, Send, BarChart3, Copy, Wallet, CheckCircle2, Clock, RefreshCw, Mail, Shield, Zap, Scale, Package, ArrowDownToLine, ArrowUpFromLine, DollarSign, Timer, User, ClipboardList, Lightbulb, AlertTriangle, X, Check, Briefcase } from 'lucide-react';
 
 
 
@@ -852,24 +852,24 @@ const Index = () => {
                             </p>
                             <div className="grid grid-cols-2 gap-4">
                               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-blue-900 mb-2 text-lg flex items-center gap-2">⚡ Fast Mix</div>
-                                <div className="text-sm text-gray-700">💰 Комиссия: 13%</div>
-                                <div className="text-sm text-gray-700">⏱️ Время: 5-20 мин</div>
+                                <div className="font-bold text-blue-900 mb-2 text-lg flex items-center gap-2"><Zap size={18} /> Fast Mix</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 13%</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 5-20 мин</div>
                               </div>
                               <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-green-900 mb-2 text-lg flex items-center gap-2">⚖️ Standard Mix</div>
-                                <div className="text-sm text-gray-700">💰 Комиссия: 17%</div>
-                                <div className="text-sm text-gray-700">⏱️ Время: 20-60 мин</div>
+                                <div className="font-bold text-green-900 mb-2 text-lg flex items-center gap-2"><Scale size={18} /> Standard Mix</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 17%</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 20-60 мин</div>
                               </div>
                               <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-purple-900 mb-2 text-lg flex items-center gap-2">🔒 Privacy Mix</div>
-                                <div className="text-sm text-gray-700">💰 Комиссия: 23%</div>
-                                <div className="text-sm text-gray-700">⏱️ Время: 1-4 часа</div>
+                                <div className="font-bold text-purple-900 mb-2 text-lg flex items-center gap-2"><Lock size={18} /> Privacy Mix</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 23%</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 1-4 часа</div>
                               </div>
                               <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-5 rounded-xl border-2 border-orange-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-orange-900 mb-2 text-lg flex items-center gap-2">📦 Bulk Mix</div>
-                                <div className="text-sm text-gray-700">💰 Комиссия: 30%</div>
-                                <div className="text-sm text-gray-700">⏱️ Время: 6-12 часов</div>
+                                <div className="font-bold text-orange-900 mb-2 text-lg flex items-center gap-2"><Package size={18} /> Bulk Mix</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 30%</div>
+                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 6-12 часов</div>
                               </div>
                             </div>
                           </div>
@@ -886,21 +886,21 @@ const Index = () => {
                             </p>
                             <div className="bg-gradient-to-br from-gray-50 to-purple-50 p-6 rounded-xl border-2 border-purple-200 space-y-4 shadow-md">
                               <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center font-bold flex-shrink-0 text-2xl shadow-lg">📥</div>
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg"><ArrowDownToLine size={24} strokeWidth={2} /></div>
                                 <div>
                                   <div className="font-semibold text-gray-900 text-lg">Input Address</div>
                                   <div className="text-sm text-gray-600">Адрес вашего кошелька, с которого отправляете</div>
                                 </div>
                               </div>
                               <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center font-bold flex-shrink-0 text-2xl shadow-lg">📤</div>
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg"><ArrowUpFromLine size={24} strokeWidth={2} /></div>
                                 <div>
                                   <div className="font-semibold text-gray-900 text-lg">Output Address</div>
                                   <div className="text-sm text-gray-600">Адрес, на который получите чистые монеты</div>
                                 </div>
                               </div>
                               <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center font-bold flex-shrink-0 text-2xl shadow-lg">💰</div>
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg"><DollarSign size={24} strokeWidth={2} /></div>
                                 <div>
                                   <div className="font-semibold text-gray-900 text-lg">Amount</div>
                                   <div className="text-sm text-gray-600">Сумма для микширования</div>
@@ -921,7 +921,7 @@ const Index = () => {
                             </p>
                             <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-300 shadow-md">
                               <div className="space-y-3">
-                                <div className="font-bold text-orange-900 text-lg flex items-center gap-2">⚠️ Важно:</div>
+                                <div className="font-bold text-orange-900 text-lg flex items-center gap-2"><AlertTriangle size={20} /> Важно:</div>
                                 <div className="text-sm text-gray-700 flex items-center gap-2"><span className="text-orange-600">•</span> Отправьте ТОЧНУЮ сумму на указанный адрес</div>
                                 <div className="text-sm text-gray-700 flex items-center gap-2"><span className="text-orange-600">•</span> Используйте кнопку "Copy Address" для копирования</div>
                                 <div className="text-sm text-gray-700 flex items-center gap-2"><span className="text-orange-600">•</span> Сохраните адрес депозита до завершения транзакции</div>
@@ -941,19 +941,19 @@ const Index = () => {
                             </p>
                             <div className="grid grid-cols-2 gap-4">
                               <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-5 rounded-xl border-2 border-yellow-300 shadow-lg">
-                                <div className="font-bold text-yellow-900 mb-2 text-lg flex items-center gap-2">⏳ В процессе</div>
+                                <div className="font-bold text-yellow-900 mb-2 text-lg flex items-center gap-2"><Clock size={18} /> В процессе</div>
                                 <div className="text-sm text-gray-700">Микс создан, ожидает депозита</div>
                               </div>
                               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-300 shadow-lg">
-                                <div className="font-bold text-blue-900 mb-2 text-lg flex items-center gap-2">🔄 Принят в работу</div>
+                                <div className="font-bold text-blue-900 mb-2 text-lg flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
                                 <div className="text-sm text-gray-700">Средства получены, начато микширование</div>
                               </div>
                               <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-300 shadow-lg">
-                                <div className="font-bold text-purple-900 mb-2 text-lg flex items-center gap-2">📤 Отправлено</div>
+                                <div className="font-bold text-purple-900 mb-2 text-lg flex items-center gap-2"><Send size={18} /> Отправлено</div>
                                 <div className="text-sm text-gray-700">Средства отправлены на выходной адрес</div>
                               </div>
                               <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300 shadow-lg">
-                                <div className="font-bold text-green-900 mb-2 text-lg flex items-center gap-2">✅ Готово!</div>
+                                <div className="font-bold text-green-900 mb-2 text-lg flex items-center gap-2"><CheckCircle2 size={18} /> Готово!</div>
                                 <div className="text-sm text-gray-700">Транзакция успешно завершена</div>
                               </div>
                             </div>
@@ -1011,7 +1011,7 @@ const Index = () => {
                             <div className="bg-cyan-50 p-6 rounded-xl border-2 border-cyan-200">
                               <div className="space-y-3">
                                 <div className="p-4 bg-white rounded-lg border border-cyan-300">
-                                  <div className="font-semibold text-cyan-900 mb-2">💼 Поддерживаемые кошельки:</div>
+                                  <div className="font-semibold text-cyan-900 mb-2 flex items-center gap-2"><Briefcase size={18} /> Поддерживаемые кошельки:</div>
                                   <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
                                     <div>• Trust Wallet</div>
                                     <div>• MetaMask</div>
@@ -1022,7 +1022,7 @@ const Index = () => {
                                   </div>
                                 </div>
                                 <div className="text-sm text-gray-700 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                                  ⚠️ Убедитесь, что выбрана правильная сеть (например, BTC mainnet, ERC20, BEP20)</div>
+                                  <AlertTriangle size={16} className="inline mr-2" /> Убедитесь, что выбрана правильная сеть (например, BTC mainnet, ERC20, BEP20)</div>
                               </div>
                             </div>
                           </div>
@@ -1038,20 +1038,20 @@ const Index = () => {
                               Отправьте ТОЧНУЮ сумму, указанную в форме микса
                             </p>
                             <div className="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border-2 border-red-300 space-y-4">
-                              <div className="font-bold text-red-900 text-lg">🚨 КРИТИЧЕСКИ ВАЖНО:</div>
+                              <div className="font-bold text-red-900 text-lg flex items-center gap-2"><AlertTriangle size={20} /> КРИТИЧЕСКИ ВАЖНО:</div>
                               <div className="space-y-2">
                                 <div className="p-3 bg-white rounded-lg">
-                                  <span className="font-semibold">❌ НЕ отправляйте меньше:</span> Транзакция не будет обработана
+                                  <span className="font-semibold flex items-center gap-2"><X size={16} className="text-red-600" /> НЕ отправляйте меньше:</span> Транзакция не будет обработана
                                 </div>
                                 <div className="p-3 bg-white rounded-lg">
-                                  <span className="font-semibold">❌ НЕ отправляйте больше:</span> Излишек будет потерян
+                                  <span className="font-semibold flex items-center gap-2"><X size={16} className="text-red-600" /> НЕ отправляйте больше:</span> Излишек будет потерян
                                 </div>
                                 <div className="p-3 bg-green-100 rounded-lg border-2 border-green-300">
-                                  <span className="font-semibold">✅ Отправьте ТОЧНО:</span> Указанную сумму с учётом комиссии сети
+                                  <span className="font-semibold flex items-center gap-2"><Check size={16} className="text-green-600" /> Отправьте ТОЧНО:</span> Указанную сумму с учётом комиссии сети
                                 </div>
                               </div>
                               <div className="text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">
-                                💡 Совет: Учитывайте комиссию блокчейна отдельно от суммы микса
+                                <Lightbulb size={16} className="inline mr-2" /> Совет: Учитывайте комиссию блокчейна отдельно от суммы микса
                               </div>
                             </div>
                           </div>
@@ -1116,14 +1116,14 @@ const Index = () => {
                             </p>
                             <div className="bg-amber-50 p-6 rounded-xl border-2 border-amber-200 space-y-4">
                               <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xl">👤</div>
+                                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center"><User size={24} strokeWidth={2} /></div>
                                 <div className="text-gray-700">
                                   <div className="font-semibold">Нажмите на иконку профиля</div>
                                   <div className="text-sm">В правом верхнем углу экрана</div>
                                 </div>
                               </div>
                               <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-xl">📋</div>
+                                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center"><ClipboardList size={24} strokeWidth={2} /></div>
                                 <div className="text-gray-700">
                                   <div className="font-semibold">Выберите "Мои миксы"</div>
                                   <div className="text-sm">Из выпадающего меню</div>
@@ -1131,7 +1131,7 @@ const Index = () => {
                               </div>
                               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                                 <div className="text-sm text-gray-700">
-                                  💡 Также можно использовать вкладку "Мои миксы" в верхнем меню
+                                  <Lightbulb size={16} className="inline mr-2" /> Также можно использовать вкладку "Мои миксы" в верхнем меню
                                 </div>
                               </div>
                             </div>
@@ -1169,9 +1169,9 @@ const Index = () => {
                                 </div>
                               </div>
                               <div className="mt-4 text-sm text-gray-700 space-y-2">
-                                <div>📊 <strong>ID</strong> — уникальный номер микса</div>
-                                <div>📅 <strong>Дата</strong> — когда был создан</div>
-                                <div>🎯 <strong>Статус</strong> — текущий этап обработки</div>
+                                <div className="flex items-center gap-2"><BarChart3 size={16} /> <strong>ID</strong> — уникальный номер микса</div>
+                                <div className="flex items-center gap-2"><Clock size={16} /> <strong>Дата</strong> — когда был создан</div>
+                                <div className="flex items-center gap-2"><CheckCircle2 size={16} /> <strong>Статус</strong> — текущий этап обработки</div>
                               </div>
                             </div>
                           </div>
@@ -1190,7 +1190,7 @@ const Index = () => {
                               <div className="bg-yellow-50 p-4 rounded-xl border-2 border-yellow-300">
                                 <div className="flex items-center gap-3 mb-2">
                                   <div className="w-8 h-8 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold">1</div>
-                                  <div className="font-bold text-yellow-900">⏳ В процессе</div>
+                                  <div className="font-bold text-yellow-900 flex items-center gap-2"><Clock size={18} /> В процессе</div>
                                 </div>
                                 <div className="text-sm text-gray-700 ml-11">
                                   Ожидание поступления средств на адрес депозита. Обычно 10-30 минут в зависимости от сети.
@@ -1199,7 +1199,7 @@ const Index = () => {
                               <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-300">
                                 <div className="flex items-center gap-3 mb-2">
                                   <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">2</div>
-                                  <div className="font-bold text-blue-900">🔄 Принят в работу</div>
+                                  <div className="font-bold text-blue-900 flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
                                 </div>
                                 <div className="text-sm text-gray-700 ml-11">
                                   Средства получены, начался процесс микширования. Время зависит от выбранного профиля.
@@ -1208,7 +1208,7 @@ const Index = () => {
                               <div className="bg-purple-50 p-4 rounded-xl border-2 border-purple-300">
                                 <div className="flex items-center gap-3 mb-2">
                                   <div className="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold">3</div>
-                                  <div className="font-bold text-purple-900">📤 Отправлено</div>
+                                  <div className="font-bold text-purple-900 flex items-center gap-2"><Send size={18} /> Отправлено</div>
                                 </div>
                                 <div className="text-sm text-gray-700 ml-11">
                                   Микшированные средства отправлены на ваш выходной адрес. Ожидайте подтверждений в сети.
@@ -1229,7 +1229,7 @@ const Index = () => {
                             </p>
                             <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-300 space-y-4">
                               <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg border-2 border-green-400">
-                                <div className="text-5xl">✅</div>
+                                <CheckCircle2 size={60} className="text-green-600" strokeWidth={2} />
                                 <div>
                                   <div className="text-2xl font-bold text-green-900">Готово!</div>
                                   <div className="text-gray-700">Транзакция успешно завершена</div>
@@ -1237,19 +1237,19 @@ const Index = () => {
                               </div>
                               <div className="space-y-3">
                                 <div className="p-3 bg-white rounded-lg">
-                                  <div className="font-semibold text-green-900 mb-1">✨ Что произошло:</div>
+                                  <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><RefreshCw size={16} /> Что произошло:</div>
                                   <div className="text-sm text-gray-700">
                                     Ваши монеты прошли через несколько раундов микширования с монетами других пользователей, полностью скрыв связь между входным и выходным адресами.
                                   </div>
                                 </div>
                                 <div className="p-3 bg-white rounded-lg">
-                                  <div className="font-semibold text-green-900 mb-1">🔐 Безопасность:</div>
+                                  <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><Shield size={16} /> Безопасность:</div>
                                   <div className="text-sm text-gray-700">
                                     Все данные о транзакции удалены с наших серверов. Отследить происхождение средств теперь невозможно.
                                   </div>
                                 </div>
                                 <div className="p-3 bg-white rounded-lg">
-                                  <div className="font-semibold text-green-900 mb-1">💼 Проверьте кошелёк:</div>
+                                  <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><Wallet size={16} /> Проверьте кошелёк:</div>
                                   <div className="text-sm text-gray-700">
                                     Откройте ваш кошелёк и убедитесь, что средства поступили на указанный выходной адрес.
                                   </div>
