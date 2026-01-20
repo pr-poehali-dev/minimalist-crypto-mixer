@@ -1287,7 +1287,6 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Step 13 - Final Step - Keep special green gradient styling */}
                       <div className="flex gap-6 relative">
                           <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center shadow-lg z-10">
                             <Shield size={48} strokeWidth={2} />
