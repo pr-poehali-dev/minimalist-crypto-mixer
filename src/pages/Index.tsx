@@ -810,31 +810,31 @@ const Index = () => {
                   <CardContent>
                     {tutorialPage === 1 && (
                     <div className="relative">
-                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500"></div>
+                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gray-200"></div>
                       
-                      <div className="space-y-12">
+                      <div className="space-y-16">
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center shadow-2xl z-10">
-                            <Lock size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <Lock size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Авторизация <span className="text-blue-600">→</span></h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Авторизация</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Нажмите кнопку "Login with Telegram" в правом верхнем углу
                             </p>
-                            <div className="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-xl border-2 border-blue-200 shadow-md">
-                              <div className="space-y-3">
+                            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                              <div className="space-y-4">
                                 <div className="flex items-center gap-3">
-                                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs shadow-lg">1</div>
-                                  <span className="text-gray-700">Введите ваш Telegram username (например: @username)</span>
+                                  <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-xs font-semibold">1</div>
+                                  <span className="text-gray-600 text-sm">Введите ваш Telegram username (например: @username)</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs shadow-lg">2</div>
-                                  <span className="text-gray-700">Получите 4-значный код в боте</span>
+                                  <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-xs font-semibold">2</div>
+                                  <span className="text-gray-600 text-sm">Получите 4-значный код в боте</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs shadow-lg">3</div>
-                                  <span className="text-gray-700">Введите код для входа</span>
+                                  <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-xs font-semibold">3</div>
+                                  <span className="text-gray-600 text-sm">Введите код для входа</span>
                                 </div>
                               </div>
                             </div>
@@ -842,67 +842,67 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center shadow-2xl z-10">
-                            <FolderTree size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <FolderTree size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Выбор профиля микса <span className="text-green-600">→</span></h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Выбор профиля микса</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               В левой панели выберите криптовалюту и тип микширования
                             </p>
                             <div className="grid grid-cols-2 gap-4">
-                              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-blue-900 mb-2 text-lg flex items-center gap-2"><Zap size={18} /> Fast Mix</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 13%</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 5-20 мин</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><Zap size={16} /> Fast Mix</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><DollarSign size={12} /> Комиссия: 13%</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><Timer size={12} /> Время: 5-20 мин</div>
                               </div>
-                              <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-green-900 mb-2 text-lg flex items-center gap-2"><Scale size={18} /> Standard Mix</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 17%</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 20-60 мин</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><Scale size={16} /> Standard Mix</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><DollarSign size={12} /> Комиссия: 17%</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><Timer size={12} /> Время: 20-60 мин</div>
                               </div>
-                              <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-purple-900 mb-2 text-lg flex items-center gap-2"><Lock size={18} /> Privacy Mix</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 23%</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 1-4 часа</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><Lock size={16} /> Privacy Mix</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><DollarSign size={12} /> Комиссия: 23%</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><Timer size={12} /> Время: 1-4 часа</div>
                               </div>
-                              <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-5 rounded-xl border-2 border-orange-300 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="font-bold text-orange-900 mb-2 text-lg flex items-center gap-2"><Package size={18} /> Bulk Mix</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><DollarSign size={14} /> Комиссия: 30%</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><Timer size={14} /> Время: 6-12 часов</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><Package size={16} /> Bulk Mix</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><DollarSign size={12} /> Комиссия: 30%</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><Timer size={12} /> Время: 6-12 часов</div>
                               </div>
                             </div>
                           </div>
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center shadow-2xl z-10">
-                            <FileEdit size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <FileEdit size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Заполнение данных <span className="text-purple-600">→</span></h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Заполнение данных</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Укажите адреса кошельков и сумму транзакции
                             </p>
-                            <div className="bg-gradient-to-br from-gray-50 to-purple-50 p-6 rounded-xl border-2 border-purple-200 space-y-4 shadow-md">
+                            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 space-y-5">
                               <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg"><ArrowDownToLine size={24} strokeWidth={2} /></div>
+                                <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0"><ArrowDownToLine size={20} strokeWidth={1.5} className="text-gray-700" /></div>
                                 <div>
-                                  <div className="font-semibold text-gray-900 text-lg">Input Address</div>
+                                  <div className="font-semibold text-gray-800 text-base">Input Address</div>
                                   <div className="text-sm text-gray-600">Адрес вашего кошелька, с которого отправляете</div>
                                 </div>
                               </div>
                               <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg"><ArrowUpFromLine size={24} strokeWidth={2} /></div>
+                                <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0"><ArrowUpFromLine size={20} strokeWidth={1.5} className="text-gray-700" /></div>
                                 <div>
-                                  <div className="font-semibold text-gray-900 text-lg">Output Address</div>
+                                  <div className="font-semibold text-gray-800 text-base">Output Address</div>
                                   <div className="text-sm text-gray-600">Адрес, на который получите чистые монеты</div>
                                 </div>
                               </div>
                               <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg"><DollarSign size={24} strokeWidth={2} /></div>
+                                <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0"><DollarSign size={20} strokeWidth={1.5} className="text-gray-700" /></div>
                                 <div>
-                                  <div className="font-semibold text-gray-900 text-lg">Amount</div>
+                                  <div className="font-semibold text-gray-800 text-base">Amount</div>
                                   <div className="text-sm text-gray-600">Сумма для микширования</div>
                                 </div>
                               </div>
@@ -911,50 +911,50 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center shadow-2xl z-10">
-                            <Send size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <Send size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Отправка криптовалюты <span className="text-orange-600">→</span></h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Отправка криптовалюты</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               После нажатия "Start Mixing" вы получите адрес для депозита
                             </p>
-                            <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-300 shadow-md">
+                            <div className="bg-gray-50 p-6 rounded-lg border border-gray-300">
                               <div className="space-y-3">
-                                <div className="font-bold text-orange-900 text-lg flex items-center gap-2"><AlertTriangle size={20} /> Важно:</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><span className="text-orange-600">•</span> Отправьте ТОЧНУЮ сумму на указанный адрес</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><span className="text-orange-600">•</span> Используйте кнопку "Copy Address" для копирования</div>
-                                <div className="text-sm text-gray-700 flex items-center gap-2"><span className="text-orange-600">•</span> Сохраните адрес депозита до завершения транзакции</div>
+                                <div className="font-semibold text-gray-800 text-base flex items-center gap-2"><AlertTriangle size={16} /> Важно:</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><span className="text-gray-400">•</span> Отправьте ТОЧНУЮ сумму на указанный адрес</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><span className="text-gray-400">•</span> Используйте кнопку "Copy Address" для копирования</div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"><span className="text-gray-400">•</span> Сохраните адрес депозита до завершения транзакции</div>
                               </div>
                             </div>
                           </div>
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center shadow-2xl z-10">
-                            <BarChart3 size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <BarChart3 size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Отслеживание статуса <span className="text-pink-600">→</span></h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Отслеживание статуса</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Перейдите в раздел "Мои миксы" для просмотра статуса
                             </p>
                             <div className="grid grid-cols-2 gap-4">
-                              <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-5 rounded-xl border-2 border-yellow-300 shadow-lg">
-                                <div className="font-bold text-yellow-900 mb-2 text-lg flex items-center gap-2"><Clock size={18} /> В процессе</div>
-                                <div className="text-sm text-gray-700">Микс создан, ожидает депозита</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><Clock size={16} /> В процессе</div>
+                                <div className="text-sm text-gray-600">Микс создан, ожидает депозита</div>
                               </div>
-                              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-300 shadow-lg">
-                                <div className="font-bold text-blue-900 mb-2 text-lg flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
-                                <div className="text-sm text-gray-700">Средства получены, начато микширование</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><RefreshCw size={16} /> Принят в работу</div>
+                                <div className="text-sm text-gray-600">Средства получены, начато микширование</div>
                               </div>
-                              <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-300 shadow-lg">
-                                <div className="font-bold text-purple-900 mb-2 text-lg flex items-center gap-2"><Send size={18} /> Отправлено</div>
-                                <div className="text-sm text-gray-700">Средства отправлены на выходной адрес</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><Send size={16} /> Отправлено</div>
+                                <div className="text-sm text-gray-600">Средства отправлены на выходной адрес</div>
                               </div>
-                              <div className="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-300 shadow-lg">
-                                <div className="font-bold text-green-900 mb-2 text-lg flex items-center gap-2"><CheckCircle2 size={18} /> Готово!</div>
-                                <div className="text-sm text-gray-700">Транзакция успешно завершена</div>
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <div className="font-semibold text-gray-800 mb-2 text-base flex items-center gap-2"><CheckCircle2 size={16} /> Готово!</div>
+                                <div className="text-sm text-gray-600">Транзакция успешно завершена</div>
                               </div>
                             </div>
                           </div>
@@ -965,34 +965,34 @@ const Index = () => {
 
                     {tutorialPage === 2 && (
                     <div className="relative">
-                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gradient-to-b from-teal-500 via-emerald-500 to-green-500"></div>
+                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gray-200"></div>
                       
-                      <div className="space-y-12">
+                      <div className="space-y-16">
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <Copy size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <Copy size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Копирование адреса депозита</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Копирование адреса депозита</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               После подтверждения микса вы увидите уникальный адрес для отправки криптовалюты
                             </p>
-                            <div className="bg-teal-50 p-6 rounded-xl border-2 border-teal-200 space-y-4">
-                              <div className="bg-white p-4 rounded-lg border border-teal-300 font-mono text-sm break-all">
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 space-y-4">
+                              <div className="bg-white p-4 rounded-lg border border-gray-300 font-mono text-sm break-all">
                                 BTCMix7x8k9m2p4q@user
                               </div>
                               <div className="space-y-2">
                                 <div className="flex items-center gap-2">
-                                  <div className="w-2 h-2 rounded-full bg-teal-600"></div>
-                                  <span className="text-gray-700">Нажмите кнопку "Copy Address" для копирования</span>
+                                  <div className="w-2 h-2 rounded-full bg-gray-200"></div>
+                                  <span className="text-gray-600">Нажмите кнопку "Copy Address" для копирования</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <div className="w-2 h-2 rounded-full bg-teal-600"></div>
-                                  <span className="text-gray-700">Сохраните адрес в надёжном месте</span>
+                                  <div className="w-2 h-2 rounded-full bg-gray-200"></div>
+                                  <span className="text-gray-600">Сохраните адрес в надёжном месте</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <div className="w-2 h-2 rounded-full bg-teal-600"></div>
-                                  <span className="text-gray-700">Не закрывайте страницу до отправки средств</span>
+                                  <div className="w-2 h-2 rounded-full bg-gray-200"></div>
+                                  <span className="text-gray-600">Не закрывайте страницу до отправки средств</span>
                                 </div>
                               </div>
                             </div>
@@ -1000,19 +1000,19 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <Wallet size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <Wallet size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Открытие криптокошелька</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Открытие криптокошелька</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Откройте ваш криптокошелёк для отправки средств
                             </p>
-                            <div className="bg-cyan-50 p-6 rounded-xl border-2 border-cyan-200">
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
                               <div className="space-y-3">
-                                <div className="p-4 bg-white rounded-lg border border-cyan-300">
-                                  <div className="font-semibold text-cyan-900 mb-2 flex items-center gap-2"><Briefcase size={18} /> Поддерживаемые кошельки:</div>
-                                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                                <div className="p-4 bg-white rounded-lg border border-gray-300">
+                                  <div className="font-semibold text-gray-800 mb-2 flex items-center gap-2"><Briefcase size={18} /> Поддерживаемые кошельки:</div>
+                                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
                                     <div>• Trust Wallet</div>
                                     <div>• MetaMask</div>
                                     <div>• Exodus</div>
@@ -1021,7 +1021,7 @@ const Index = () => {
                                     <div>• Binance</div>
                                   </div>
                                 </div>
-                                <div className="text-sm text-gray-700 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <div className="text-sm text-gray-600 p-3 bg-gray-50 rounded-lg border border-gray-300">
                                   <AlertTriangle size={16} className="inline mr-2" /> Убедитесь, что выбрана правильная сеть (например, BTC mainnet, ERC20, BEP20)</div>
                               </div>
                             </div>
@@ -1029,28 +1029,28 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <Send size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <Send size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Отправка точной суммы</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Отправка точной суммы</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Отправьте ТОЧНУЮ сумму, указанную в форме микса
                             </p>
-                            <div className="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border-2 border-red-300 space-y-4">
-                              <div className="font-bold text-red-900 text-lg flex items-center gap-2"><AlertTriangle size={20} /> КРИТИЧЕСКИ ВАЖНО:</div>
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-300 space-y-4">
+                              <div className="font-semibold text-gray-800 text-base flex items-center gap-2"><AlertTriangle size={20} /> КРИТИЧЕСКИ ВАЖНО:</div>
                               <div className="space-y-2">
                                 <div className="p-3 bg-white rounded-lg">
-                                  <span className="font-semibold flex items-center gap-2"><X size={16} className="text-red-600" /> НЕ отправляйте меньше:</span> Транзакция не будет обработана
+                                  <span className="font-semibold flex items-center gap-2"><X size={16} className="text-gray-600" /> НЕ отправляйте меньше:</span> Транзакция не будет обработана
                                 </div>
                                 <div className="p-3 bg-white rounded-lg">
-                                  <span className="font-semibold flex items-center gap-2"><X size={16} className="text-red-600" /> НЕ отправляйте больше:</span> Излишек будет потерян
+                                  <span className="font-semibold flex items-center gap-2"><X size={16} className="text-gray-600" /> НЕ отправляйте больше:</span> Излишек будет потерян
                                 </div>
-                                <div className="p-3 bg-green-100 rounded-lg border-2 border-green-300">
-                                  <span className="font-semibold flex items-center gap-2"><Check size={16} className="text-green-600" /> Отправьте ТОЧНО:</span> Указанную сумму с учётом комиссии сети
+                                <div className="p-3 bg-gray-100 rounded-lg border border-gray-300">
+                                  <span className="font-semibold flex items-center gap-2"><Check size={16} className="text-gray-600" /> Отправьте ТОЧНО:</span> Указанную сумму с учётом комиссии сети
                                 </div>
                               </div>
-                              <div className="text-sm text-gray-700 bg-yellow-50 p-3 rounded-lg">
+                              <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
                                 <Lightbulb size={16} className="inline mr-2" /> Совет: Учитывайте комиссию блокчейна отдельно от суммы микса
                               </div>
                             </div>
@@ -1058,38 +1058,38 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <CheckCircle2 size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <CheckCircle2 size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Подтверждение транзакции</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Подтверждение транзакции</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Подтвердите отправку средств в вашем кошельке
                             </p>
-                            <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
                               <div className="space-y-4">
-                                <div className="p-4 bg-white rounded-lg border border-green-300">
-                                  <div className="font-semibold text-green-900 mb-3">Проверьте перед отправкой:</div>
+                                <div className="p-4 bg-white rounded-lg border border-gray-300">
+                                  <div className="font-semibold text-gray-800 mb-3">Проверьте перед отправкой:</div>
                                   <div className="space-y-2">
                                     <div className="flex items-start gap-2">
-                                      <div className="w-6 h-6 rounded bg-green-500 text-white flex items-center justify-center text-xs flex-shrink-0">1</div>
-                                      <span className="text-sm text-gray-700">Адрес получателя совпадает с адресом депозита</span>
+                                      <div className="w-6 h-6 rounded bg-gray-200 text-gray-600 flex items-center justify-center text-xs flex-shrink-0">1</div>
+                                      <span className="text-sm text-gray-600">Адрес получателя совпадает с адресом депозита</span>
                                     </div>
                                     <div className="flex items-start gap-2">
-                                      <div className="w-6 h-6 rounded bg-green-500 text-white flex items-center justify-center text-xs flex-shrink-0">2</div>
-                                      <span className="text-sm text-gray-700">Сумма соответствует указанной в форме</span>
+                                      <div className="w-6 h-6 rounded bg-gray-200 text-gray-600 flex items-center justify-center text-xs flex-shrink-0">2</div>
+                                      <span className="text-sm text-gray-600">Сумма соответствует указанной в форме</span>
                                     </div>
                                     <div className="flex items-start gap-2">
-                                      <div className="w-6 h-6 rounded bg-green-500 text-white flex items-center justify-center text-xs flex-shrink-0">3</div>
-                                      <span className="text-sm text-gray-700">Выбрана правильная сеть блокчейна</span>
+                                      <div className="w-6 h-6 rounded bg-gray-200 text-gray-600 flex items-center justify-center text-xs flex-shrink-0">3</div>
+                                      <span className="text-sm text-gray-600">Выбрана правильная сеть блокчейна</span>
                                     </div>
                                     <div className="flex items-start gap-2">
-                                      <div className="w-6 h-6 rounded bg-green-500 text-white flex items-center justify-center text-xs flex-shrink-0">4</div>
-                                      <span className="text-sm text-gray-700">Баланс достаточен для оплаты комиссии сети</span>
+                                      <div className="w-6 h-6 rounded bg-gray-200 text-gray-600 flex items-center justify-center text-xs flex-shrink-0">4</div>
+                                      <span className="text-sm text-gray-600">Баланс достаточен для оплаты комиссии сети</span>
                                     </div>
                                   </div>
                                 </div>
-                                <Button className="w-full h-12 bg-green-600 hover:bg-green-700">
+                                <Button className="w-full h-12 bg-gray-800 hover:bg-gray-900">
                                   Подтвердить отправку
                                 </Button>
                               </div>
@@ -1102,35 +1102,35 @@ const Index = () => {
 
                     {tutorialPage === 3 && (
                     <div className="relative">
-                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gradient-to-b from-amber-500 via-orange-500 to-pink-500"></div>
+                      <div className="absolute left-[52px] top-20 bottom-20 w-0.5 bg-gray-200"></div>
                       
-                      <div className="space-y-12">
+                      <div className="space-y-16">
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <BarChart3 size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <BarChart3 size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Переход в "Мои миксы"</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Переход в "Мои миксы"</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               После отправки средств откройте раздел "Мои миксы" для отслеживания
                             </p>
-                            <div className="bg-amber-50 p-6 rounded-xl border-2 border-amber-200 space-y-4">
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 space-y-4">
                               <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center"><User size={24} strokeWidth={2} /></div>
-                                <div className="text-gray-700">
+                                <div className="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center"><User size={24} strokeWidth={1.5} /></div>
+                                <div className="text-gray-600">
                                   <div className="font-semibold">Нажмите на иконку профиля</div>
                                   <div className="text-sm">В правом верхнем углу экрана</div>
                                 </div>
                               </div>
                               <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center"><ClipboardList size={24} strokeWidth={2} /></div>
-                                <div className="text-gray-700">
+                                <div className="w-12 h-12 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center"><ClipboardList size={24} strokeWidth={1.5} /></div>
+                                <div className="text-gray-600">
                                   <div className="font-semibold">Выберите "Мои миксы"</div>
                                   <div className="text-sm">Из выпадающего меню</div>
                                 </div>
                               </div>
-                              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                <div className="text-sm text-gray-700">
+                              <div className="p-3 bg-gray-50 rounded-lg border border-gray-300">
+                                <div className="text-sm text-gray-600">
                                   <Lightbulb size={16} className="inline mr-2" /> Также можно использовать вкладку "Мои миксы" в верхнем меню
                                 </div>
                               </div>
@@ -1139,15 +1139,15 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <Clock size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <Clock size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Просмотр статусов миксов</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Просмотр статусов миксов</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               В таблице отображаются все ваши миксы с актуальными статусами
                             </p>
-                            <div className="bg-gray-50 p-6 rounded-xl border-2 border-gray-200">
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
                               <div className="bg-white rounded-lg border border-gray-300 overflow-hidden">
                                 <div className="grid grid-cols-7 gap-2 p-3 bg-gray-100 font-semibold text-sm">
                                   <div>ID</div>
@@ -1163,12 +1163,12 @@ const Index = () => {
                                     <div className="text-gray-600">15.01</div>
                                     <div>BTC</div>
                                     <div className="font-semibold">0.5</div>
-                                    <div><span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">⏳ В процессе</span></div>
+                                    <div><span className="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">⏳ В процессе</span></div>
                                     <div className="col-span-2 text-xs text-gray-500 truncate">1A1z...eP5Q → 3J98...wUt2d</div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="mt-4 text-sm text-gray-700 space-y-2">
+                              <div className="mt-4 text-sm text-gray-600 space-y-2">
                                 <div className="flex items-center gap-2"><BarChart3 size={16} /> <strong>ID</strong> — уникальный номер микса</div>
                                 <div className="flex items-center gap-2"><Clock size={16} /> <strong>Дата</strong> — когда был создан</div>
                                 <div className="flex items-center gap-2"><CheckCircle2 size={16} /> <strong>Статус</strong> — текущий этап обработки</div>
@@ -1178,39 +1178,39 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <RefreshCw size={48} strokeWidth={2} />
+                          <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gray-100 border-2 border-gray-300 flex items-center justify-center z-10">
+                            <RefreshCw size={40} strokeWidth={1.5} className="text-gray-700" />
                           </div>
                           <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Ожидание обработки</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
+                            <h3 className="text-xl font-semibold mb-3 text-gray-900">Ожидание обработки</h3>
+                            <p className="text-gray-600 mb-4 text-base leading-relaxed">
                               Микс проходит несколько стадий обработки — следите за изменением статуса
                             </p>
                             <div className="space-y-4">
-                              <div className="bg-yellow-50 p-4 rounded-xl border-2 border-yellow-300">
+                              <div className="bg-gray-50 p-4 rounded-xl border border-gray-300">
                                 <div className="flex items-center gap-3 mb-2">
-                                  <div className="w-8 h-8 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold">1</div>
-                                  <div className="font-bold text-yellow-900 flex items-center gap-2"><Clock size={18} /> В процессе</div>
+                                  <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">1</div>
+                                  <div className="font-semibold text-gray-800 flex items-center gap-2"><Clock size={18} /> В процессе</div>
                                 </div>
-                                <div className="text-sm text-gray-700 ml-11">
+                                <div className="text-sm text-gray-600 ml-11">
                                   Ожидание поступления средств на адрес депозита. Обычно 10-30 минут в зависимости от сети.
                                 </div>
                               </div>
-                              <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-300">
+                              <div className="bg-gray-50 p-4 rounded-xl border border-gray-300">
                                 <div className="flex items-center gap-3 mb-2">
-                                  <div className="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">2</div>
-                                  <div className="font-bold text-blue-900 flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
+                                  <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">2</div>
+                                  <div className="font-semibold text-gray-800 flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
                                 </div>
-                                <div className="text-sm text-gray-700 ml-11">
+                                <div className="text-sm text-gray-600 ml-11">
                                   Средства получены, начался процесс микширования. Время зависит от выбранного профиля.
                                 </div>
                               </div>
-                              <div className="bg-purple-50 p-4 rounded-xl border-2 border-purple-300">
+                              <div className="bg-gray-50 p-4 rounded-xl border border-gray-300">
                                 <div className="flex items-center gap-3 mb-2">
-                                  <div className="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold">3</div>
-                                  <div className="font-bold text-purple-900 flex items-center gap-2"><Send size={18} /> Отправлено</div>
+                                  <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">3</div>
+                                  <div className="font-semibold text-gray-800 flex items-center gap-2"><Send size={18} /> Отправлено</div>
                                 </div>
-                                <div className="text-sm text-gray-700 ml-11">
+                                <div className="text-sm text-gray-600 ml-11">
                                   Микшированные средства отправлены на ваш выходной адрес. Ожидайте подтверждений в сети.
                                 </div>
                               </div>
