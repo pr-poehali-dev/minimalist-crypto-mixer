@@ -14,7 +14,7 @@ import { MixesTable } from '@/components/ui/mixes-table';
 import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { UnsavePopup } from '@/components/ui/unsave-popup';
-import { Info } from 'lucide-react';
+import { Info, Lock, FolderTree, FileEdit, Send, BarChart3, Copy, Wallet, CheckCircle2, Clock, RefreshCw, Mail, Shield } from 'lucide-react';
 
 
 
@@ -814,8 +814,8 @@ const Index = () => {
                       
                       <div className="space-y-12">
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center text-4xl font-bold shadow-2xl z-10">
-                            🔐
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center shadow-2xl z-10">
+                            <Lock size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Авторизация <span className="text-blue-600">→</span></h3>
@@ -842,8 +842,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center text-4xl font-bold shadow-2xl z-10">
-                            📂
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center shadow-2xl z-10">
+                            <FolderTree size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Выбор профиля микса <span className="text-green-600">→</span></h3>
@@ -876,8 +876,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center text-4xl font-bold shadow-2xl z-10">
-                            ✍️
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center shadow-2xl z-10">
+                            <FileEdit size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Заполнение данных <span className="text-purple-600">→</span></h3>
@@ -911,8 +911,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center text-4xl font-bold shadow-2xl z-10">
-                            🚀
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center shadow-2xl z-10">
+                            <Send size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Отправка криптовалюты <span className="text-orange-600">→</span></h3>
@@ -931,8 +931,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center text-4xl font-bold shadow-2xl z-10">
-                            📊
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center shadow-2xl z-10">
+                            <BarChart3 size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3 flex items-center gap-2">Отслеживание статуса <span className="text-pink-600">→</span></h3>
@@ -969,8 +969,8 @@ const Index = () => {
                       
                       <div className="space-y-12">
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            5
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <Copy size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Копирование адреса депозита</h3>
@@ -1000,8 +1000,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            6
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <Wallet size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Открытие криптокошелька</h3>
@@ -1029,8 +1029,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            7
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <Send size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Отправка точной суммы</h3>
@@ -1058,8 +1058,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            8
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <CheckCircle2 size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Подтверждение транзакции</h3>
@@ -1106,8 +1106,8 @@ const Index = () => {
                       
                       <div className="space-y-12">
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            9
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <BarChart3 size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Переход в "Мои миксы"</h3>
@@ -1139,8 +1139,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            10
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <Clock size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Просмотр статусов миксов</h3>
@@ -1178,8 +1178,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            11
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <RefreshCw size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Ожидание обработки</h3>
@@ -1219,8 +1219,8 @@ const Index = () => {
                         </div>
 
                         <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg z-10">
-                            12
+                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center shadow-lg z-10">
+                            <Shield size={48} strokeWidth={2} />
                           </div>
                           <div className="flex-1 pt-2">
                             <h3 className="text-2xl font-bold mb-3">Получение чистых монет</h3>
