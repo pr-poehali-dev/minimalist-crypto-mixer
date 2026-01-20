@@ -598,67 +598,67 @@ const Index = () => {
             <TabsContent value="mixer" className="animate-fade-in">
               <div className="max-w-4xl">
                 {showMixConfirmation ? (
-                  <Card className="border border-gray-200 bg-white">
-                    <CardHeader className="border-b border-gray-200">
-                      <CardTitle className="text-xl font-normal text-black tracking-tight">Deposit Address</CardTitle>
-                      <p className="text-gray-500 mt-1 text-sm">
+                  <Card className="border-2 border-gray-300 bg-white shadow-sm">
+                    <CardHeader className="border-b-2 border-gray-300">
+                      <CardTitle className="text-xl font-medium text-black tracking-tight">Deposit Address</CardTitle>
+                      <p className="text-gray-600 mt-1 text-sm">
                         Transfer funds to initialize mixing protocol
                       </p>
                     </CardHeader>
                     <CardContent className="space-y-5 pt-6">
-                      <div className="p-5 bg-gray-50 rounded-none border border-gray-200">
-                        <h3 className="text-xs font-mono text-gray-400 mb-3 uppercase tracking-wider">Target Wallet</h3>
-                        <div className="bg-white p-4 rounded-none border border-gray-300 font-mono text-sm break-all text-black">
+                      <div className="p-6 bg-neutral-100 rounded-none border-2 border-gray-300">
+                        <h3 className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider">Target Wallet</h3>
+                        <div className="bg-white p-4 rounded-none border-2 border-gray-400 font-mono text-sm break-all text-black">
                           {depositAddress}
                         </div>
                         <Button 
                           onClick={() => navigator.clipboard.writeText(depositAddress)}
-                          className="w-full mt-4 bg-black hover:bg-gray-800 text-white h-10 rounded-none font-mono text-xs uppercase tracking-wider"
+                          className="w-full mt-4 bg-black hover:bg-gray-800 text-white h-11 rounded-none font-semibold text-xs uppercase tracking-wider transition-all"
                         >
                           Copy Address
                         </Button>
                       </div>
 
                       <div className="space-y-4">
-                        <h3 className="text-xs font-mono text-gray-400 uppercase tracking-wider">Transaction Parameters</h3>
+                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Transaction Parameters</h3>
                         <div className="grid grid-cols-2 gap-3">
-                          <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                            <p className="text-xs text-gray-400 font-mono mb-1 uppercase">Currency</p>
-                            <p className="text-base font-mono text-black">{mixerData.currency}</p>
+                          <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                            <p className="text-xs text-gray-500 font-semibold mb-1 uppercase">Currency</p>
+                            <p className="text-base font-mono text-black font-medium">{mixerData.currency}</p>
                           </div>
-                          <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                            <p className="text-xs text-gray-400 font-mono mb-1 uppercase">Amount</p>
-                            <p className="text-base font-mono text-black">{mixerData.amount} {mixerData.currency}</p>
+                          <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                            <p className="text-xs text-gray-500 font-semibold mb-1 uppercase">Amount</p>
+                            <p className="text-base font-mono text-black font-medium">{mixerData.amount} {mixerData.currency}</p>
                           </div>
-                          <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                            <p className="text-xs text-gray-400 font-mono mb-1 uppercase">Fee</p>
-                            <p className="text-base font-mono text-black">{mixerData.fee}</p>
+                          <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                            <p className="text-xs text-gray-500 font-semibold mb-1 uppercase">Fee</p>
+                            <p className="text-base font-mono text-black font-medium">{mixerData.fee}</p>
                           </div>
-                          <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                            <p className="text-xs text-gray-400 font-mono mb-1 uppercase">Delay</p>
-                            <p className="text-base font-mono text-black">{mixerData.delay}</p>
+                          <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                            <p className="text-xs text-gray-500 font-semibold mb-1 uppercase">Delay</p>
+                            <p className="text-base font-mono text-black font-medium">{mixerData.delay}</p>
                           </div>
                         </div>
 
-                        <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                          <p className="text-xs text-gray-400 font-mono mb-2 uppercase">Input Address</p>
-                          <p className="font-mono text-xs break-all text-gray-600">{mixerData.inputAddress}</p>
+                        <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                          <p className="text-xs text-gray-500 font-semibold mb-2 uppercase">Input Address</p>
+                          <p className="font-mono text-xs break-all text-gray-700">{mixerData.inputAddress}</p>
                         </div>
 
-                        <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                          <p className="text-xs text-gray-400 font-mono mb-2 uppercase">Output Address</p>
-                          <p className="font-mono text-xs break-all text-gray-600">{mixerData.outputAddress}</p>
+                        <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                          <p className="text-xs text-gray-500 font-semibold mb-2 uppercase">Output Address</p>
+                          <p className="font-mono text-xs break-all text-gray-700">{mixerData.outputAddress}</p>
                         </div>
 
-                        <div className="p-4 bg-gray-50 rounded-none border border-gray-200">
-                          <p className="text-xs text-gray-400 font-mono mb-2 uppercase">Profile</p>
-                          <p className="font-mono text-sm text-black">{selectedFile}</p>
+                        <div className="p-4 bg-neutral-100 rounded-none border-2 border-gray-300">
+                          <p className="text-xs text-gray-500 font-semibold mb-2 uppercase">Profile</p>
+                          <p className="font-mono text-sm text-black font-medium">{selectedFile}</p>
                         </div>
                       </div>
 
-                      <div className="p-4 bg-gray-100 border border-gray-300 rounded-none">
-                        <p className="text-xs text-gray-700 font-mono">
-                          ⚠ CRITICAL: Transfer exact amount <strong className="text-black">{mixerData.amount} {mixerData.currency}</strong> to address above. 
+                      <div className="p-4 bg-neutral-200 border-2 border-gray-400 rounded-none">
+                        <p className="text-xs text-gray-800 font-medium">
+                          ⚠ CRITICAL: Transfer exact amount <strong className="text-black font-semibold">{mixerData.amount} {mixerData.currency}</strong> to address above. 
                           Protocol initializes after {mixerData.delay}.
                         </p>
                       </div>
@@ -680,31 +680,31 @@ const Index = () => {
                           setShowUnsavePopup(false);
                           setShouldBlockNav(false);
                         }}
-                        className="w-full h-10 bg-white hover:bg-gray-50 text-black border border-gray-300 rounded-none font-mono text-xs uppercase tracking-wider"
+                        className="w-full h-11 bg-white hover:bg-gray-100 text-black border-2 border-gray-400 rounded-none font-semibold text-xs uppercase tracking-wider transition-all"
                       >
                         New Protocol
                       </Button>
                     </CardContent>
                   </Card>
                 ) : (
-                  <Card className="border border-gray-200 bg-white">
-                    <CardHeader className="border-b border-gray-200">
-                      <CardTitle className="text-xl font-normal text-black tracking-tight">Mixer Protocol</CardTitle>
-                      <p className="text-gray-500 mt-1 text-sm font-mono">
+                  <Card className="border-2 border-gray-300 bg-white shadow-sm">
+                    <CardHeader className="border-b-2 border-gray-300">
+                      <CardTitle className="text-xl font-medium text-black tracking-tight">Mixer Protocol</CardTitle>
+                      <p className="text-gray-600 mt-1 text-sm">
                         {selectedFile ? `Active: ${selectedFile}` : 'Select profile from explorer'}
                       </p>
                     </CardHeader>
                     <CardContent className="pt-6">
                       {mixerData.description ? (
                       <div className="space-y-4">
-                        <div className="p-6 bg-gray-50 rounded-none border border-gray-200">
-                          <pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed font-mono">
+                        <div className="p-6 bg-neutral-100 rounded-none border-2 border-gray-300">
+                          <pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed">
                             {mixerData.description}
                           </pre>
                         </div>
                         <Button 
                           onClick={() => setMixerData(prev => ({ ...prev, description: '' }))}
-                          className="w-full h-10 bg-white hover:bg-gray-50 text-black border border-gray-300 rounded-none font-mono text-xs uppercase tracking-wider"
+                          className="w-full h-11 bg-white hover:bg-gray-100 text-black border-2 border-gray-400 rounded-none font-semibold text-xs uppercase tracking-wider transition-all"
                         >
                           Return to Protocol
                         </Button>
@@ -713,61 +713,61 @@ const Index = () => {
                       <form onSubmit={handleMixerSubmit} className="space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Currency</label>
-                            <Input value={mixerData.currency} disabled className="bg-gray-50 border-gray-200 text-black font-mono rounded-none" />
+                            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Currency</label>
+                            <Input value={mixerData.currency} disabled className="bg-neutral-100 border-2 border-gray-300 text-black font-mono rounded-none h-11" />
                           </div>
                           <div>
-                            <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Fee</label>
-                            <Input value={mixerData.fee} disabled className="bg-gray-50 border-gray-200 text-black font-mono rounded-none" />
+                            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Fee</label>
+                            <Input value={mixerData.fee} disabled className="bg-neutral-100 border-2 border-gray-300 text-black font-mono rounded-none h-11" />
                           </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Delay</label>
-                            <Input value={mixerData.delay} disabled className="bg-gray-50 border-gray-200 text-black font-mono rounded-none" />
+                            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Delay</label>
+                            <Input value={mixerData.delay} disabled className="bg-neutral-100 border-2 border-gray-300 text-black font-mono rounded-none h-11" />
                           </div>
                           <div>
-                            <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Minimum</label>
-                            <Input value={mixerData.minimum} disabled className="bg-gray-50 border-gray-200 text-black font-mono rounded-none" />
+                            <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Minimum</label>
+                            <Input value={mixerData.minimum} disabled className="bg-neutral-100 border-2 border-gray-300 text-black font-mono rounded-none h-11" />
                           </div>
                         </div>
 
                         <div>
-                          <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Input Address</label>
+                          <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Input Address</label>
                           <Input
                             placeholder="0x..."
                             value={mixerData.inputAddress}
                             onChange={(e) => handleMixerDataChange('inputAddress', e.target.value)}
-                            className="bg-white border-gray-300 text-black font-mono placeholder:text-gray-400 rounded-none"
+                            className="bg-white border-2 border-gray-400 text-black font-mono placeholder:text-gray-400 rounded-none h-11"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Output Address</label>
+                          <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Output Address</label>
                           <Input
                             placeholder="0x..."
                             value={mixerData.outputAddress}
                             onChange={(e) => handleMixerDataChange('outputAddress', e.target.value)}
-                            className="bg-white border-gray-300 text-black font-mono placeholder:text-gray-400 rounded-none"
+                            className="bg-white border-2 border-gray-400 text-black font-mono placeholder:text-gray-400 rounded-none h-11"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-xs font-mono text-gray-400 mb-2 uppercase tracking-wider">Amount</label>
+                          <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Amount</label>
                           <Input
                             type="number"
                             step="0.00000001"
                             placeholder="0.00000000"
                             value={mixerData.amount}
                             onChange={(e) => handleMixerDataChange('amount', e.target.value)}
-                            className="bg-white border-gray-300 text-black font-mono placeholder:text-gray-400 rounded-none"
+                            className="bg-white border-2 border-gray-400 text-black font-mono placeholder:text-gray-400 rounded-none h-11"
                           />
                         </div>
 
                         <Button 
                           type="submit" 
-                          className="w-full h-10 text-xs font-mono bg-black hover:bg-gray-800 text-white rounded-none uppercase tracking-wider" 
+                          className="w-full h-11 text-xs font-semibold bg-black hover:bg-gray-800 text-white rounded-none uppercase tracking-wider transition-all" 
                           disabled={!selectedFile || !mixerData.inputAddress || !mixerData.outputAddress || !mixerData.amount}
                         >
                           Initialize Mixing
