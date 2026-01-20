@@ -987,7 +987,6 @@ const Index = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
                     )}
 
                     {tutorialPage === 2 && (
