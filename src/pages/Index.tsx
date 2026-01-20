@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/radix-dropdown-menu';
+import { Dropdown, DropdownContent, DropdownItem, DropdownSeparator, DropdownTrigger } from '@/components/ui/basic-dropdown';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { AvatarWithName } from '@/components/ui/avatar-with-name';
 import { FlowButton } from '@/components/ui/flow-button';
@@ -14,7 +14,7 @@ import { MixesTable } from '@/components/ui/mixes-table';
 import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { UnsavePopup } from '@/components/ui/unsave-popup';
-import { Info, Lock, FolderTree, FileEdit, Send, BarChart3, Copy, Wallet, CheckCircle2, Clock, RefreshCw, Mail, Shield, Zap, Scale, Package, ArrowDownToLine, ArrowUpFromLine, DollarSign, Timer, User, ClipboardList, Lightbulb, AlertTriangle, X, Check, Briefcase } from 'lucide-react';
+import { Info, Lock, FolderTree, FileEdit, Send, BarChart3, Copy, Wallet, CheckCircle2, Clock, RefreshCw, Mail, Shield, Zap, Scale, Package, ArrowDownToLine, ArrowUpFromLine, DollarSign, Timer, User, ClipboardList, Lightbulb, AlertTriangle, X, Check, Briefcase, LogOut, Settings } from 'lucide-react';
 
 
 
@@ -496,29 +496,31 @@ const Index = () => {
             </h1>
             <div className="flex items-center gap-4">
               {isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-3">
-                      <AvatarWithName
-                        name={telegramUsername}
-                        fallback={telegramUsername.slice(1, 3).toUpperCase()}
-                        size="sm"
-                        direction="left"
-                      />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent sideOffset={8} align="end" className="w-56">
-                    <DropdownMenuItem onClick={() => setActiveTab('my-mixes')}>
+                <Dropdown>
+                  <DropdownTrigger className="cursor-pointer">
+                    <AvatarWithName
+                      name={telegramUsername}
+                      fallback={telegramUsername.slice(1, 3).toUpperCase()}
+                      size="sm"
+                      direction="left"
+                    />
+                  </DropdownTrigger>
+                  <DropdownContent align="end" className="w-56">
+                    <DropdownItem className="gap-2" onClick={() => setActiveTab('my-mixes')}>
+                      <ClipboardList className="h-4 w-4" />
                       Мои миксы
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setActiveTab('faq')}>
+                    </DropdownItem>
+                    <DropdownItem className="gap-2" onClick={() => setActiveTab('faq')}>
+                      <Info className="h-4 w-4" />
                       FAQ
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleLogout}>
+                    </DropdownItem>
+                    <DropdownSeparator />
+                    <DropdownItem className="gap-2" onClick={handleLogout} destructive>
+                      <LogOut className="h-4 w-4" />
                       Logout
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </DropdownItem>
+                  </DropdownContent>
+                </Dropdown>
               ) : (
                 <Popover>
                   <PopoverTrigger asChild>
