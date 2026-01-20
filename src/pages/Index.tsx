@@ -468,8 +468,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white flex">
-      <aside className="w-[480px] h-screen flex-shrink-0 border-r border-border/50 flex flex-col">
-        <div className="px-8 py-6 border-b border-border/50 h-[73px] flex items-center">
+      <aside className="w-[360px] h-screen flex-shrink-0 border-r border-border/50 flex flex-col">
+        <div className="px-6 py-6 border-b border-border/50 h-[73px] flex items-center">
           <div className="flex items-center gap-3">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
