@@ -1262,26 +1262,26 @@ const Index = () => {
                               </div>
                               <div className="text-sm text-gray-600 ml-11">
                                 Ожидание поступления средств на адрес депозита. Обычно 10-30 минут в зависимости от сети.
-                                </div>
                               </div>
-                              <div className="bg-gray-50 p-4 rounded border border-gray-300">
-                                <div className="flex items-center gap-3 mb-2">
-                                  <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">2</div>
-                                  <div className="font-semibold text-gray-800 flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
-                                </div>
-                                <div className="text-sm text-gray-600 ml-11">
-                                  Средства получены, начался процесс микширования. Время зависит от выбранного профиля.
-                                </div>
+                            </div>
+                            <div className="bg-gray-50 p-4 rounded border border-gray-300">
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">2</div>
+                                <div className="font-semibold text-gray-800 flex items-center gap-2"><RefreshCw size={18} /> Принят в работу</div>
                               </div>
-                              <div className="bg-gray-50 p-4 rounded border border-gray-300">
-                                <div className="flex items-center gap-3 mb-2">
-                                  <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">3</div>
-                                  <div className="font-semibold text-gray-800 flex items-center gap-2"><Send size={18} /> Отправлено</div>
-                                </div>
-                                <div className="text-sm text-gray-600 ml-11">
-                                  Микшированные средства отправлены на ваш выходной адрес. Ожидайте подтверждений в сети.
-                                </div>
+                              <div className="text-sm text-gray-600 ml-11">
+                                Средства получены, начался процесс микширования. Время зависит от выбранного профиля.
                               </div>
+                            </div>
+                            <div className="bg-gray-50 p-4 rounded border border-gray-300">
+                              <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold">3</div>
+                                <div className="font-semibold text-gray-800 flex items-center gap-2"><Send size={18} /> Отправлено</div>
+                              </div>
+                              <div className="text-sm text-gray-600 ml-11">
+                                Микшированные средства отправлены на ваш выходной адрес. Ожидайте подтверждений в сети.
+                              </div>
+                            </div>
                             </div>
                           </div>
                         </div>
