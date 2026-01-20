@@ -1287,51 +1287,57 @@ const Index = () => {
                         </div>
                       </div>
 
-                      <div className="flex gap-6 relative">
-                          <div className="flex-shrink-0 w-24 h-24 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center shadow-lg z-10">
-                            <Shield size={48} strokeWidth={2} />
+                      <div className="border-l-4 border-gray-900 pl-6 py-4 bg-white">
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className="w-12 h-12 bg-gray-900 flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-bold text-xl">13</span>
                           </div>
-                          <div className="flex-1 pt-2">
-                            <h3 className="text-2xl font-bold mb-3">Получение чистых монет</h3>
-                            <p className="text-gray-700 mb-4 text-lg">
-                              После завершения вы получите статус "Готово!" и средства на выходном адресе
-                            </p>
-                            <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-300 space-y-4">
-                              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg border-2 border-green-400">
-                                <CheckCircle2 size={60} className="text-green-600" strokeWidth={2} />
-                                <div>
-                                  <div className="text-2xl font-bold text-green-900">Готово!</div>
-                                  <div className="text-gray-700">Транзакция успешно завершена</div>
-                                </div>
-                              </div>
-                              <div className="space-y-3">
-                                <div className="p-3 bg-white rounded-lg">
-                                  <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><RefreshCw size={16} /> Что произошло:</div>
-                                  <div className="text-sm text-gray-700">
-                                    Ваши монеты прошли через несколько раундов микширования с монетами других пользователей, полностью скрыв связь между входным и выходным адресами.
-                                  </div>
-                                </div>
-                                <div className="p-3 bg-white rounded-lg">
-                                  <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><Shield size={16} /> Безопасность:</div>
-                                  <div className="text-sm text-gray-700">
-                                    Все данные о транзакции удалены с наших серверов. Отследить происхождение средств теперь невозможно.
-                                  </div>
-                                </div>
-                                <div className="p-3 bg-white rounded-lg">
-                                  <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><Wallet size={16} /> Проверьте кошелёк:</div>
-                                  <div className="text-sm text-gray-700">
-                                    Откройте ваш кошелёк и убедитесь, что средства поступили на указанный выходной адрес.
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="text-center pt-4">
-                                <Button className="bg-green-600 hover:bg-green-700 h-12 px-8">
-                                  Создать новый микс
-                                </Button>
-                              </div>
+                          <div className="flex-1">
+                            <h3 className="text-2xl font-bold mb-2">Получение чистых монет</h3>
+                            <div className="flex items-center gap-2 text-sm">
+                              <Shield className="w-4 h-4 text-gray-600" />
+                              <span className="uppercase tracking-wide text-gray-600">SUCCESS</span>
                             </div>
                           </div>
                         </div>
+                        <div className="ml-16">
+                          <p className="text-gray-700 mb-6">После завершения вы получите статус "Готово!" и средства на выходном адресе</p>
+                          <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded border border-green-300 space-y-4">
+                            <div className="flex items-center justify-center gap-3 p-4 bg-white rounded border-2 border-green-400">
+                              <CheckCircle2 size={60} className="text-green-600" strokeWidth={2} />
+                              <div>
+                                <div className="text-2xl font-bold text-green-900">Готово!</div>
+                                <div className="text-gray-700">Транзакция успешно завершена</div>
+                              </div>
+                            </div>
+                            <div className="space-y-3">
+                              <div className="p-3 bg-white rounded">
+                                <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><RefreshCw size={16} /> Что произошло:</div>
+                                <div className="text-sm text-gray-700">
+                                  Ваши монеты прошли через несколько раундов микширования с монетами других пользователей, полностью скрыв связь между входным и выходным адресами.
+                                </div>
+                              </div>
+                              <div className="p-3 bg-white rounded">
+                                <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><Shield size={16} /> Безопасность:</div>
+                                <div className="text-sm text-gray-700">
+                                  Все данные о транзакции удалены с наших серверов. Отследить происхождение средств теперь невозможно.
+                                </div>
+                              </div>
+                              <div className="p-3 bg-white rounded">
+                                <div className="font-semibold text-green-900 mb-1 flex items-center gap-2"><Wallet size={16} /> Проверьте кошелёк:</div>
+                                <div className="text-sm text-gray-700">
+                                  Откройте ваш кошелёк и убедитесь, что средства поступили на указанный выходной адрес.
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-center pt-4">
+                              <Button className="bg-green-600 hover:bg-green-700 h-12 px-8">
+                                Создать новый микс
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       </div>
                     </div>
                     )}
