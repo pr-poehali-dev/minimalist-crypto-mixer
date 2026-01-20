@@ -19,7 +19,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+				sans: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
 				mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
 			},
 			colors: {
