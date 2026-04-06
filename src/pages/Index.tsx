@@ -21,7 +21,7 @@ import AboutTab from '@/components/AboutTab';
 import SupportTab from '@/components/SupportTab';
 import FaqTab from '@/components/FaqTab';
 import Footer from '@/components/Footer';
-import { HowItWorks, PopularPairs, StatsSection, Testimonials, TrustBanner } from '@/components/HeroSections';
+import { HowItWorks, PopularPairs, StatsSection, TrustBanner } from '@/components/HeroSections';
 import { InteractiveMenu, InteractiveMenuItem } from '@/components/ui/modern-mobile-menu';
 import { ArrowLeftRight, ClipboardList, Info, Headphones, HelpCircle } from 'lucide-react';
 
@@ -808,8 +808,6 @@ const Index = () => {
                   <CryptoChartsDisplay />
                 </div>
               </div>
-
-              <Testimonials />
 
               <TrustBanner />
 
