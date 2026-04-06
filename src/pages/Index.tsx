@@ -510,7 +510,33 @@ const Index = () => {
             </div>
 
             <TabsContent value="exchange" className="animate-fade-in">
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-5xl mx-auto flex gap-6">
+                {!showConfirmation && !isLoadingRates && Object.keys(rates).length > 0 && (
+                  <div className="w-[160px] flex-shrink-0 hidden lg:block">
+                    <div className="sticky top-6">
+                      <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1">
+                        <Icon name="TrendingUp" size={10} />
+                        Курсы USD
+                      </p>
+                      <div className="space-y-1.5">
+                        {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
+                          <div key={coin.symbol} className="flex items-center justify-between py-1.5 px-2 bg-white border border-gray-200 hover:border-gray-300 transition-colors">
+                            <div className="flex items-center gap-1.5">
+                              <img src={coin.logo} alt={coin.symbol} className="w-4 h-4 rounded-full" />
+                              <span className="text-[11px] font-semibold text-gray-700">{coin.symbol}</span>
+                            </div>
+                            <span className="font-mono text-[11px] text-black">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <button onClick={fetchRates} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1 mt-2">
+                        <Icon name="RefreshCw" size={9} />
+                        Обновить
+                      </button>
+                    </div>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
                 {showConfirmation && createdExchange ? (
                   <Card className="border-2 border-gray-300 bg-white shadow-sm">
                     <CardHeader className="border-b-2 border-gray-300">
@@ -737,35 +763,7 @@ const Index = () => {
                   </Card>
                 )}
 
-                {!showConfirmation && !isLoadingRates && Object.keys(rates).length > 0 && (
-                  <Card className="border-2 border-gray-300 bg-white shadow-sm mt-6">
-                    <CardHeader className="border-b border-gray-200 pb-3">
-                      <CardTitle className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
-                        <Icon name="TrendingUp" size={14} />
-                        Текущие курсы (USD)
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-4">
-                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                        {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
-                          <div key={coin.symbol} className="p-2.5 bg-neutral-50 border border-gray-200 hover:border-gray-300 transition-colors">
-                            <div className="flex items-center gap-1.5 mb-1">
-                              <img src={coin.logo} alt={coin.symbol} className="w-4 h-4 rounded-full" />
-                              <span className="text-xs font-semibold text-gray-700">{coin.symbol}</span>
-                            </div>
-                            <p className="font-mono text-xs text-black">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-xs text-gray-400 mt-3 text-center">
-                        <button onClick={fetchRates} className="hover:text-gray-600 transition-colors inline-flex items-center gap-1">
-                          <Icon name="RefreshCw" size={10} />
-                          Обновить курсы
-                        </button>
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
+                </div>
               </div>
             </TabsContent>
 
