@@ -176,7 +176,7 @@ export function ExchangesTable({
                       {isExpanded && (
                         <tr className="bg-neutral-50">
                           <td colSpan={7} className="p-0 overflow-hidden">
-                            <div className="px-6 py-4 animate-accordion-down origin-top">
+                            <div className="px-6 animate-slide-down overflow-hidden">
                               <div className="grid grid-cols-2 gap-4">
                                 <div>
                                   <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>

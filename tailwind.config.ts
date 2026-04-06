@@ -88,11 +88,26 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'slide-down': {
+					from: {
+						opacity: '0',
+						maxHeight: '0',
+						paddingTop: '0',
+						paddingBottom: '0'
+					},
+					to: {
+						opacity: '1',
+						maxHeight: '300px',
+						paddingTop: '16px',
+						paddingBottom: '16px'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'slide-down': 'slide-down 0.3s ease-out forwards'
 			}
 		}
 	},
