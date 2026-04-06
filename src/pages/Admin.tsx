@@ -153,7 +153,7 @@ const Admin = () => {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="w-96 border-2 border-gray-300">
           <CardHeader>
             <CardTitle className="text-center">Админ-панель</CardTitle>
@@ -170,8 +170,8 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="border-b border-border/50">
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border/50 bg-card">
         <div className="px-8 py-6 flex items-center justify-between h-[73px]">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
             ADMIN PANEL

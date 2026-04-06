@@ -361,8 +361,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <header className="border-b border-border/50">
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="border-b border-border/50 bg-card">
         <div className="px-8 py-6 flex items-center justify-between h-[73px]">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             EXCHANGE
