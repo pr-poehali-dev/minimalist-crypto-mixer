@@ -1,0 +1,27 @@
+{
+  "tests": [
+    {
+      "name": "Get exchanges - no username",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "Username is required"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get exchanges - success",
+      "method": "GET",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "exchanges": "object"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

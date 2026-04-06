@@ -1,0 +1,45 @@
+{
+  "tests": [
+    {
+      "name": "Create exchange - no username",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "from_currency": "BTC",
+        "to_currency": "ETH",
+        "from_amount": "0.1",
+        "to_amount": "1.5",
+        "rate": "15.0",
+        "output_address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb1"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "Username is required"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Create exchange - success",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "body": {
+        "from_currency": "BTC",
+        "to_currency": "ETH",
+        "from_amount": "0.1",
+        "to_amount": "1.5",
+        "rate": "15.0",
+        "output_address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb1"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "exchange_id": "number",
+        "deposit_address": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

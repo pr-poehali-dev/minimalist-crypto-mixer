@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "name": "Get rates",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "rates": "object",
+        "markup_percent": "number",
+        "coins": "object"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

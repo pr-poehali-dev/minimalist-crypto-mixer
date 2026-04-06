@@ -1,0 +1,20 @@
+{
+  "tests": [
+    {
+      "name": "Set markup - no admin",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@normaluser"
+      },
+      "body": {
+        "markup_percent": 5.0
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "Access denied. Admin only."
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

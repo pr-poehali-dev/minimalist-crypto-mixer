@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "name": "Update status - no admin",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@normaluser"
+      },
+      "body": {
+        "exchange_id": 1,
+        "status": "Завершено"
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "Access denied. Admin only."
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

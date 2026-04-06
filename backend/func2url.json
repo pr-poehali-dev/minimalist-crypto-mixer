@@ -1,0 +1,11 @@
+{
+  "get-mixes": "https://functions.poehali.dev/96bab9dd-e2a7-41ef-bef5-a5b233e045d8",
+  "update-exchange-status": "https://functions.poehali.dev/f665b00d-ddae-42aa-8edb-1178981736e1",
+  "telegram-auth": "https://functions.poehali.dev/aba6998f-8142-4edd-8e22-c24c005cf258",
+  "create-exchange": "https://functions.poehali.dev/db89b501-844e-4f7e-b839-35b396842720",
+  "create-mix": "https://functions.poehali.dev/9b933b53-b72d-471b-bae0-9cccac20ac3e",
+  "get-rates": "https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf",
+  "update-mix-status": "https://functions.poehali.dev/470126bf-c09b-4f08-95db-3cd0a0f0af1f",
+  "set-markup": "https://functions.poehali.dev/6f9de021-2dff-4160-938a-cb3e8caa1b7a",
+  "get-exchanges": "https://functions.poehali.dev/f55bda70-6145-4587-85c3-8b37d3275358"
+}

@@ -1,0 +1,245 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Copy } from "lucide-react";
+
+export interface Exchange {
+  id: number;
+  from_currency: string;
+  to_currency: string;
+  from_amount: string;
+  to_amount: string;
+  rate: string;
+  deposit_address: string;
+  output_address: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface ExchangesTableProps {
+  exchanges?: Exchange[];
+  className?: string;
+}
+
+type SortField = "id" | "from_currency" | "from_amount" | "status" | "created_at";
+type SortOrder = "asc" | "desc";
+
+export function ExchangesTable({
+  exchanges: initialExchanges = [],
+  className = "",
+}: ExchangesTableProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const ITEMS_PER_PAGE = 10;
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+    setCurrentPage(1);
+  };
+
+  const sortedExchanges = useMemo(() => {
+    if (!sortField) return initialExchanges;
+    return [...initialExchanges].sort((a, b) => {
+      let aVal: string | number = a[sortField];
+      let bVal: string | number = b[sortField];
+      if (sortField === "created_at") {
+        aVal = new Date(a.created_at).getTime();
+        bVal = new Date(b.created_at).getTime();
+      }
+      if (sortField === "from_amount") {
+        aVal = parseFloat(a.from_amount);
+        bVal = parseFloat(b.from_amount);
+      }
+      if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [initialExchanges, sortField, sortOrder]);
+
+  const paginatedExchanges = useMemo(() => {
+    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+    return sortedExchanges.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+  }, [sortedExchanges, currentPage]);
+
+  const totalPages = Math.ceil(sortedExchanges.length / ITEMS_PER_PAGE);
+
+  const getStatusStyle = (status: string) => {
+    const map: Record<string, { bg: string; border: string; text: string; dot: string }> = {
+      "Ожидает оплаты": { bg: "bg-yellow-50", border: "border-yellow-200", text: "text-yellow-700", dot: "bg-yellow-500" },
+      "Оплата получена": { bg: "bg-blue-50", border: "border-blue-200", text: "text-blue-700", dot: "bg-blue-500" },
+      "В обработке": { bg: "bg-indigo-50", border: "border-indigo-200", text: "text-indigo-700", dot: "bg-indigo-500" },
+      "Отправлено": { bg: "bg-purple-50", border: "border-purple-200", text: "text-purple-700", dot: "bg-purple-500" },
+      "Завершено": { bg: "bg-green-50", border: "border-green-200", text: "text-green-700", dot: "bg-green-500" },
+      "Отменено": { bg: "bg-red-50", border: "border-red-200", text: "text-red-700", dot: "bg-red-500" },
+    };
+    return map[status] || { bg: "bg-gray-50", border: "border-gray-200", text: "text-gray-700", dot: "bg-gray-500" };
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('ru-RU', {
+      year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  if (initialExchanges.length === 0) {
+    return (
+      <div className={`text-center py-16 ${className}`}>
+        <p className="text-gray-500 text-lg">У вас пока нет обменов</p>
+        <p className="text-gray-400 text-sm mt-2">Создайте первый обмен на вкладке "Обмен"</p>
+      </div>
+    );
+  }
+
+  const SortButton = ({ field, label }: { field: SortField; label: string }) => (
+    <button onClick={() => handleSort(field)} className="flex items-center gap-1 hover:text-black transition-colors">
+      {label}
+      {sortField === field && (
+        <ChevronDown size={12} className={`transition-transform ${sortOrder === "asc" ? "" : "rotate-180"}`} />
+      )}
+    </button>
+  );
+
+  return (
+    <div className={`w-full ${className}`}>
+      <div className="border-2 border-gray-300 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b-2 border-gray-300 bg-neutral-100">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <SortButton field="id" label="#" />
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <SortButton field="created_at" label="Дата" />
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Пара
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <SortButton field="from_amount" label="Отдаёте" />
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Получаете
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <SortButton field="status" label="Статус" />
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-8"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <AnimatePresence>
+                {paginatedExchanges.map((ex) => {
+                  const st = getStatusStyle(ex.status);
+                  const isExpanded = expandedRow === ex.id;
+                  return (
+                    <motion.tr
+                      key={ex.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="border-b border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+                      onClick={() => setExpandedRow(isExpanded ? null : ex.id)}
+                    >
+                      <td className="px-4 py-3 font-mono text-sm text-gray-600">{ex.id}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{formatDate(ex.created_at)}</td>
+                      <td className="px-4 py-3">
+                        <span className="font-mono text-sm font-semibold text-black">
+                          {ex.from_currency} → {ex.to_currency}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 font-mono text-sm text-black">{parseFloat(ex.from_amount).toFixed(6)} {ex.from_currency}</td>
+                      <td className="px-4 py-3 font-mono text-sm text-black">{parseFloat(ex.to_amount).toFixed(6)} {ex.to_currency}</td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-sm border ${st.bg} ${st.border} ${st.text}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${st.dot}`}></span>
+                          {ex.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <ChevronDown size={14} className={`text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                      </td>
+                    </motion.tr>
+                  );
+                })}
+              </AnimatePresence>
+            </tbody>
+          </table>
+        </div>
+
+        {expandedRow && (() => {
+          const ex = paginatedExchanges.find(e => e.id === expandedRow);
+          if (!ex) return null;
+          return (
+            <div className="border-t-2 border-gray-300 bg-neutral-50 p-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-mono text-xs break-all text-gray-700">{ex.deposit_address}</p>
+                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.deposit_address); }} className="text-gray-400 hover:text-black">
+                      <Copy size={12} />
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес получения</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-mono text-xs break-all text-gray-700">{ex.output_address}</p>
+                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.output_address); }} className="text-gray-400 hover:text-black">
+                      <Copy size={12} />
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Курс</p>
+                  <p className="font-mono text-sm text-black">1 {ex.from_currency} = {parseFloat(ex.rate).toFixed(6)} {ex.to_currency}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Обновлено</p>
+                  <p className="text-sm text-gray-600">{ex.updated_at ? formatDate(ex.updated_at) : '—'}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-sm text-gray-500">
+            Показано {((currentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, sortedExchanges.length)} из {sortedExchanges.length}
+          </p>
+          <div className="flex gap-1">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-3 py-1 text-sm border transition-colors ${
+                  currentPage === i + 1 ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default ExchangesTable;
