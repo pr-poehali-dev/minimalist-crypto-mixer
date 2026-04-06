@@ -34,6 +34,7 @@ const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [telegramUsername, setTelegramUsername] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [authError, setAuthError] = useState('');
   const [inputUsername, setInputUsername] = useState('');
   const [activeTab, setActiveTab] = useState('exchange');
 
@@ -146,6 +147,7 @@ const Index = () => {
 
   const handleRequestCode = async () => {
     if (!inputUsername.trim()) return;
+    setAuthError('');
     const username = inputUsername.startsWith('@') ? inputUsername : '@' + inputUsername;
     try {
       const resp = await fetch(API.telegramAuth, {
@@ -157,14 +159,17 @@ const Index = () => {
       if (data.success) {
         setTelegramUsername(username);
         setIsCodeSent(true);
+      } else {
+        setAuthError(data.error || 'Ошибка отправки кода');
       }
-    } catch {
-      setTelegramUsername(username);
-      setIsCodeSent(true);
+    } catch (e) {
+      console.error('Auth error', e);
+      setAuthError('Ошибка соединения');
     }
   };
 
   const handleVerifyCode = async (code: string) => {
+    setAuthError('');
     try {
       const resp = await fetch(API.telegramAuth, {
         method: 'POST',
@@ -174,9 +179,12 @@ const Index = () => {
       const data = await resp.json();
       if (data.success) {
         setIsAuthenticated(true);
+      } else {
+        setAuthError(data.error || 'Неверный код');
       }
-    } catch {
-      setIsAuthenticated(true);
+    } catch (e) {
+      console.error('Verify error', e);
+      setAuthError('Ошибка соединения');
     }
   };
 
@@ -355,14 +363,23 @@ const Index = () => {
                   {!isCodeSent ? (
                     <div className="p-6">
                       <h3 className="text-lg font-semibold mb-2 text-center">Вход через Telegram</h3>
-                      <p className="text-center text-gray-600 mb-6 text-sm">
+                      <p className="text-center text-gray-600 mb-4 text-sm">
                         Введите username, мы отправим вам код
                       </p>
+                      <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
+                        <p className="font-semibold mb-1">Первый раз?</p>
+                        <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
+                      </div>
+                      {authError && (
+                        <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">
+                          {authError}
+                        </div>
+                      )}
                       <div className="space-y-4">
                         <Input
                           placeholder="@username"
                           value={inputUsername}
-                          onChange={(e) => setInputUsername(e.target.value)}
+                          onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
                           onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
                           className="border-black/20 focus:border-black h-12"
                         />
@@ -373,6 +390,11 @@ const Index = () => {
                     </div>
                   ) : (
                     <div className="p-6">
+                      {authError && (
+                        <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">
+                          {authError}
+                        </div>
+                      )}
                       <OTPVerification
                         inputCount={4}
                         onVerify={handleVerifyCode}
