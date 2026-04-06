@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import sys
 import psycopg2
 from datetime import datetime
 import requests
