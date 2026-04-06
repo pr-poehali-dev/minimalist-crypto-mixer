@@ -1,6 +1,7 @@
 import json
 import os
 import psycopg2
+from datetime import datetime, timedelta
 
 def handler(event: dict, context) -> dict:
     '''Пользователь подтверждает отправку средств'''
@@ -39,7 +40,7 @@ def handler(event: dict, context) -> dict:
     cur = conn.cursor()
 
     cur.execute(
-        f"SELECT id, status FROM {schema}.exchanges WHERE short_id = %s",
+        f"SELECT id, status, created_at FROM {schema}.exchanges WHERE short_id = %s",
         (short_id.upper(),)
     )
     row = cur.fetchone()
@@ -52,6 +53,22 @@ def handler(event: dict, context) -> dict:
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'error': 'Order not found'})
         }
+
+    if row[1] == 'Ожидает оплаты' and row[2]:
+        expire_time = row[2] + timedelta(minutes=30)
+        if datetime.now() > expire_time:
+            cur.execute(
+                f"UPDATE {schema}.exchanges SET status = 'Не оплачена', updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+                (row[0],)
+            )
+            conn.commit()
+            cur.close()
+            conn.close()
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': 'Время на оплату истекло', 'expired': True})
+            }
 
     if row[1] != 'Ожидает оплаты':
         cur.close()

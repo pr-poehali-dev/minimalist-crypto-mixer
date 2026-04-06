@@ -2,6 +2,7 @@ import json
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from datetime import datetime, timedelta
 
 def handler(event: dict, context) -> dict:
     '''Получение списка обменов пользователя'''
@@ -45,6 +46,25 @@ def handler(event: dict, context) -> dict:
         (username,)
     )
     rows = cur.fetchall()
+
+    expired_ids = []
+    for r in rows:
+        if r['status'] == 'Ожидает оплаты' and r['created_at']:
+            expire_time = r['created_at'] + timedelta(minutes=30)
+            if datetime.now() > expire_time:
+                expired_ids.append(r['id'])
+                r['status'] = 'Не оплачена'
+
+    if expired_ids:
+        cur2 = conn.cursor()
+        for eid in expired_ids:
+            cur2.execute(
+                f"UPDATE {schema}.exchanges SET status = 'Не оплачена', updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+                (eid,)
+            )
+        conn.commit()
+        cur2.close()
+
     cur.close()
     conn.close()
 
