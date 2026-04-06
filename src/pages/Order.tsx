@@ -148,8 +148,8 @@ const Order = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 bg-card">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
-          <button onClick={() => navigate('/')}>
-            <img src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/bucket/cfecc782-c64c-4d1a-8f84-1a85396fc50d.png" alt="BLQOU" className="h-10 md:h-14 rounded-lg object-contain" />
+          <button onClick={() => navigate('/')} className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
+            BLQOU
           </button>
           <Button variant="outline" size="sm" onClick={() => navigate('/')}>
             <Icon name="ArrowLeft" size={14} className="mr-2" />
