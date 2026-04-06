@@ -173,9 +173,16 @@ export function ExchangesTable({
                           <ChevronDown size={14} className={`text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                         </td>
                       </motion.tr>
+                      <AnimatePresence>
                       {isExpanded && (
-                        <tr className="bg-neutral-50">
-                          <td colSpan={7} className="px-6 py-4">
+                        <motion.tr
+                          className="bg-neutral-50"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25, ease: "easeInOut" }}
+                        >
+                          <td colSpan={7} className="px-6 py-4 overflow-hidden">
                             <div className="grid grid-cols-2 gap-4">
                               <div>
                                 <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>
@@ -205,8 +212,9 @@ export function ExchangesTable({
                               </div>
                             </div>
                           </td>
-                        </tr>
+                        </motion.tr>
                       )}
+                      </AnimatePresence>
                     </React.Fragment>
                   );
                 })}
