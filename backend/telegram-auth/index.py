@@ -74,13 +74,17 @@ def send_code(body: dict) -> dict:
     conn.close()
 
     bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+    print(f'[AUTH] Sending code to chat_id={chat_id}, username={telegram_username}, bot_token_exists={bool(bot_token)}')
     if bot_token:
         msg = f'<b>Код для входа в обменник:</b>\n\n<code>{code}</code>\n\nКод действителен 10 минут.'
-        requests.post(
+        tg_resp = requests.post(
             f'https://api.telegram.org/bot{bot_token}/sendMessage',
             json={'chat_id': chat_id, 'text': msg, 'parse_mode': 'HTML'},
             timeout=5
         )
+        print(f'[AUTH] Telegram API response: status={tg_resp.status_code}, body={tg_resp.text}')
+    else:
+        print('[AUTH] ERROR: TELEGRAM_BOT_TOKEN not found in env')
 
     return {
         'statusCode': 200,
