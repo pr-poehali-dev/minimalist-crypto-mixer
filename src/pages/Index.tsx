@@ -72,7 +72,7 @@ const Index = () => {
     window.scrollTo({ top: 0 });
   };
 
-  const [fromCurrency, setFromCurrency] = useState('BTC');
+  const [fromCurrency, setFromCurrency] = useState('USDT-TRC20');
   const [toCurrency, setToCurrency] = useState('ETH');
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
