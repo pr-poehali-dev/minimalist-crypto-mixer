@@ -4,9 +4,9 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-20 mb-8 px-4 max-w-5xl mx-auto">
-      <div className="relative bg-neutral-50 rounded-3xl px-6 md:px-12 py-10 border border-gray-200">
-        <div className="flex flex-col md:flex-row justify-between gap-8">
+    <footer className="mt-12 md:mt-20 mb-6 md:mb-8 px-4 max-w-5xl mx-auto">
+      <div className="relative bg-neutral-50 rounded-2xl md:rounded-3xl px-5 md:px-12 py-8 md:py-10 border border-gray-200">
+        <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-8">
           <div className="flex flex-col gap-3 max-w-xs">
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               EXCHANGE
@@ -34,7 +34,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex gap-12 md:gap-16">
+          <div className="flex gap-8 md:gap-16">
             <div className="flex flex-col gap-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400">Навигация</h4>
               <div className="flex flex-col gap-2 text-sm">

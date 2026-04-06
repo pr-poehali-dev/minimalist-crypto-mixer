@@ -150,7 +150,7 @@ const Order = () => {
   if (error || !order) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <Card className="w-96 border-2 border-gray-300">
+        <Card className="w-full max-w-96 border-2 border-gray-300">
           <CardContent className="pt-6 text-center space-y-4">
             <Icon name="AlertCircle" size={40} className="mx-auto text-gray-400" />
             <p className="text-gray-600">{error || 'Заказ не найден'}</p>
@@ -170,7 +170,7 @@ const Order = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 bg-card">
-        <div className="px-8 py-6 flex items-center justify-between h-[73px]">
+        <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
           <button onClick={() => navigate('/')} className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             EXCHANGE
           </button>
@@ -186,7 +186,7 @@ const Order = () => {
           <CardHeader className="border-b-2 border-gray-300">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-xl font-medium text-black tracking-tight flex items-center gap-2">
+                <CardTitle className="text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
                   <Icon name="FileText" size={20} />
                   Заказ #{order.short_id}
                 </CardTitle>
@@ -201,22 +201,23 @@ const Order = () => {
             </div>
           </CardHeader>
           <CardContent className="pt-6 space-y-5">
-            <div className="flex items-center gap-3">
-              <div className="flex-1 p-4 border-2 bg-neutral-50" style={{ borderColor: from.color + '40' }}>
+            <div className="flex flex-col md:flex-row items-center gap-3">
+              <div className="flex-1 w-full p-4 border-2 bg-neutral-50" style={{ borderColor: from.color + '40' }}>
                 <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: from.color }}>Отправляете</p>
                 <div className="flex items-center gap-2">
                   <img src={from.logo} alt="" className="w-6 h-6 rounded-full" />
-                  <span className="text-lg font-bold font-mono text-black">{order.from_amount}</span>
+                  <span className="text-lg font-bold font-mono text-gray-800">{order.from_amount}</span>
                   <span className="font-mono font-semibold" style={{ color: from.color }}>{from.rateKey}</span>
                   {from.network && <span className="text-[9px] bg-gray-200 text-gray-600 px-1 rounded">{from.network}</span>}
                 </div>
               </div>
-              <Icon name="ArrowRight" size={20} className="text-gray-400 flex-shrink-0" />
-              <div className="flex-1 p-4 border-2 bg-neutral-50" style={{ borderColor: to.color + '40' }}>
+              <Icon name="ArrowDown" size={20} className="text-gray-400 flex-shrink-0 md:hidden" />
+              <Icon name="ArrowRight" size={20} className="text-gray-400 flex-shrink-0 hidden md:block" />
+              <div className="flex-1 w-full p-4 border-2 bg-neutral-50" style={{ borderColor: to.color + '40' }}>
                 <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: to.color }}>Получаете</p>
                 <div className="flex items-center gap-2">
                   <img src={to.logo} alt="" className="w-6 h-6 rounded-full" />
-                  <span className="text-lg font-bold font-mono text-black">{parseFloat(order.to_amount).toFixed(6)}</span>
+                  <span className="text-lg font-bold font-mono text-gray-800">{parseFloat(order.to_amount).toFixed(6)}</span>
                   <span className="font-mono font-semibold" style={{ color: to.color }}>{to.rateKey}</span>
                   {to.network && <span className="text-[9px] bg-gray-200 text-gray-600 px-1 rounded">{to.network}</span>}
                 </div>
@@ -230,8 +231,8 @@ const Order = () => {
                     Отправьте <span style={{ color: from.color }}>{order.from_amount} {from.rateKey}</span> на адрес
                   </p>
                   <div className="flex items-center gap-2">
-                    <p className="font-mono text-sm font-bold text-black break-all flex-1">{order.deposit_address}</p>
-                    <button onClick={() => navigator.clipboard.writeText(order.deposit_address)} className="text-gray-400 hover:text-black transition-colors flex-shrink-0 p-1">
+                    <p className="font-mono text-sm font-bold text-gray-800 break-all flex-1">{order.deposit_address}</p>
+                    <button onClick={() => navigator.clipboard.writeText(order.deposit_address)} className="text-gray-400 hover:text-gray-800 transition-colors flex-shrink-0 p-1">
                       <Icon name="Copy" size={16} />
                     </button>
                   </div>
@@ -251,7 +252,7 @@ const Order = () => {
                   <Button
                     onClick={handleConfirmPayment}
                     disabled={confirming}
-                    className="w-full h-12 bg-black hover:bg-gray-800 text-white font-semibold text-sm uppercase tracking-wider"
+                    className="w-full h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold text-sm uppercase tracking-wider"
                   >
                     <Icon name="Check" size={18} className="mr-2" />
                     {confirming ? 'Подтверждение...' : 'Я отправил'}
@@ -338,20 +339,20 @@ const Order = () => {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
                 <p className="text-[10px] text-gray-400 uppercase tracking-wider">Номер заказа</p>
-                <p className="text-base font-bold font-mono text-black mt-1">{order.short_id}</p>
+                <p className="text-base font-bold font-mono text-gray-800 mt-1">{order.short_id}</p>
               </div>
               <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
                 <p className="text-[10px] text-gray-400 uppercase tracking-wider">Курс</p>
-                <p className="text-xs font-mono text-black mt-1">1 {from.rateKey} = {parseFloat(order.rate).toFixed(4)} {to.rateKey}</p>
+                <p className="text-xs font-mono text-gray-800 mt-1">1 {from.rateKey} = {parseFloat(order.rate).toFixed(4)} {to.rateKey}</p>
               </div>
             </div>
 
             <div className="p-4 border-2 border-gray-300 bg-neutral-50">
               <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">Адрес получения {to.rateKey}</p>
-              <p className="font-mono text-sm text-black break-all">{order.output_address}</p>
+              <p className="font-mono text-sm text-gray-800 break-all">{order.output_address}</p>
             </div>
 
 

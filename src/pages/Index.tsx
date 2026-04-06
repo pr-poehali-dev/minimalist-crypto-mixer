@@ -66,6 +66,7 @@ const Index = () => {
   const [isLoadingExchanges, setIsLoadingExchanges] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const fetchRates = useCallback(async () => {
     setIsLoadingRates(true);
@@ -340,21 +341,35 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 8, scale: 0.96 }}
                 transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
-                className="absolute z-50 top-full right-0 mt-1.5 bg-white border-2 border-gray-300 rounded-md shadow-xl overflow-hidden"
+                className="fixed inset-0 z-50 bg-white flex flex-col md:absolute md:inset-auto md:top-full md:right-0 md:mt-1.5 md:border-2 md:border-gray-300 md:rounded-md md:shadow-xl md:overflow-hidden md:flex-none"
                 style={{ minWidth: '260px' }}
                 onKeyDown={handleKeyDown}
               >
-                <div className="p-2 border-b border-gray-200">
+                <div className="flex items-center justify-between p-3 border-b border-gray-200 md:p-2">
+                  <span className="text-sm font-semibold text-gray-700 md:hidden">Выберите валюту</span>
+                  <button type="button" onClick={() => setIsOpen(false)} className="md:hidden p-1">
+                    <Icon name="X" size={20} className="text-gray-500" />
+                  </button>
                   <input
                     ref={searchRef}
                     type="text"
                     value={query}
                     onChange={e => { setQuery(e.target.value); setActiveIndex(0); }}
                     placeholder="Поиск валюты..."
-                    className="w-full px-2.5 py-1.5 text-sm bg-neutral-50 border border-gray-200 rounded outline-none focus:border-gray-400 transition-colors"
+                    className="hidden md:block w-full px-2.5 py-1.5 text-sm bg-neutral-50 border border-gray-200 rounded outline-none focus:border-gray-400 transition-colors"
                   />
                 </div>
-                <div ref={listRef} className="max-h-64 overflow-y-auto overscroll-contain">
+                <div className="px-3 py-2 border-b border-gray-200 md:hidden">
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={e => { setQuery(e.target.value); setActiveIndex(0); }}
+                    placeholder="Поиск валюты..."
+                    autoFocus
+                    className="w-full px-3 py-2 text-sm bg-neutral-50 border border-gray-200 rounded-lg outline-none focus:border-gray-400 transition-colors"
+                  />
+                </div>
+                <div ref={listRef} className="flex-1 overflow-y-auto overscroll-contain md:max-h-64">
                   {filtered.length === 0 && (
                     <div className="px-3 py-4 text-sm text-gray-400 text-center">Ничего не найдено</div>
                   )}
@@ -367,7 +382,7 @@ const Index = () => {
                       transition={{ duration: 0.1, delay: idx * 0.015 }}
                       onClick={() => onSelect(coin.symbol)}
                       onMouseEnter={() => setActiveIndex(idx)}
-                      className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-sm transition-colors ${
+                      className={`w-full flex items-center gap-2.5 px-4 py-3 md:px-3 md:py-2.5 text-sm transition-colors ${
                         coin.symbol === selected
                           ? 'bg-neutral-100 font-semibold'
                           : idx === activeIndex
@@ -375,7 +390,7 @@ const Index = () => {
                           : 'hover:bg-neutral-50'
                       }`}
                     >
-                      <img src={coin.logo} alt={coin.symbol} className="w-5 h-5 rounded-full flex-shrink-0" />
+                      <img src={coin.logo} alt={coin.symbol} className="w-6 h-6 md:w-5 md:h-5 rounded-full flex-shrink-0" />
                       <span className="flex flex-col items-start">
                         <span className="font-mono text-sm flex items-center gap-1.5">
                           {coin.rateKey}
@@ -398,11 +413,22 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <header className="border-b border-border/50">
-        <div className="px-8 py-6 flex items-center justify-between h-[73px]">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex-shrink-0">
+        <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
+          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex-shrink-0">
             EXCHANGE
           </h1>
-          <div className="inline-flex h-9 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 p-0.5 shadow-sm border border-blue-100 overflow-hidden">
+
+          {/* Mobile burger menu button */}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} className="text-gray-700" />
+          </button>
+
+          {/* Desktop tab bar */}
+          <div className="hidden md:inline-flex h-9 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 p-0.5 shadow-sm border border-blue-100 overflow-hidden">
             <RadioGroup
               value={activeTab}
               onValueChange={setActiveTab}
@@ -436,7 +462,8 @@ const Index = () => {
               <GlassFilter />
             </RadioGroup>
           </div>
-          <div className="flex items-center gap-4 flex-shrink-0">
+          {/* Desktop auth buttons */}
+          <div className="hidden md:flex items-center gap-4 flex-shrink-0">
             {isAuthenticated ? (
               <Dropdown>
                 <DropdownTrigger className="cursor-pointer">
@@ -526,26 +553,151 @@ const Index = () => {
             )}
           </div>
         </div>
+
+        {/* Mobile slide-out menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+              className="md:hidden overflow-hidden border-t border-gray-100 bg-white"
+            >
+              <nav className="px-4 py-3 space-y-1">
+                {[
+                  { value: 'exchange', label: 'Обмен', icon: 'ArrowLeftRight' },
+                  { value: 'my-exchanges', label: 'Мои обмены', icon: 'ClipboardList' },
+                  { value: 'about', label: 'О нас', icon: 'Info' },
+                  { value: 'support', label: 'Поддержка', icon: 'HeadphonesIcon' },
+                  { value: 'faq', label: 'FAQ', icon: 'HelpCircle' },
+                ].map((tab) => (
+                  <button
+                    key={tab.value}
+                    type="button"
+                    onClick={() => { setActiveTab(tab.value); setIsMobileMenuOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                      activeTab === tab.value
+                        ? 'bg-blue-50 text-blue-600'
+                        : 'text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Icon name={tab.icon} size={18} />
+                    {tab.label}
+                  </button>
+                ))}
+              </nav>
+              <div className="px-4 py-3 border-t border-gray-100">
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 px-3 py-2">
+                      <AvatarWithName
+                        name={telegramUsername}
+                        fallback={telegramUsername.slice(1, 3).toUpperCase()}
+                        size="sm"
+                        direction="right"
+                      />
+                    </div>
+                    {ADMIN_USERNAMES.includes(telegramUsername.toLowerCase()) && (
+                      <button
+                        type="button"
+                        onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                      >
+                        <Icon name="Settings" size={18} />
+                        Админ-панель
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
+                    >
+                      <Icon name="LogOut" size={18} />
+                      Выйти
+                    </button>
+                  </div>
+                ) : (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="w-full">Войти через Telegram</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80 p-0" align="center">
+                      {!isCodeSent ? (
+                        <div className="p-6">
+                          <h3 className="text-lg font-semibold mb-2 text-center">Вход через Telegram</h3>
+                          <p className="text-center text-gray-600 mb-4 text-sm">
+                            Введите username, мы отправим вам код
+                          </p>
+                          <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
+                            <p className="font-semibold mb-1">Первый раз?</p>
+                            <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
+                          </div>
+                          {authError && (
+                            <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">
+                              {authError}
+                            </div>
+                          )}
+                          <div className="space-y-4">
+                            <Input
+                              placeholder="@username"
+                              value={inputUsername}
+                              onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
+                              onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
+                              className="border-gray-300 focus:border-blue-500 h-12"
+                            />
+                            <div onClick={handleRequestCode} className="w-full">
+                              <FlowButton text="Получить код" />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-6">
+                          {authError && (
+                            <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">
+                              {authError}
+                            </div>
+                          )}
+                          <OTPVerification
+                            inputCount={4}
+                            onVerify={handleVerifyCode}
+                            onResend={handleResendCode}
+                            telegram_username={telegramUsername}
+                          />
+                        </div>
+                      )}
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      <main className="flex-1 px-4 py-12 overflow-y-auto">
+      <main className="flex-1 px-3 py-6 md:px-4 md:py-12 overflow-y-auto">
         <div className="max-w-5xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsContent value="exchange" className="animate-fade-in">
               <div className="max-w-4xl mx-auto">
-                  <Card className="border-2 border-gray-300 bg-white shadow-sm">
-                    <CardHeader className="border-b-2 border-gray-300">
-                      <CardTitle className="text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
-                        <Icon name="ArrowLeftRight" size={20} />
+                <div className="text-center mb-6 md:mb-8">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Мгновенный обмен криптовалют</h2>
+                  <p className="text-gray-500 mt-2 text-sm md:text-base">Быстро, анонимно, без регистрации</p>
+                </div>
+                  <Card className="border border-gray-200 md:border-2 md:border-gray-300 bg-white shadow-sm">
+                    <CardHeader className="border-b border-gray-200 md:border-b-2 md:border-gray-300 px-4 py-4 md:px-6 md:py-6">
+                      <CardTitle className="text-lg md:text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
+                        <Icon name="ArrowLeftRight" size={18} className="md:hidden" />
+                        <Icon name="ArrowLeftRight" size={20} className="hidden md:block" />
                         Обмен криптовалюты
                       </CardTitle>
-                      <p className="text-gray-600 mt-1 text-sm">
+                      <p className="text-gray-600 mt-1 text-xs md:text-sm">
                         {isLoadingRates ? 'Загрузка курсов...' : `Курсы обновляются каждые 30 сек`}
                       </p>
                     </CardHeader>
-                    <CardContent className="pt-6">
+                    <CardContent className="pt-4 md:pt-6 px-4 md:px-6">
                       <form onSubmit={handleSubmitExchange} className="space-y-5">
-                        <div className="flex items-start gap-3">
+                        <div className="flex flex-col md:flex-row items-stretch md:items-start gap-3">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-2">
                               <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: getCoinInfo(fromCurrency).color }}>Отправляете</label>
@@ -582,7 +734,7 @@ const Index = () => {
                             </div>
                           </div>
 
-                          <div className="flex items-center pt-7">
+                          <div className="flex items-center pt-0 md:pt-7 justify-center">
                             <motion.button
                               type="button"
                               onClick={handleSwapCurrencies}
@@ -591,7 +743,8 @@ const Index = () => {
                               whileHover={{ scale: 1.08 }}
                               transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                             >
-                              <Icon name="ArrowLeftRight" size={16} className="text-gray-600" />
+                              <Icon name="ArrowUpDown" size={16} className="text-gray-600 md:hidden" />
+                              <Icon name="ArrowLeftRight" size={16} className="text-gray-600 hidden md:block" />
                             </motion.button>
                           </div>
 
@@ -669,19 +822,27 @@ const Index = () => {
 
               <PopularPairs />
 
-              <ContainerScroll
-                titleComponent={
-                  <>
-                    <h2 className="text-3xl md:text-4xl font-semibold text-gray-800">
-                      <span className="text-4xl md:text-[5rem] font-bold mt-1 leading-none">
-                        Почему именно мы
-                      </span>
-                    </h2>
-                  </>
-                }
-              >
-                <CryptoChartsDisplay />
-              </ContainerScroll>
+              <div className="hidden md:block">
+                <ContainerScroll
+                  titleComponent={
+                    <>
+                      <h2 className="text-3xl md:text-4xl font-semibold text-gray-800">
+                        <span className="text-4xl md:text-[5rem] font-bold mt-1 leading-none">
+                          Почему именно мы
+                        </span>
+                      </h2>
+                    </>
+                  }
+                >
+                  <CryptoChartsDisplay />
+                </ContainerScroll>
+              </div>
+              <div className="md:hidden py-10 px-4">
+                <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Почему именно мы</h2>
+                <div className="rounded-2xl border border-gray-200 overflow-hidden bg-white">
+                  <CryptoChartsDisplay />
+                </div>
+              </div>
 
               <Testimonials />
 

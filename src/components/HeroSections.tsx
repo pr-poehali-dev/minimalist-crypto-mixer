@@ -19,13 +19,13 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section className="max-w-5xl mx-auto py-16 px-4">
-      <div className="text-center mb-12">
+    <section className="max-w-5xl mx-auto py-10 md:py-16 px-4">
+      <div className="text-center mb-8 md:mb-12">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-gray-800"
+          className="text-2xl md:text-4xl font-bold text-gray-800"
         >
           Как это работает
         </motion.h2>
@@ -34,13 +34,13 @@ export const HowItWorks = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
-          className="text-gray-500 mt-3 text-lg"
+          className="text-gray-500 mt-2 md:mt-3 text-base md:text-lg"
         >
           4 простых шага до обмена
         </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         {steps.map((step, i) => (
           <motion.div
             key={step.num}
@@ -49,14 +49,15 @@ export const HowItWorks = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
-            className="relative bg-white border border-gray-200 rounded-2xl p-6 text-center hover:border-gray-300 hover:shadow-sm transition-all group"
+            className="relative bg-white border border-gray-200 rounded-2xl p-4 md:p-6 text-center hover:border-gray-300 hover:shadow-sm transition-all group"
           >
             <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">{step.num}</span>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mt-3 mb-4 group-hover:scale-105 transition-transform shadow-md shadow-blue-500/15">
-              <Icon name={step.icon} size={24} className="text-white" />
+            <div className="w-11 h-11 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mt-2 md:mt-3 mb-3 md:mb-4 group-hover:scale-105 transition-transform shadow-md shadow-blue-500/15">
+              <Icon name={step.icon} size={20} className="text-white md:hidden" />
+              <Icon name={step.icon} size={24} className="text-white hidden md:block" />
             </div>
-            <h3 className="font-bold text-gray-800 text-base">{step.title}</h3>
-            <p className="text-sm text-gray-500 mt-2 leading-relaxed">{step.desc}</p>
+            <h3 className="font-bold text-gray-800 text-sm md:text-base">{step.title}</h3>
+            <p className="text-xs md:text-sm text-gray-500 mt-1.5 md:mt-2 leading-relaxed">{step.desc}</p>
             {i < steps.length - 1 && (
               <div className="hidden md:block absolute top-1/2 -right-4 text-gray-300">
                 <Icon name="ChevronRight" size={18} />
@@ -80,13 +81,13 @@ export const PopularPairs = () => {
   ];
 
   return (
-    <section className="max-w-5xl mx-auto py-16 px-4">
-      <div className="text-center mb-10">
+    <section className="max-w-5xl mx-auto py-10 md:py-16 px-4">
+      <div className="text-center mb-6 md:mb-10">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-gray-800"
+          className="text-2xl md:text-4xl font-bold text-gray-800"
         >
           Популярные направления
         </motion.h2>
@@ -95,13 +96,13 @@ export const PopularPairs = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
-          className="text-gray-500 mt-3"
+          className="text-gray-500 mt-2 md:mt-3 text-sm md:text-base"
         >
           Самые востребованные обменные пары
         </motion.p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
         {pairs.map((pair, i) => (
           <motion.div
             key={`${pair.from}-${pair.to}`}
@@ -110,20 +111,20 @@ export const PopularPairs = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
-            className="bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group"
+            className="bg-white border border-gray-200 rounded-xl md:rounded-2xl p-3.5 md:p-5 hover:border-gray-300 hover:shadow-sm transition-all cursor-pointer group"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="flex -space-x-2">
-                <img src={pair.fromLogo} alt={pair.from} className="w-9 h-9 rounded-full border-2 border-white relative z-10" />
-                <img src={pair.toLogo} alt={pair.to} className="w-9 h-9 rounded-full border-2 border-white" />
+                <img src={pair.fromLogo} alt={pair.from} className="w-7 h-7 md:w-9 md:h-9 rounded-full border-2 border-white relative z-10" />
+                <img src={pair.toLogo} alt={pair.to} className="w-7 h-7 md:w-9 md:h-9 rounded-full border-2 border-white" />
               </div>
               <div>
-                <p className="font-bold text-gray-800 text-sm">
+                <p className="font-bold text-gray-800 text-xs md:text-sm">
                   <span style={{ color: pair.fromColor }}>{pair.from}</span>
-                  <span className="text-gray-400 mx-1.5">→</span>
+                  <span className="text-gray-400 mx-1">→</span>
                   <span style={{ color: pair.toColor }}>{pair.to}</span>
                 </p>
-                <p className="text-[11px] text-gray-400 mt-0.5">Мгновенный обмен</p>
+                <p className="text-[10px] md:text-[11px] text-gray-400 mt-0.5">Мгновенный обмен</p>
               </div>
             </div>
           </motion.div>
@@ -142,9 +143,9 @@ export const StatsSection = () => {
   ];
 
   return (
-    <section className="max-w-5xl mx-auto py-16 px-4">
-      <div className="bg-gradient-to-br from-slate-100 to-blue-50 border border-gray-200 rounded-3xl p-8 md:p-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+    <section className="max-w-5xl mx-auto py-10 md:py-16 px-4">
+      <div className="bg-gradient-to-br from-slate-100 to-blue-50 border border-gray-200 rounded-2xl md:rounded-3xl p-6 md:p-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -155,11 +156,12 @@ export const StatsSection = () => {
               variants={fadeUp}
               className="text-center"
             >
-              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                <Icon name={stat.icon} size={22} className="text-blue-600" />
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-blue-100 flex items-center justify-center mx-auto mb-2 md:mb-4">
+                <Icon name={stat.icon} size={18} className="text-blue-600 md:hidden" />
+                <Icon name={stat.icon} size={22} className="text-blue-600 hidden md:block" />
               </div>
-              <p className="text-3xl md:text-4xl font-bold text-gray-800">{stat.value}</p>
-              <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+              <p className="text-2xl md:text-4xl font-bold text-gray-800">{stat.value}</p>
+              <p className="text-xs md:text-sm text-gray-500 mt-0.5 md:mt-1">{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -179,13 +181,13 @@ export const Testimonials = () => {
   ];
 
   return (
-    <section className="max-w-5xl mx-auto py-16 px-4">
-      <div className="text-center mb-10">
+    <section className="max-w-5xl mx-auto py-10 md:py-16 px-4">
+      <div className="text-center mb-6 md:mb-10">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-gray-800"
+          className="text-2xl md:text-4xl font-bold text-gray-800"
         >
           Отзывы клиентов
         </motion.h2>
@@ -194,13 +196,13 @@ export const Testimonials = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
-          className="text-gray-500 mt-3"
+          className="text-gray-500 mt-2 md:mt-3 text-sm md:text-base"
         >
           Нам доверяют тысячи пользователей
         </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
         {reviews.map((review, i) => (
           <motion.div
             key={review.name}
@@ -209,7 +211,7 @@ export const Testimonials = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
-            className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-gray-300 transition-all"
+            className="bg-white border border-gray-200 rounded-xl md:rounded-2xl p-4 md:p-6 hover:border-gray-300 transition-all"
           >
             <div className="flex items-center gap-1 mb-3">
               {Array.from({ length: 5 }).map((_, si) => (
@@ -240,21 +242,21 @@ export const Testimonials = () => {
 
 export const TrustBanner = () => {
   return (
-    <section className="max-w-5xl mx-auto py-8 px-4">
+    <section className="max-w-5xl mx-auto py-6 md:py-8 px-4">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden"
+        className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl md:rounded-3xl p-6 md:p-12 text-center relative overflow-hidden"
       >
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-40 h-40 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
           <div className="absolute bottom-0 right-0 w-60 h-60 bg-white rounded-full translate-x-1/3 translate-y-1/3" />
         </div>
         <div className="relative z-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Начните обмен прямо сейчас</h2>
-          <p className="text-blue-100 mb-6 max-w-lg mx-auto">Без регистрации, без KYC. Просто выберите валюту, укажите адрес — и получите крипту за считанные минуты.</p>
-          <div className="flex items-center justify-center gap-3 flex-wrap">
+          <h2 className="text-xl md:text-3xl font-bold text-white mb-2 md:mb-3">Начните обмен прямо сейчас</h2>
+          <p className="text-blue-100 mb-4 md:mb-6 max-w-lg mx-auto text-sm md:text-base">Без регистрации, без KYC. Просто выберите валюту, укажите адрес — и получите крипту за считанные минуты.</p>
+          <div className="flex items-center justify-center gap-2 md:gap-3 flex-wrap">
             <div className="flex items-center gap-2 bg-white/15 rounded-full px-4 py-2">
               <Icon name="ShieldCheck" size={16} className="text-green-300" />
               <span className="text-sm text-white font-medium">Анонимно</span>
