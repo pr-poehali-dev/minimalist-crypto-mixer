@@ -90,9 +90,13 @@ export function ExchangesTable({
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ru-RU', {
-      year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
+    const d = new Date(dateString);
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = String(d.getFullYear()).slice(-2);
+    const hh = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${dd}.${mm}.${yy} | ${hh}:${min}`;
   };
 
   const copyToClipboard = (text: string) => {
@@ -125,7 +129,7 @@ export function ExchangesTable({
             <thead>
               <tr className="border-b-2 border-gray-300 bg-neutral-100">
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <SortButton field="id" label="#" />
+                  <SortButton field="id" label="ID" />
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   <SortButton field="created_at" label="Дата" />
@@ -159,7 +163,7 @@ export function ExchangesTable({
                         className="border-b border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
                         onClick={() => setExpandedRow(isExpanded ? null : ex.id)}
                       >
-                        <td className="px-4 py-3 font-mono text-sm text-gray-600">{ex.id}</td>
+                        <td className="px-4 py-3 font-mono text-sm text-gray-600">#{ex.short_id || ex.id}</td>
                         <td className="px-4 py-3 text-sm text-gray-600">{formatDate(ex.created_at)}</td>
                         <td className="px-4 py-3">
                           <span className="font-mono text-sm font-semibold text-black">
