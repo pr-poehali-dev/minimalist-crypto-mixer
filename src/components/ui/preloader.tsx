@@ -77,7 +77,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       variants={slideUp}
       initial="initial"
       animate={isExiting ? "exit" : "initial"}
-      className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-black z-[99999999999]"
+      className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 z-[99999999999]"
     >
       {dimension.width > 0 && (
         <>
@@ -91,7 +91,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             {words[index]}
           </motion.p>
           <svg className="absolute top-0 w-full h-[calc(100%+300px)]">
-            <motion.path variants={curve} initial="initial" animate={isExiting ? "exit" : "initial"} fill="#070b13" />
+            <defs>
+              <linearGradient id="preloaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#2563eb" />
+                <stop offset="100%" stopColor="#4338ca" />
+              </linearGradient>
+            </defs>
+            <motion.path variants={curve} initial="initial" animate={isExiting ? "exit" : "initial"} fill="url(#preloaderGrad)" />
           </svg>
         </>
       )}
