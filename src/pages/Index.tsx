@@ -87,14 +87,6 @@ const Index = () => {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [isLoadingExchanges, setIsLoadingExchanges] = useState(false);
 
-  const [depositAddress, setDepositAddress] = useState('');
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [createdExchange, setCreatedExchange] = useState<{
-    id: number; shortId: string; fromCurrency: string; toCurrency: string; fromAmount: string;
-    toAmount: string; rate: number; outputAddress: string; createdAt: string;
-  } | null>(null);
-  const [confirmationTimer, setConfirmationTimer] = useState(1800);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchRates = useCallback(async () => {
@@ -260,20 +252,6 @@ const Index = () => {
     }
   }, [isAuthenticated, activeTab, telegramUsername]);
 
-  useEffect(() => {
-    if (!showConfirmation || confirmationTimer <= 0) return;
-    const interval = setInterval(() => {
-      setConfirmationTimer(prev => prev > 0 ? prev - 1 : 0);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [showConfirmation, confirmationTimer]);
-
-  const formatTimer = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  };
-
   const handleSubmitExchange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isAuthenticated) {
@@ -302,13 +280,7 @@ const Index = () => {
       });
       const data = await resp.json();
       if (data.success) {
-        setDepositAddress(data.deposit_address);
-        setCreatedExchange({
-          id: data.exchange_id, shortId: data.short_id, fromCurrency, toCurrency, fromAmount, toAmount, rate, outputAddress,
-          createdAt: new Date().toISOString(),
-        });
-        setConfirmationTimer(1800);
-        setShowConfirmation(true);
+        navigate(`/order/${data.short_id}`);
       }
     } catch (err) {
       console.error('Exchange creation failed', err);
@@ -316,14 +288,7 @@ const Index = () => {
     setIsSubmitting(false);
   };
 
-  const handleNewExchange = () => {
-    setShowConfirmation(false);
-    setDepositAddress('');
-    setCreatedExchange(null);
-    setFromAmount('');
-    setToAmount('');
-    setOutputAddress('');
-  };
+
 
   const currentRate = getExchangeRate(fromCurrency, toCurrency);
 
@@ -511,7 +476,7 @@ const Index = () => {
 
             <TabsContent value="exchange" className="animate-fade-in">
               <div className="max-w-5xl mx-auto flex gap-6">
-                {!showConfirmation && !isLoadingRates && Object.keys(rates).length > 0 && (
+                {!isLoadingRates && Object.keys(rates).length > 0 && (
                   <div className="w-[160px] flex-shrink-0 hidden lg:block">
                     <div className="sticky top-6">
                       <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1">
@@ -537,106 +502,6 @@ const Index = () => {
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                {showConfirmation && createdExchange ? (
-                  <Card className="border-2 border-gray-300 bg-white shadow-sm">
-                    <CardHeader className="border-b-2 border-gray-300">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <CardTitle className="text-xl font-medium text-black tracking-tight flex items-center gap-2">
-                            <Icon name="CheckCircle" size={20} className="text-green-500" />
-                            Заявка #{createdExchange.shortId}
-                          </CardTitle>
-                          <p className="text-gray-500 mt-1 text-sm">
-                            {new Date(createdExchange.createdAt).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}{' '}
-                            {new Date(createdExchange.createdAt).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-xs text-gray-400 uppercase tracking-wider">Осталось</p>
-                          <p className="text-lg font-bold font-mono text-black">{formatTimer(confirmationTimer)}</p>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-6 space-y-5">
-                      <div className="flex items-center gap-3">
-                        <div className="flex-1 p-4 border-2 bg-neutral-50 transition-colors" style={{ borderColor: getCoinInfo(createdExchange.fromCurrency).color + '40' }}>
-                          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: getCoinInfo(createdExchange.fromCurrency).color }}>Отправляете</p>
-                          <div className="flex items-center gap-2">
-                            <img src={getCoinInfo(createdExchange.fromCurrency).logo} alt="" className="w-6 h-6 rounded-full" />
-                            <span className="text-lg font-bold font-mono text-black">{createdExchange.fromAmount}</span>
-                            <span className="font-mono font-semibold" style={{ color: getCoinInfo(createdExchange.fromCurrency).color }}>{getCoinInfo(createdExchange.fromCurrency).rateKey}</span>
-                          </div>
-                        </div>
-                        <Icon name="ArrowRight" size={20} className="text-gray-400 flex-shrink-0" />
-                        <div className="flex-1 p-4 border-2 bg-neutral-50 transition-colors" style={{ borderColor: getCoinInfo(createdExchange.toCurrency).color + '40' }}>
-                          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: getCoinInfo(createdExchange.toCurrency).color }}>Получаете</p>
-                          <div className="flex items-center gap-2">
-                            <img src={getCoinInfo(createdExchange.toCurrency).logo} alt="" className="w-6 h-6 rounded-full" />
-                            <span className="text-lg font-bold font-mono text-black">{parseFloat(createdExchange.toAmount).toFixed(6)}</span>
-                            <span className="font-mono font-semibold" style={{ color: getCoinInfo(createdExchange.toCurrency).color }}>
-                              {getCoinInfo(createdExchange.toCurrency).rateKey}
-                            </span>
-                            {getCoinInfo(createdExchange.toCurrency).network && (
-                              <span className="text-[9px] bg-gray-200 text-gray-600 px-1 rounded">{getCoinInfo(createdExchange.toCurrency).network}</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="p-4 border-2 border-gray-300 bg-neutral-50">
-                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">
-                          Отправьте <span style={{ color: getCoinInfo(createdExchange.fromCurrency).color }}>{createdExchange.fromAmount} {getCoinInfo(createdExchange.fromCurrency).rateKey}</span> на адрес
-                        </p>
-                        <div className="flex items-center gap-2">
-                          <p className="font-mono text-sm font-bold text-black break-all flex-1">{depositAddress}</p>
-                          <button
-                            onClick={() => navigator.clipboard.writeText(depositAddress)}
-                            className="text-gray-400 hover:text-black transition-colors flex-shrink-0 p-1"
-                          >
-                            <Icon name="Copy" size={16} />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider">Номер заказа</p>
-                          <p className="text-base font-bold font-mono text-black mt-1">{createdExchange.shortId}</p>
-                        </div>
-                        <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider">Курс</p>
-                          <p className="text-xs font-mono text-black mt-1">1 {getCoinInfo(createdExchange.fromCurrency).rateKey} = {createdExchange.rate.toFixed(4)} {getCoinInfo(createdExchange.toCurrency).rateKey}</p>
-                        </div>
-                      </div>
-
-                      <div className="p-4 border-2 border-gray-300 bg-neutral-50">
-                        <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">
-                          Адрес получения {getCoinInfo(createdExchange.toCurrency).rateKey}
-                        </p>
-                        <p className="font-mono text-sm text-black break-all">{createdExchange.outputAddress}</p>
-                      </div>
-
-                      <p className="text-xs text-gray-400 text-center">
-                        Курс будет зафиксирован после получения 1 подтверждения сети
-                      </p>
-
-                      <div className="flex gap-3">
-                        <Button
-                          onClick={() => navigator.clipboard.writeText(depositAddress)}
-                          className="flex-1 h-11 bg-black hover:bg-gray-800 text-white font-semibold text-xs uppercase tracking-wider transition-all"
-                        >
-                          Копировать адрес
-                        </Button>
-                        <Button
-                          onClick={handleNewExchange}
-                          className="flex-1 h-11 bg-white hover:bg-gray-100 text-black border-2 border-gray-300 font-semibold text-xs uppercase tracking-wider transition-all"
-                        >
-                          Новый обмен
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ) : (
                   <Card className="border-2 border-gray-300 bg-white shadow-sm">
                     <CardHeader className="border-b-2 border-gray-300">
                       <CardTitle className="text-xl font-medium text-black tracking-tight flex items-center gap-2">
@@ -761,8 +626,6 @@ const Index = () => {
                       </form>
                     </CardContent>
                   </Card>
-                )}
-
                 </div>
               </div>
             </TabsContent>
