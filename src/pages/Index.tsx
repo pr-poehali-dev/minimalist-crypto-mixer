@@ -292,6 +292,13 @@ const Index = () => {
       return;
     }
 
+    const fromRateKey = getCoinInfo(fromCurrency).rateKey;
+    const fromUsdValue = Number(fromAmount) * (rates[fromRateKey] || 0);
+    if (fromUsdValue < 25) {
+      alert(`Минимальная сумма обмена — $25. Текущая сумма: $${fromUsdValue.toFixed(2)}`);
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const rate = getExchangeRate(fromCurrency, toCurrency);
@@ -835,6 +842,10 @@ const Index = () => {
                         >
                           {isSubmitting ? 'Создание заявки...' : `Обменять ${getCoinInfo(fromCurrency).rateKey} на ${getCoinInfo(toCurrency).rateKey}`}
                         </Button>
+
+                        <p className="text-center text-[11px] text-gray-400">
+                          Минимальная сумма обмена — $25
+                        </p>
 
                         {!isAuthenticated && (
                           <p className="text-center text-xs text-gray-400">
