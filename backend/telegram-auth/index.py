@@ -61,7 +61,7 @@ def send_code(body: dict) -> dict:
         return error_response('Сначала напишите /start нашему боту в Telegram, затем повторите попытку', 400)
 
     chat_id = row[0]
-    code = str(random.randint(100000, 999999))
+    code = str(random.randint(1000, 9999))
 
     cur.execute(
         f'''INSERT INTO {schema}.auth_sessions (telegram_username, code, verified)

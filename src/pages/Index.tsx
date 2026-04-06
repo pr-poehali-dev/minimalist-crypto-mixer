@@ -396,7 +396,7 @@ const Index = () => {
                         </div>
                       )}
                       <OTPVerification
-                        inputCount={6}
+                        inputCount={4}
                         onVerify={handleVerifyCode}
                         onResend={handleResendCode}
                         telegram_username={telegramUsername}
