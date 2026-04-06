@@ -148,9 +148,8 @@ const Order = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 bg-card">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
-          <button onClick={() => navigate('/')} className="flex items-center gap-2 text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            <img src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/bucket/26214033-f3ce-4db2-a516-727c12cf66e3.png" alt="SHIFTLY" className="h-7 w-7 rounded-md object-contain" />
-            SHIFTLY
+          <button onClick={() => navigate('/')}>
+            <img src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/bucket/26214033-f3ce-4db2-a516-727c12cf66e3.png" alt="SHIFTLY" className="h-10 w-10 rounded-lg object-contain" />
           </button>
           <Button variant="outline" size="sm" onClick={() => navigate('/')}>
             <Icon name="ArrowLeft" size={14} className="mr-2" />
