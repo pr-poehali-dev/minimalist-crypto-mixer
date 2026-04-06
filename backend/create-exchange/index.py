@@ -39,6 +39,22 @@ DEPOSIT_WALLETS = {
     'WLD': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
     'CAKE': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
     'BONK': 'HRh36ePux3hAixkHo4RG4cFPQKrtRuERScvU9H7ZLaQp',
+    'ADA': 'addr1q89pah7fjryrqmjw4hkrup9ef6c0pkwhzz8rh07p0hd6jeejjyey86x5yn2yuerlpewy2p3vu8wytxg2tzq9ask8fcls7umvh8',
+    'DOGE': 'DGAf9Ey2z7t2W57oLDEdqRrG9tsmvNxQNr',
+    'AVAX': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'DOT': '13pF3A3kJYM5RheYnU1KjnREUsRUjiamue8J322w5bkY2YCK',
+    'ATOM': 'cosmos1tl89g02kdqqwkm9zauetzqah0z46tzhuw3jf6d',
+    'FIL': 'f1gkigdikvu26dkwvwcjtj765jhq5rrosxku5a6hy',
+    'APT': '0x2b73b7e5df30c0b328727ef2f0e49faab71c88319a7d9b3dd5274f39e35ba118',
+    'NEAR': '82af0ef5b53b9d53ec785a6f8dda82861b479ad5bc9f21187831e60d5e0786ce',
+    'SUI': '0x929506cbcc55980de69ea0cde6acfcbb46eceb0e488515d3d8c4019afaf45f94',
+    'XLM': 'GDHVOX3XAMCUUC5EDIFSKOJLYF4YDKX6KHVOYEAVM26XKYWAA5AFQIZY',
+    'ALGO': 'F42FICSWKWVM5FXS5N55SCMX2AP65JAQNSUHPXRBABFPEILEZO53TFXIV4',
+    'VET': '0xa64aD74cB1CBEC1537D4926FF6a6119b463DA91d',
+    'FTM': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'DASH': 'XfBTpvujmdqnhjDjJoXi6BtHYLNrB5HL7e',
+    'ZEC': 't1Mj3iTZycg8cwkLMotfVgFbzdgCJTnuXUS',
+    'SEI': 'sei1tl89g02kdqqwkm9zauetzqah0z46tzhurarluv',
 }
 
 def generate_short_id():
