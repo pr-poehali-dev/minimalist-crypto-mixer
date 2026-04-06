@@ -77,6 +77,8 @@ def handler(event: dict, context) -> dict:
         send_ticket_status(bot_token, chat_id, database_url, schema)
         return ok()
 
+    print(f'[CHECK] chat_id={chat_id}, admin_chat_id={admin_chat_id}, equal={chat_id == admin_chat_id}, reply_to={bool(reply_to)}')
+
     if chat_id == admin_chat_id and reply_to:
         print(f'[ADMIN_REPLY] admin replying to message')
         handle_admin_reply(bot_token, text, reply_to, database_url, schema)
@@ -84,9 +86,14 @@ def handler(event: dict, context) -> dict:
 
     if chat_id != admin_chat_id:
         print(f'[USER_MSG] user {chat_id} sending message, forwarding to admin {admin_chat_id}')
-        handle_user_message(bot_token, admin_chat_id, chat_id, username, first_name, text, database_url, schema, category='Другое')
+        try:
+            handle_user_message(bot_token, admin_chat_id, chat_id, username, first_name, text, database_url, schema, category='Другое')
+            print(f'[USER_MSG] done')
+        except Exception as e:
+            print(f'[USER_MSG_ERROR] {e}')
         return ok()
 
+    print(f'[SKIP] admin without reply, ignoring')
     return ok()
 
 
