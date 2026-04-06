@@ -172,7 +172,7 @@ const Order = () => {
       <header className="border-b border-border/50 bg-card">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
           <button onClick={() => navigate('/')} className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            EXCHANGE
+            LYCHEX
           </button>
           <Button variant="outline" size="sm" onClick={() => navigate('/')}>
             <Icon name="ArrowLeft" size={14} className="mr-2" />

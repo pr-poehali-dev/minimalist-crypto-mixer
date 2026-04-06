@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-8">
           <div className="flex flex-col gap-3 max-w-xs">
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              EXCHANGE
+              LYCHEX
             </span>
             <p className="text-sm text-gray-500 leading-relaxed">
               Быстрый и анонимный обмен криптовалют. 170+ монет, мгновенные переводы, поддержка 24/7.
@@ -68,7 +68,7 @@ const Footer = () => {
       </div>
 
       <div className="mt-4 px-4 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-400">
-        <p>&copy;{currentYear} EXCHANGE. Все права защищены.</p>
+        <p>&copy;{currentYear} LYCHEX. Все права защищены.</p>
         <div className="flex gap-4">
           <span className="hover:text-gray-600 cursor-pointer transition-colors">Политика конфиденциальности</span>
           <span className="hover:text-gray-600 cursor-pointer transition-colors">Условия использования</span>

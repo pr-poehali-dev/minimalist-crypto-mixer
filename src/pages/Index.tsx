@@ -432,7 +432,7 @@ const Index = () => {
       <header className="border-b border-border/50">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
           <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex-shrink-0">
-            EXCHANGE
+            LYCHEX
           </h1>
 
           {/* Mobile auth button */}
