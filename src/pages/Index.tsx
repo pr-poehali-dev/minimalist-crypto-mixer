@@ -668,14 +668,14 @@ const Index = () => {
                               <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: getCoinInfo(fromCurrency).color }}>Отправляете</label>
                               <span className="text-xs" style={{ color: getCoinInfo(fromCurrency).color }}>{getCoinInfo(fromCurrency).name}{getCoinInfo(fromCurrency).network ? ` (${getCoinInfo(fromCurrency).network})` : ''}</span>
                             </div>
-                            <div className="flex items-center border-2 bg-neutral-50 h-12 transition-colors" style={{ borderColor: getCoinInfo(fromCurrency).color + '40' }}>
+                            <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: getCoinInfo(fromCurrency).color + '25' }}>
                               <Input
                                 type="number"
                                 step="any"
                                 placeholder="0.00"
                                 value={fromAmount}
                                 onChange={(e) => handleFromAmountChange(e.target.value)}
-                                className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
+                                className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0 rounded-lg"
                               />
                               <CurrencySelector
                                 selected={fromCurrency}
@@ -718,14 +718,14 @@ const Index = () => {
                               <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: getCoinInfo(toCurrency).color }}>Получаете</label>
                               <span className="text-xs" style={{ color: getCoinInfo(toCurrency).color }}>{getCoinInfo(toCurrency).name}{getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''}</span>
                             </div>
-                            <div className="flex items-center border-2 bg-neutral-50 h-12 transition-colors" style={{ borderColor: getCoinInfo(toCurrency).color + '40' }}>
+                            <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: getCoinInfo(toCurrency).color + '25' }}>
                               <Input
                                 type="number"
                                 step="any"
                                 placeholder="0.00"
                                 value={toAmount}
                                 onChange={(e) => handleToAmountChange(e.target.value)}
-                                className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
+                                className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0 rounded-lg"
                               />
                               <CurrencySelector
                                 selected={toCurrency}
