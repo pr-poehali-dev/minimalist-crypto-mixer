@@ -12,6 +12,7 @@ import { OTPVerification } from '@/components/ui/otp-input';
 import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ExchangesTable, Exchange } from '@/components/ui/exchanges-table';
+import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import Icon from '@/components/ui/icon';
 import { useNavigate } from 'react-router-dom';
 
@@ -684,6 +685,29 @@ const Index = () => {
                     </CardContent>
                   </Card>
               </div>
+
+              <ContainerScroll
+                titleComponent={
+                  <>
+                    <h2 className="text-3xl md:text-4xl font-semibold text-black">
+                      Безопасный обмен с<br />
+                      <span className="text-4xl md:text-[5rem] font-bold mt-1 leading-none">
+                        Мгновенной скоростью
+                      </span>
+                    </h2>
+                    <p className="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">
+                      Более 15 криптовалют, лучшие курсы и полная анонимность
+                    </p>
+                  </>
+                }
+              >
+                <img
+                  src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/files/b4aca1f2-e9ed-47b6-9c80-00dc588d8bc4.jpg"
+                  alt="Платформа обмена криптовалют"
+                  className="mx-auto rounded-2xl object-cover h-full w-full object-center"
+                  draggable={false}
+                />
+              </ContainerScroll>
             </TabsContent>
 
             <TabsContent value="my-exchanges" className="animate-fade-in">
