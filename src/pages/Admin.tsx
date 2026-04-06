@@ -93,7 +93,11 @@ const Admin = () => {
 
   const handleSaveMarkup = async () => {
     const val = parseFloat(markup);
-    if (isNaN(val) || val < 0 || val > 50) return;
+    console.log('[ADMIN] Save markup:', { markup, val, username });
+    if (isNaN(val) || val < 0 || val > 50) {
+      console.log('[ADMIN] Validation failed');
+      return;
+    }
     setMarkupSaving(true);
     try {
       const resp = await fetch(API.setMarkup, {
@@ -101,7 +105,9 @@ const Admin = () => {
         headers: { 'Content-Type': 'application/json', 'X-User-Username': username },
         body: JSON.stringify({ markup_percent: val }),
       });
+      console.log('[ADMIN] Response status:', resp.status);
       const data = await resp.json();
+      console.log('[ADMIN] Response data:', data);
       if (data.success) {
         setCurrentMarkup(val);
         setMarkupSaved(true);
