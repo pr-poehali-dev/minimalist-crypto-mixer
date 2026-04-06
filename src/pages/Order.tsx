@@ -44,12 +44,12 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 const TRACKING_STEPS = [
-  { key: 'Ожидает оплаты', label: 'Ожидание оплаты', icon: 'Clock' },
-  { key: 'Оплата отправлена', label: 'Оплата отправлена', icon: 'Send' },
-  { key: 'Оплата получена', label: 'Оплата получена', icon: 'CheckCircle' },
-  { key: 'В обработке', label: 'Обработка обмена', icon: 'RefreshCw' },
-  { key: 'Отправлено', label: 'Средства отправлены', icon: 'ArrowUpRight' },
-  { key: 'Завершено', label: 'Завершено', icon: 'Check' },
+  { key: 'Ожидает оплаты', label: 'Ожидание оплаты', icon: 'Clock', color: '#EAB308' },
+  { key: 'Оплата отправлена', label: 'Оплата отправлена', icon: 'Send', color: '#06B6D4' },
+  { key: 'Оплата получена', label: 'Оплата получена', icon: 'CheckCircle', color: '#3B82F6' },
+  { key: 'В обработке', label: 'Обработка обмена', icon: 'RefreshCw', color: '#8B5CF6' },
+  { key: 'Отправлено', label: 'Средства отправлены', icon: 'ArrowUpRight', color: '#EC4899' },
+  { key: 'Завершено', label: 'Завершено', icon: 'Check', color: '#22C55E' },
 ];
 
 interface OrderData {
@@ -266,26 +266,49 @@ const Order = () => {
                 <div className="space-y-0">
                   {TRACKING_STEPS.map((step, i) => {
                     const status = getStepStatus(step.key);
+                    const nextStep = TRACKING_STEPS[i + 1];
+                    const isLast = i === TRACKING_STEPS.length - 1;
                     return (
                       <div key={step.key} className="flex items-start gap-3">
                         <div className="flex flex-col items-center">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            status === 'completed' ? 'bg-green-500 text-white' :
-                            status === 'active' ? 'bg-blue-500 text-white animate-pulse' :
-                            'bg-gray-200 text-gray-400'
-                          }`}>
-                            <Icon name={status === 'completed' ? 'Check' : step.icon} size={14} />
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
+                              status === 'active' ? 'animate-pulse shadow-lg' : ''
+                            }`}
+                            style={{
+                              backgroundColor: status !== 'pending' ? step.color : undefined,
+                              color: status !== 'pending' ? '#fff' : undefined,
+                              boxShadow: status === 'active' ? `0 0 12px ${step.color}60` : undefined,
+                            }}
+                          >
+                            {status === 'pending' ? (
+                              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-400">
+                                <Icon name={step.icon} size={14} />
+                              </div>
+                            ) : (
+                              <Icon name={status === 'completed' ? 'Check' : step.icon} size={14} />
+                            )}
                           </div>
-                          {i < TRACKING_STEPS.length - 1 && (
-                            <div className={`w-0.5 h-6 ${status === 'completed' ? 'bg-green-300' : 'bg-gray-200'}`} />
+                          {!isLast && (
+                            <div className="w-1 h-6 rounded-full overflow-hidden">
+                              {status === 'completed' && nextStep ? (
+                                <div
+                                  className="w-full h-full"
+                                  style={{
+                                    background: `linear-gradient(to bottom, ${step.color}, ${nextStep.color})`,
+                                  }}
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200" />
+                              )}
+                            </div>
                           )}
                         </div>
                         <div className="pt-1.5">
-                          <p className={`text-sm font-medium ${
-                            status === 'completed' ? 'text-green-700' :
-                            status === 'active' ? 'text-blue-700 font-semibold' :
-                            'text-gray-400'
-                          }`}>
+                          <p
+                            className={`text-sm font-medium transition-colors ${status === 'pending' ? 'text-gray-400' : 'font-semibold'}`}
+                            style={{ color: status !== 'pending' ? step.color : undefined }}
+                          >
                             {step.label}
                           </p>
                         </div>
