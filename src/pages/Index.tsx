@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
@@ -305,6 +306,42 @@ const Index = () => {
     label?: string;
   }) => {
     const info = getCoinInfo(selected);
+    const [query, setQuery] = useState('');
+    const [activeIndex, setActiveIndex] = useState(0);
+    const searchRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
+
+    const filtered = useMemo(() => {
+      const q = query.trim().toLowerCase();
+      if (!q) return COINS_LIST;
+      return COINS_LIST.filter(
+        c => c.name.toLowerCase().includes(q) || c.symbol.toLowerCase().includes(q) || c.rateKey.toLowerCase().includes(q)
+      );
+    }, [query]);
+
+    useEffect(() => {
+      if (isOpen) {
+        setQuery('');
+        setActiveIndex(0);
+        setTimeout(() => searchRef.current?.focus(), 50);
+      }
+    }, [isOpen]);
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveIndex(i => Math.min(i + 1, filtered.length - 1));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveIndex(i => Math.max(i - 1, 0));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (filtered[activeIndex]) onSelect(filtered[activeIndex].symbol);
+      } else if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
     return (
       <div className="relative flex-shrink-0">
         <button
@@ -315,30 +352,68 @@ const Index = () => {
           {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
           <span className="font-semibold">{info.rateKey}</span>
           {info.network && <span className="text-[9px] bg-gray-300 text-gray-700 px-1 rounded">{info.network}</span>}
-          <Icon name="ChevronDown" size={12} className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          <Icon name="ChevronDown" size={12} className={`text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
         </button>
-        {isOpen && (
-          <div className="absolute z-50 top-full right-0 mt-1 bg-white border-2 border-gray-300 shadow-lg max-h-72 overflow-y-auto" style={{ minWidth: '240px' }}>
-            {COINS_LIST.map(coin => (
-              <button
-                key={coin.symbol}
-                type="button"
-                onClick={() => onSelect(coin.symbol)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-sm hover:bg-neutral-100 transition-colors ${coin.symbol === selected ? 'bg-neutral-100 font-semibold' : ''}`}
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
+                className="absolute z-50 top-full right-0 mt-1.5 bg-white border-2 border-gray-300 rounded-md shadow-xl overflow-hidden"
+                style={{ minWidth: '260px' }}
+                onKeyDown={handleKeyDown}
               >
-                <img src={coin.logo} alt={coin.symbol} className="w-5 h-5 rounded-full flex-shrink-0" />
-                <span className="flex flex-col items-start">
-                  <span className="font-mono text-sm flex items-center gap-1.5">
-                    {coin.rateKey}
-                    {coin.network && <span className="text-[10px] bg-gray-200 text-gray-500 px-1 rounded font-normal">{coin.network}</span>}
-                  </span>
-                  <span className="text-[10px] text-gray-400 font-normal">{coin.name}</span>
-                </span>
-                {rates[coin.rateKey] && <span className="ml-auto text-xs text-gray-400 font-mono">${rates[coin.rateKey].toLocaleString()}</span>}
-              </button>
-            ))}
-          </div>
-        )}
+                <div className="p-2 border-b border-gray-200">
+                  <input
+                    ref={searchRef}
+                    type="text"
+                    value={query}
+                    onChange={e => { setQuery(e.target.value); setActiveIndex(0); }}
+                    placeholder="Поиск валюты..."
+                    className="w-full px-2.5 py-1.5 text-sm bg-neutral-50 border border-gray-200 rounded outline-none focus:border-gray-400 transition-colors"
+                  />
+                </div>
+                <div ref={listRef} className="max-h-64 overflow-y-auto overscroll-contain">
+                  {filtered.length === 0 && (
+                    <div className="px-3 py-4 text-sm text-gray-400 text-center">Ничего не найдено</div>
+                  )}
+                  {filtered.map((coin, idx) => (
+                    <motion.button
+                      key={coin.symbol}
+                      type="button"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.1, delay: idx * 0.015 }}
+                      onClick={() => onSelect(coin.symbol)}
+                      onMouseEnter={() => setActiveIndex(idx)}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-sm transition-colors ${
+                        coin.symbol === selected
+                          ? 'bg-neutral-100 font-semibold'
+                          : idx === activeIndex
+                          ? 'bg-neutral-50'
+                          : 'hover:bg-neutral-50'
+                      }`}
+                    >
+                      <img src={coin.logo} alt={coin.symbol} className="w-5 h-5 rounded-full flex-shrink-0" />
+                      <span className="flex flex-col items-start">
+                        <span className="font-mono text-sm flex items-center gap-1.5">
+                          {coin.rateKey}
+                          {coin.network && <span className="text-[10px] bg-gray-200 text-gray-500 px-1 rounded font-normal">{coin.network}</span>}
+                        </span>
+                        <span className="text-[10px] text-gray-400 font-normal">{coin.name}</span>
+                      </span>
+                      {rates[coin.rateKey] && <span className="ml-auto text-xs text-gray-400 font-mono">${rates[coin.rateKey].toLocaleString()}</span>}
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     );
   };
