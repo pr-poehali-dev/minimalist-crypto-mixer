@@ -21,6 +21,7 @@ import AboutTab from '@/components/AboutTab';
 import SupportTab from '@/components/SupportTab';
 import FaqTab from '@/components/FaqTab';
 import Footer from '@/components/Footer';
+import { HowItWorks, PopularPairs, StatsSection, Testimonials, TrustBanner } from '@/components/HeroSections';
 
 const API = {
   getRates: 'https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf',
@@ -662,6 +663,12 @@ const Index = () => {
                   </Card>
               </div>
 
+              <HowItWorks />
+
+              <StatsSection />
+
+              <PopularPairs />
+
               <ContainerScroll
                 titleComponent={
                   <>
@@ -675,6 +682,11 @@ const Index = () => {
               >
                 <CryptoChartsDisplay />
               </ContainerScroll>
+
+              <Testimonials />
+
+              <TrustBanner />
+
               <Footer />
             </TabsContent>
 
