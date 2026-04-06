@@ -36,6 +36,8 @@ def handler(event: dict, context) -> dict:
             return get_referral_stats(event, body)
         elif action == 'request_withdrawal':
             return request_withdrawal(event, body)
+        elif action == 'check_discount':
+            return check_discount(event, body)
         elif action == 'process_earning':
             return process_earning(event, body)
         elif action == 'admin_get_referrals':
@@ -231,10 +233,41 @@ def apply_referral_code(event: dict, body: dict) -> dict:
 
         return success_response({
             'success': True,
-            'message': 'Реферальный код успешно применён'
+            'message': 'Код применён! Вы получили скидку 1% на первый обмен',
+            'has_discount': True
         })
     except Exception as e:
         conn.rollback()
+        return error_response(f'Database error: {str(e)}', 500)
+    finally:
+        cur.close()
+        conn.close()
+
+
+def check_discount(event: dict, body: dict) -> dict:
+    '''Проверяет, есть ли у пользователя неиспользованная реферальная скидка 1%.'''
+    username = get_username(event)
+    if not username:
+        return error_response('Authorization required', 401)
+
+    schema = get_schema()
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    try:
+        cur.execute(
+            f'''SELECT id, referrer_username FROM {schema}.referral_links
+                WHERE referred_username = %s AND discount_used = FALSE''',
+            (username,)
+        )
+        row = cur.fetchone()
+
+        return success_response({
+            'success': True,
+            'has_discount': row is not None,
+            'discount_percent': 1 if row else 0
+        })
+    except Exception as e:
         return error_response(f'Database error: {str(e)}', 500)
     finally:
         cur.close()

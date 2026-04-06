@@ -118,6 +118,23 @@ def handler(event: dict, context) -> dict:
     conn = psycopg2.connect(database_url)
     cur = conn.cursor()
 
+    discount_applied = False
+    use_discount = body.get('use_discount', False)
+
+    if use_discount:
+        cur.execute(
+            f'''SELECT id FROM {schema}.referral_links
+                WHERE referred_username = %s AND discount_used = FALSE''',
+            (username,)
+        )
+        link_row = cur.fetchone()
+        if link_row:
+            cur.execute(
+                f'UPDATE {schema}.referral_links SET discount_used = TRUE WHERE id = %s',
+                (link_row[0],)
+            )
+            discount_applied = True
+
     for _ in range(10):
         short_id = generate_short_id()
         cur.execute(f'SELECT 1 FROM {schema}.exchanges WHERE short_id = %s', (short_id,))
@@ -143,6 +160,7 @@ def handler(event: dict, context) -> dict:
             'success': True,
             'exchange_id': exchange_id,
             'short_id': short_id,
-            'deposit_address': deposit_address
+            'deposit_address': deposit_address,
+            'discount_applied': discount_applied
         })
     }

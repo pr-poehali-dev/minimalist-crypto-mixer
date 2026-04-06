@@ -31,6 +31,7 @@ const API = {
   createExchange: 'https://functions.poehali.dev/db89b501-844e-4f7e-b839-35b396842720',
   getExchanges: 'https://functions.poehali.dev/f55bda70-6145-4587-85c3-8b37d3275358',
   telegramAuth: 'https://functions.poehali.dev/aba6998f-8142-4edd-8e22-c24c005cf258',
+  referral: 'https://functions.poehali.dev/2ae57ed9-acd8-4db7-badf-3788ebdbf00b',
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
@@ -89,6 +90,7 @@ const Index = () => {
   const [isLoadingExchanges, setIsLoadingExchanges] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasReferralDiscount, setHasReferralDiscount] = useState(false);
 
   const fetchRates = useCallback(async () => {
     setIsLoadingRates(true);
@@ -103,20 +105,35 @@ const Index = () => {
     setIsLoadingRates(false);
   }, []);
 
+  const checkDiscount = useCallback(async () => {
+    if (!isAuthenticated || !telegramUsername) return;
+    try {
+      const resp = await fetch(API.referral, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-User-Username': telegramUsername },
+        body: JSON.stringify({ action: 'check_discount' }),
+      });
+      const data = await resp.json();
+      setHasReferralDiscount(!!data.has_discount);
+    } catch { /* ignore */ }
+  }, [isAuthenticated, telegramUsername]);
+
   useEffect(() => {
     fetchRates();
+    checkDiscount();
     const interval = setInterval(fetchRates, 30000);
     return () => clearInterval(interval);
-  }, [fetchRates]);
+  }, [fetchRates, checkDiscount]);
 
   const getExchangeRate = useCallback((from: string, to: string) => {
     const fromKey = getCoinInfo(from).rateKey;
     const toKey = getCoinInfo(to).rateKey;
     if (!rates[fromKey] || !rates[toKey]) return 0;
     const rawRate = rates[fromKey] / rates[toKey];
-    const withMarkup = rawRate * (1 - markupPercent / 100);
+    const effectiveMarkup = hasReferralDiscount ? Math.max(0, markupPercent - 1) : markupPercent;
+    const withMarkup = rawRate * (1 - effectiveMarkup / 100);
     return withMarkup;
-  }, [rates, markupPercent]);
+  }, [rates, markupPercent, hasReferralDiscount]);
 
   const handleFromAmountChange = (value: string) => {
     setFromAmount(value);
@@ -277,10 +294,12 @@ const Index = () => {
           to_amount: toAmount,
           rate: rate.toString(),
           output_address: outputAddress,
+          use_discount: hasReferralDiscount,
         }),
       });
       const data = await resp.json();
       if (data.success) {
+        if (data.discount_applied) setHasReferralDiscount(false);
         navigate(`/order/${data.short_id}`);
       }
     } catch (err) {
@@ -658,6 +677,24 @@ const Index = () => {
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Мгновенный обмен криптовалют</h2>
                   <p className="text-gray-500 mt-2 text-sm md:text-base">Быстро, анонимно, без регистрации</p>
                 </div>
+
+                  {hasReferralDiscount && (
+                    <div className="mb-4 relative overflow-hidden rounded-xl border border-green-200 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 p-4 md:p-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                          <Icon name="Percent" size={20} className="text-green-600" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-green-800 text-sm md:text-base">Скидка 1% на этот обмен</p>
+                          <p className="text-green-600 text-xs md:text-sm">Активирована по реферальному коду — действует на первый обмен</p>
+                        </div>
+                        <div className="ml-auto hidden md:flex items-center gap-1 bg-green-100 text-green-700 font-bold text-lg px-4 py-1.5 rounded-lg">
+                          <span>−1%</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <Card className="border border-gray-200 md:border-2 md:border-gray-300 bg-white shadow-sm">
                     <CardHeader className="border-b border-gray-200 md:border-b-2 md:border-gray-300 px-4 py-4 md:px-6 md:py-6">
                       <CardTitle className="text-lg md:text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
@@ -666,7 +703,7 @@ const Index = () => {
                         Обмен криптовалюты
                       </CardTitle>
                       <p className="text-gray-600 mt-1 text-xs md:text-sm">
-                        {isLoadingRates ? 'Загрузка курсов...' : `Курсы обновляются каждые 30 сек`}
+                        {isLoadingRates ? 'Загрузка курсов...' : hasReferralDiscount ? 'Курсы обновляются каждые 30 сек · скидка 1% применена' : 'Курсы обновляются каждые 30 сек'}
                       </p>
                     </CardHeader>
                     <CardContent className="pt-4 md:pt-6 px-4 md:px-6">
