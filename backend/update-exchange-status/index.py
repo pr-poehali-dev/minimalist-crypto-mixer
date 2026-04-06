@@ -34,7 +34,7 @@ def handler(event: dict, context) -> dict:
         }
 
     username = event.get('headers', {}).get('X-User-Username') or event.get('headers', {}).get('x-user-username')
-    if not username or username not in ADMIN_USERNAMES:
+    if not username or username.lower() not in ADMIN_USERNAMES:
         return {
             'statusCode': 403,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},

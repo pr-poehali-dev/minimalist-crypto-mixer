@@ -156,7 +156,7 @@ const Index = () => {
   const handleRequestCode = async () => {
     if (!inputUsername.trim()) return;
     setAuthError('');
-    const username = inputUsername.startsWith('@') ? inputUsername : '@' + inputUsername;
+    const username = (inputUsername.startsWith('@') ? inputUsername : '@' + inputUsername).toLowerCase();
     try {
       const resp = await fetch(API.telegramAuth, {
         method: 'POST',
