@@ -148,7 +148,7 @@ const Order = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 bg-card">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
-          <button onClick={() => navigate('/')} className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
+          <button onClick={() => navigate('/')} className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
             BLQOU
           </button>
           <Button variant="outline" size="sm" onClick={() => navigate('/')}>

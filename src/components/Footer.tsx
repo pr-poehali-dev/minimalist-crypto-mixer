@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="relative bg-neutral-50 rounded-2xl md:rounded-3xl px-5 md:px-12 py-8 md:py-10 border border-gray-200">
         <div className="flex flex-col md:flex-row justify-between gap-6 md:gap-8">
           <div className="flex flex-col gap-3 max-w-xs">
-            <span className="text-3xl font-bold tracking-tight text-gray-900">BLQOU</span>
+            <span className="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">BLQOU</span>
             <p className="text-sm text-gray-500 leading-relaxed">
               Быстрый и анонимный обмен криптовалют. 60+ монет, мгновенные переводы, поддержка 24/7.
             </p>

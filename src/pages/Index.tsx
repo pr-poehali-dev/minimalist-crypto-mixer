@@ -466,7 +466,7 @@ const Index = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <header className="border-b border-border/50">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 flex-shrink-0">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent flex-shrink-0">
             BLQOU
           </h1>
 
