@@ -691,14 +691,10 @@ const Index = () => {
                 titleComponent={
                   <>
                     <h2 className="text-3xl md:text-4xl font-semibold text-black">
-                      Безопасный обмен с<br />
                       <span className="text-4xl md:text-[5rem] font-bold mt-1 leading-none">
-                        Мгновенной скоростью
+                        Почему именно мы
                       </span>
                     </h2>
-                    <p className="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">
-                      Более 15 криптовалют, лучшие курсы и полная анонимность
-                    </p>
                   </>
                 }
               >
