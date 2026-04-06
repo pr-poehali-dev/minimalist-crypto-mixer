@@ -27,28 +27,29 @@ interface CoinInfo {
   logo: string;
   network?: string;
   rateKey: string;
+  color: string;
 }
 
 const COINS_LIST: CoinInfo[] = [
-  { symbol: 'BTC', name: 'Bitcoin', logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', rateKey: 'BTC' },
-  { symbol: 'ETH', name: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', rateKey: 'ETH' },
-  { symbol: 'USDT-TRC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'TRC20', rateKey: 'USDT' },
-  { symbol: 'USDT-ERC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'ERC20', rateKey: 'USDT' },
-  { symbol: 'USDC-ERC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'ERC20', rateKey: 'USDC' },
-  { symbol: 'USDC-TRC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'TRC20', rateKey: 'USDC' },
-  { symbol: 'BNB', name: 'BNB', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', rateKey: 'BNB' },
-  { symbol: 'SOL', name: 'Solana', logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png', rateKey: 'SOL' },
-  { symbol: 'XRP', name: 'Ripple', logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png', rateKey: 'XRP' },
-  { symbol: 'ADA', name: 'Cardano', logo: 'https://assets.coingecko.com/coins/images/975/small/cardano.png', rateKey: 'ADA' },
-  { symbol: 'DOGE', name: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', rateKey: 'DOGE' },
-  { symbol: 'LTC', name: 'Litecoin', logo: 'https://assets.coingecko.com/coins/images/2/small/litecoin.png', rateKey: 'LTC' },
-  { symbol: 'XMR', name: 'Monero', logo: 'https://assets.coingecko.com/coins/images/69/small/monero_logo.png', rateKey: 'XMR' },
-  { symbol: 'TRX', name: 'TRON', logo: 'https://assets.coingecko.com/coins/images/1094/small/tron-logo.png', rateKey: 'TRX' },
-  { symbol: 'TON', name: 'Toncoin', logo: 'https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png', rateKey: 'TON' },
+  { symbol: 'BTC', name: 'Bitcoin', logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', rateKey: 'BTC', color: '#F7931A' },
+  { symbol: 'ETH', name: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', rateKey: 'ETH', color: '#627EEA' },
+  { symbol: 'USDT-TRC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'TRC20', rateKey: 'USDT', color: '#26A17B' },
+  { symbol: 'USDT-ERC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'ERC20', rateKey: 'USDT', color: '#26A17B' },
+  { symbol: 'USDC-ERC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'ERC20', rateKey: 'USDC', color: '#2775CA' },
+  { symbol: 'USDC-TRC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'TRC20', rateKey: 'USDC', color: '#2775CA' },
+  { symbol: 'BNB', name: 'BNB', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', rateKey: 'BNB', color: '#F3BA2F' },
+  { symbol: 'SOL', name: 'Solana', logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png', rateKey: 'SOL', color: '#9945FF' },
+  { symbol: 'XRP', name: 'Ripple', logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png', rateKey: 'XRP', color: '#23292F' },
+  { symbol: 'ADA', name: 'Cardano', logo: 'https://assets.coingecko.com/coins/images/975/small/cardano.png', rateKey: 'ADA', color: '#0033AD' },
+  { symbol: 'DOGE', name: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', rateKey: 'DOGE', color: '#C2A633' },
+  { symbol: 'LTC', name: 'Litecoin', logo: 'https://assets.coingecko.com/coins/images/2/small/litecoin.png', rateKey: 'LTC', color: '#345D9D' },
+  { symbol: 'XMR', name: 'Monero', logo: 'https://assets.coingecko.com/coins/images/69/small/monero_logo.png', rateKey: 'XMR', color: '#FF6600' },
+  { symbol: 'TRX', name: 'TRON', logo: 'https://assets.coingecko.com/coins/images/1094/small/tron-logo.png', rateKey: 'TRX', color: '#EF0027' },
+  { symbol: 'TON', name: 'Toncoin', logo: 'https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png', rateKey: 'TON', color: '#0098EA' },
 ];
 
 const getCoinInfo = (symbol: string): CoinInfo => {
-  return COINS_LIST.find(c => c.symbol === symbol) || { symbol, name: symbol, logo: '', rateKey: symbol };
+  return COINS_LIST.find(c => c.symbol === symbol) || { symbol, name: symbol, logo: '', rateKey: symbol, color: '#666666' };
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
@@ -568,10 +569,10 @@ const Index = () => {
                         <div className="flex items-start gap-3">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-2">
-                              <label className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Отправляете</label>
-                              <span className="text-xs text-gray-400">{getCoinInfo(fromCurrency).name}{getCoinInfo(fromCurrency).network ? ` (${getCoinInfo(fromCurrency).network})` : ''}</span>
+                              <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: getCoinInfo(fromCurrency).color }}>Отправляете</label>
+                              <span className="text-xs" style={{ color: getCoinInfo(fromCurrency).color }}>{getCoinInfo(fromCurrency).name}{getCoinInfo(fromCurrency).network ? ` (${getCoinInfo(fromCurrency).network})` : ''}</span>
                             </div>
-                            <div className="flex items-center border-2 border-gray-300 bg-neutral-50 h-12">
+                            <div className="flex items-center border-2 bg-neutral-50 h-12 transition-colors" style={{ borderColor: getCoinInfo(fromCurrency).color + '40' }}>
                               <Input
                                 type="number"
                                 step="any"
@@ -589,8 +590,14 @@ const Index = () => {
                               />
                             </div>
                             <div className="flex items-center justify-between mt-1.5 px-1">
-                              <span className="text-[11px] text-gray-400 font-mono">
-                                {currentRate > 0 ? `1 ${getCoinInfo(fromCurrency).rateKey} = ${currentRate.toFixed(6)} ${getCoinInfo(toCurrency).rateKey}` : ''}
+                              <span className="text-[11px] font-mono">
+                                {currentRate > 0 && (
+                                  <>
+                                    <span style={{ color: getCoinInfo(fromCurrency).color }}>1 {getCoinInfo(fromCurrency).rateKey}</span>
+                                    <span className="text-gray-400"> = </span>
+                                    <span style={{ color: getCoinInfo(toCurrency).color }}>{currentRate.toFixed(6)} {getCoinInfo(toCurrency).rateKey}</span>
+                                  </>
+                                )}
                               </span>
                               <span className="text-[11px] text-gray-400 font-mono">
                                 {fromAmount && rates[getCoinInfo(fromCurrency).rateKey] ? `$${(Number(fromAmount) * rates[getCoinInfo(fromCurrency).rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
@@ -610,10 +617,10 @@ const Index = () => {
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-2">
-                              <label className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Получаете</label>
-                              <span className="text-xs text-gray-400">{getCoinInfo(toCurrency).name}{getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''}</span>
+                              <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: getCoinInfo(toCurrency).color }}>Получаете</label>
+                              <span className="text-xs" style={{ color: getCoinInfo(toCurrency).color }}>{getCoinInfo(toCurrency).name}{getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''}</span>
                             </div>
-                            <div className="flex items-center border-2 border-gray-300 bg-neutral-50 h-12">
+                            <div className="flex items-center border-2 bg-neutral-50 h-12 transition-colors" style={{ borderColor: getCoinInfo(toCurrency).color + '40' }}>
                               <Input
                                 type="number"
                                 step="any"
@@ -631,8 +638,14 @@ const Index = () => {
                               />
                             </div>
                             <div className="flex items-center justify-between mt-1.5 px-1">
-                              <span className="text-[11px] text-gray-400 font-mono">
-                                {currentRate > 0 ? `1 ${getCoinInfo(toCurrency).rateKey} = ${(1 / currentRate).toFixed(8)} ${getCoinInfo(fromCurrency).rateKey}` : ''}
+                              <span className="text-[11px] font-mono">
+                                {currentRate > 0 && (
+                                  <>
+                                    <span style={{ color: getCoinInfo(toCurrency).color }}>1 {getCoinInfo(toCurrency).rateKey}</span>
+                                    <span className="text-gray-400"> = </span>
+                                    <span style={{ color: getCoinInfo(fromCurrency).color }}>{(1 / currentRate).toFixed(8)} {getCoinInfo(fromCurrency).rateKey}</span>
+                                  </>
+                                )}
                               </span>
                               <span className="text-[11px] text-gray-400 font-mono">
                                 {toAmount && rates[getCoinInfo(toCurrency).rateKey] ? `$${(Number(toAmount) * rates[getCoinInfo(toCurrency).rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
