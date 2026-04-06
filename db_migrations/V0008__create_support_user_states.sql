@@ -1,0 +1,6 @@
+
+CREATE TABLE IF NOT EXISTS support_user_states (
+    chat_id BIGINT PRIMARY KEY,
+    state VARCHAR(255) NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

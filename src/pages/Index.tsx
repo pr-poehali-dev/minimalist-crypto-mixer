@@ -729,18 +729,18 @@ const Index = () => {
 
                   <div className="rounded-2xl border border-gray-200 bg-white p-8">
                     <a
-                      href="https://t.me/wi_exchange_auth_bot"
+                      href="https://t.me/wi_exchange_sup_bot"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-6 p-6 border-2 border-blue-100 bg-blue-50/50 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all"
                     >
                       <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
-                        <Icon name="Send" size={28} className="text-white" />
+                        <Icon name="HeadphonesIcon" size={28} className="text-white" />
                       </div>
                       <div>
-                        <p className="font-bold text-xl text-black">Написать в Telegram</p>
-                        <p className="text-sm text-gray-500 mt-1">@wi_exchange_auth_bot — авторизация и поддержка</p>
-                        <p className="text-xs text-blue-600 mt-2 font-medium">Просто напишите ваш вопрос боту — оператор получит его и ответит реплаем</p>
+                        <p className="font-bold text-xl text-black">Написать в поддержку</p>
+                        <p className="text-sm text-gray-500 mt-1">@wi_exchange_sup_bot — бот поддержки</p>
+                        <p className="text-xs text-blue-600 mt-2 font-medium">Создайте тикет или просто напишите вопрос — оператор ответит</p>
                       </div>
                       <Icon name="ExternalLink" size={20} className="text-gray-400 flex-shrink-0" />
                     </a>

@@ -1,0 +1,11 @@
+{
+  "tests": [
+    {
+      "name": "Setup bot - check endpoint",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "bodyMatcher": "partial"
+    }
+  ]
+}
