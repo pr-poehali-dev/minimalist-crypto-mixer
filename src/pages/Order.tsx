@@ -44,7 +44,7 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 const TRACKING_STEPS = [
-  { key: 'Ожидает оплаты', label: 'Ожидание оплаты', icon: 'Clock', color: '#EAB308' },
+  { key: 'Ожидает оплаты', label: 'Ожидание оплаты', icon: 'Clock', color: '#F97316' },
   { key: 'Оплата отправлена', label: 'Оплата отправлена', icon: 'Send', color: '#06B6D4' },
   { key: 'Оплата получена', label: 'Оплата получена', icon: 'CheckCircle', color: '#3B82F6' },
   { key: 'В обработке', label: 'Обработка обмена', icon: 'RefreshCw', color: '#8B5CF6' },
