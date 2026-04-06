@@ -1,5 +1,6 @@
 import { COINS_LIST } from '@/lib/coins';
 import Icon from '@/components/ui/icon';
+import Footer from '@/components/Footer';
 
 const AboutTab = () => {
   return (
@@ -88,6 +89,7 @@ const AboutTab = () => {
         </div>
       </div>
 
+      <Footer />
     </div>
   );
 };

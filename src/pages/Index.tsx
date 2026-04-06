@@ -20,6 +20,7 @@ import { COINS_LIST, getCoinInfo } from '@/lib/coins';
 import AboutTab from '@/components/AboutTab';
 import SupportTab from '@/components/SupportTab';
 import FaqTab from '@/components/FaqTab';
+import Footer from '@/components/Footer';
 
 const API = {
   getRates: 'https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf',
@@ -674,6 +675,7 @@ const Index = () => {
               >
                 <CryptoChartsDisplay />
               </ContainerScroll>
+              <Footer />
             </TabsContent>
 
             <TabsContent value="my-exchanges" className="animate-fade-in">
@@ -696,6 +698,7 @@ const Index = () => {
                   <ExchangesTable exchanges={exchanges} />
                 )}
               </div>
+              <Footer />
             </TabsContent>
 
             <TabsContent value="about" className="animate-fade-in">

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '@/components/ui/icon';
+import Footer from '@/components/Footer';
 
 interface FaqItem {
   question: string;
@@ -248,6 +249,7 @@ const FaqTab = () => {
           </AnimatePresence>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
