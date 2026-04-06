@@ -572,14 +572,10 @@ const Index = () => {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-3">
+                      <div className="grid grid-cols-2 gap-3">
                         <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
                           <p className="text-[10px] text-gray-400 uppercase tracking-wider">Номер заказа</p>
                           <p className="text-base font-bold font-mono text-black mt-1">{createdExchange.shortId}</p>
-                        </div>
-                        <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
-                          <p className="text-[10px] text-gray-400 uppercase tracking-wider">Тип курса</p>
-                          <p className="text-sm font-semibold text-black mt-1">Плавающий</p>
                         </div>
                         <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
                           <p className="text-[10px] text-gray-400 uppercase tracking-wider">Курс</p>
