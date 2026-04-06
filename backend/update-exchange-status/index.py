@@ -10,7 +10,8 @@ ALLOWED_STATUSES = [
     'В обработке',
     'Отправлено',
     'Завершено',
-    'Отменено'
+    'Отменено',
+    'Не оплачена'
 ]
 
 def handler(event: dict, context) -> dict:

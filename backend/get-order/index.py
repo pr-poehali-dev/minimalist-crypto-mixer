@@ -2,9 +2,10 @@ import json
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from datetime import datetime, timedelta
 
 def handler(event: dict, context) -> dict:
-    '''Получение заказа по short_id'''
+    '''Получение заказа по short_id с автоматической отменой просроченных'''
     if event.get('httpMethod') == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -39,15 +40,30 @@ def handler(event: dict, context) -> dict:
         (short_id.upper(),)
     )
     row = cur.fetchone()
-    cur.close()
-    conn.close()
 
     if not row:
+        cur.close()
+        conn.close()
         return {
             'statusCode': 404,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'error': 'Order not found'})
         }
+
+    if row['status'] == 'Ожидает оплаты' and row['created_at']:
+        expire_time = row['created_at'] + timedelta(minutes=30)
+        if datetime.now() > expire_time:
+            cur2 = conn.cursor()
+            cur2.execute(
+                f"UPDATE {schema}.exchanges SET status = 'Не оплачена', updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+                (row['id'],)
+            )
+            conn.commit()
+            cur2.close()
+            row['status'] = 'Не оплачена'
+
+    cur.close()
+    conn.close()
 
     return {
         'statusCode': 200,

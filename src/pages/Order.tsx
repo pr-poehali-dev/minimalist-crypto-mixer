@@ -43,6 +43,7 @@ const STATUS_STYLES: Record<string, string> = {
   'Отправлено': 'bg-purple-50 border-purple-300 text-purple-700',
   'Завершено': 'bg-green-50 border-green-300 text-green-700',
   'Отменено': 'bg-red-50 border-red-300 text-red-700',
+  'Не оплачена': 'bg-orange-50 border-orange-300 text-orange-700',
 };
 
 interface OrderData {
@@ -96,10 +97,16 @@ const Order = () => {
   }, [timer]);
 
   useEffect(() => {
-    if (!order || order.status === 'Завершено' || order.status === 'Отменено') return;
+    if (!order || order.status === 'Завершено' || order.status === 'Отменено' || order.status === 'Не оплачена') return;
     const interval = setInterval(fetchOrder, 15000);
     return () => clearInterval(interval);
   }, [order, fetchOrder]);
+
+  useEffect(() => {
+    if (timer === 0 && order && order.status === 'Ожидает оплаты') {
+      fetchOrder();
+    }
+  }, [timer, order, fetchOrder]);
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
@@ -160,9 +167,6 @@ const Order = () => {
                 <span className={`inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-sm border ${STATUS_STYLES[order.status] || 'bg-gray-50 border-gray-200 text-gray-700'}`}>
                   {order.status}
                 </span>
-                {timer > 0 && order.status === 'Ожидает оплаты' && (
-                  <p className="text-xs text-gray-400 font-mono">{fmt(timer)}</p>
-                )}
               </div>
             </div>
           </CardHeader>
@@ -220,17 +224,34 @@ const Order = () => {
             </div>
 
             {order.status === 'Ожидает оплаты' && (
-              <p className="text-xs text-gray-400 text-center">
-                Курс будет зафиксирован после получения 1 подтверждения сети
-              </p>
+              <div className="p-4 border-2 border-yellow-300 bg-yellow-50 flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-semibold text-yellow-800 uppercase tracking-wider">Время на оплату</p>
+                  <p className="text-xs text-yellow-600 mt-0.5">После истечения заявка будет отменена</p>
+                </div>
+                <p className={`text-2xl font-bold font-mono ${timer <= 300 ? 'text-red-600' : 'text-yellow-800'}`}>
+                  {fmt(timer)}
+                </p>
+              </div>
             )}
 
-            {order.status === 'Ожидает оплаты' && (
+            {order.status === 'Не оплачена' && (
+              <div className="p-4 border-2 border-orange-300 bg-orange-50 text-center">
+                <p className="text-sm font-semibold text-orange-800">Время на оплату истекло</p>
+                <p className="text-xs text-orange-600 mt-1">Создайте новую заявку на обмен</p>
+              </div>
+            )}
+
+            {order.status === 'Ожидает оплаты' && timer > 0 && (
               <Button
-                onClick={() => navigator.clipboard.writeText(order.deposit_address)}
-                className="w-full h-11 bg-black hover:bg-gray-800 text-white font-semibold text-xs uppercase tracking-wider"
+                onClick={() => {
+                  navigator.clipboard.writeText(order.deposit_address);
+                  alert('Адрес скопирован! После отправки средств нажмите "Я отправил"');
+                }}
+                className="w-full h-12 bg-black hover:bg-gray-800 text-white font-semibold text-sm uppercase tracking-wider"
               >
-                Копировать адрес оплаты
+                <Icon name="Check" size={18} className="mr-2" />
+                Я отправил
               </Button>
             )}
           </CardContent>
