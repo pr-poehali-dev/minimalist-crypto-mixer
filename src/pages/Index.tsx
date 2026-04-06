@@ -346,27 +346,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <header className="border-b border-border/50">
-        <div className="px-8 py-6 flex items-start justify-between">
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              EXCHANGE
-            </h1>
-            {!isLoadingRates && Object.keys(rates).length > 0 && (
-              <div className="mt-4 space-y-2">
-                {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
-                  <div key={coin.symbol} className="flex items-center gap-3">
-                    <img src={coin.logo} alt={coin.symbol} className="w-7 h-7 rounded-full" />
-                    <span className="text-base font-bold text-gray-800 w-14">{coin.symbol}</span>
-                    <span className="font-mono text-base text-black font-bold">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                  </div>
-                ))}
-                <button onClick={fetchRates} className="text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1 mt-1">
-                  <Icon name="RefreshCw" size={11} />
-                  Обновить курсы
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="px-8 py-6 flex items-center justify-between h-[73px]">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            EXCHANGE
+          </h1>
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
               <Dropdown>
