@@ -342,7 +342,7 @@ const Index = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 bg-neutral-200/80 hover:bg-neutral-300/80 px-3 h-full rounded-r-sm text-gray-800 font-mono text-sm transition-colors border-l border-gray-300"
+          className="flex items-center gap-1.5 bg-transparent hover:bg-neutral-100/60 px-3 h-full rounded-r-lg text-gray-800 font-mono text-sm transition-colors"
         >
           {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
           <span className="font-semibold">{info.rateKey}</span>
@@ -383,7 +383,7 @@ const Index = () => {
                     onChange={e => { setQuery(e.target.value); setActiveIndex(0); }}
                     placeholder="Поиск валюты..."
                     autoFocus
-                    className="w-full px-3 py-2 text-sm bg-neutral-50 border border-gray-200 rounded-lg outline-none focus:border-gray-400 transition-colors"
+                    className="w-full px-3 py-2 text-base bg-neutral-50 border border-gray-200 rounded-lg outline-none focus:border-gray-400 transition-colors"
                   />
                 </div>
                 <div ref={listRef} className="flex-1 overflow-y-auto overscroll-contain md:max-h-64">
