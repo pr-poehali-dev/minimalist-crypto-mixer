@@ -16,80 +16,16 @@ import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import CryptoChartsDisplay from '@/components/ui/crypto-charts-display';
 import Icon from '@/components/ui/icon';
 import { useNavigate } from 'react-router-dom';
+import { COINS_LIST, getCoinInfo } from '@/lib/coins';
+import AboutTab from '@/components/AboutTab';
+import SupportTab from '@/components/SupportTab';
+import FaqTab from '@/components/FaqTab';
 
 const API = {
   getRates: 'https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf',
   createExchange: 'https://functions.poehali.dev/db89b501-844e-4f7e-b839-35b396842720',
   getExchanges: 'https://functions.poehali.dev/f55bda70-6145-4587-85c3-8b37d3275358',
   telegramAuth: 'https://functions.poehali.dev/aba6998f-8142-4edd-8e22-c24c005cf258',
-};
-
-interface CoinInfo {
-  symbol: string;
-  name: string;
-  logo: string;
-  network?: string;
-  rateKey: string;
-  color: string;
-}
-
-const COINS_LIST: CoinInfo[] = [
-  { symbol: 'BTC', name: 'Bitcoin', logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', rateKey: 'BTC', color: '#F7931A' },
-  { symbol: 'ETH', name: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', rateKey: 'ETH', color: '#627EEA' },
-  { symbol: 'USDT-TRC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'TRC20', rateKey: 'USDT', color: '#26A17B' },
-  { symbol: 'USDT-ERC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'ERC20', rateKey: 'USDT', color: '#26A17B' },
-  { symbol: 'USDC-ERC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'ERC20', rateKey: 'USDC', color: '#2775CA' },
-  { symbol: 'USDC-TRC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'TRC20', rateKey: 'USDC', color: '#2775CA' },
-  { symbol: 'BNB', name: 'BNB', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', rateKey: 'BNB', color: '#F3BA2F' },
-  { symbol: 'SOL', name: 'Solana', logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png', rateKey: 'SOL', color: '#9945FF' },
-  { symbol: 'XRP', name: 'Ripple', logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png', rateKey: 'XRP', color: '#23292F' },
-  { symbol: 'ADA', name: 'Cardano', logo: 'https://assets.coingecko.com/coins/images/975/small/cardano.png', rateKey: 'ADA', color: '#0033AD' },
-  { symbol: 'DOGE', name: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', rateKey: 'DOGE', color: '#C2A633' },
-  { symbol: 'LTC', name: 'Litecoin', logo: 'https://assets.coingecko.com/coins/images/2/small/litecoin.png', rateKey: 'LTC', color: '#345D9D' },
-  { symbol: 'XMR', name: 'Monero', logo: 'https://assets.coingecko.com/coins/images/69/small/monero_logo.png', rateKey: 'XMR', color: '#FF6600' },
-  { symbol: 'TRX', name: 'TRON', logo: 'https://assets.coingecko.com/coins/images/1094/small/tron-logo.png', rateKey: 'TRX', color: '#EF0027' },
-  { symbol: 'TON', name: 'Toncoin', logo: 'https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png', rateKey: 'TON', color: '#0098EA' },
-  { symbol: 'AVAX', name: 'Avalanche', logo: 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png', rateKey: 'AVAX', color: '#E84142' },
-  { symbol: 'DOT', name: 'Polkadot', logo: 'https://assets.coingecko.com/coins/images/12171/small/polkadot.png', rateKey: 'DOT', color: '#E6007A' },
-  { symbol: 'MATIC', name: 'Polygon', logo: 'https://assets.coingecko.com/coins/images/4713/small/polygon.png', rateKey: 'MATIC', color: '#8247E5' },
-  { symbol: 'LINK', name: 'Chainlink', logo: 'https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png', rateKey: 'LINK', color: '#2A5ADA' },
-  { symbol: 'UNI', name: 'Uniswap', logo: 'https://assets.coingecko.com/coins/images/12504/small/uni.jpg', rateKey: 'UNI', color: '#FF007A' },
-  { symbol: 'ATOM', name: 'Cosmos', logo: 'https://assets.coingecko.com/coins/images/1481/small/cosmos_hub.png', rateKey: 'ATOM', color: '#2E3148' },
-  { symbol: 'FIL', name: 'Filecoin', logo: 'https://assets.coingecko.com/coins/images/12817/small/filecoin.png', rateKey: 'FIL', color: '#0090FF' },
-  { symbol: 'APT', name: 'Aptos', logo: 'https://assets.coingecko.com/coins/images/26455/small/aptos_round.png', rateKey: 'APT', color: '#4DBA87' },
-  { symbol: 'NEAR', name: 'NEAR Protocol', logo: 'https://assets.coingecko.com/coins/images/10365/small/near.jpg', rateKey: 'NEAR', color: '#00C08B' },
-  { symbol: 'ARB', name: 'Arbitrum', logo: 'https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg', rateKey: 'ARB', color: '#28A0F0' },
-  { symbol: 'OP', name: 'Optimism', logo: 'https://assets.coingecko.com/coins/images/25244/small/Optimism.png', rateKey: 'OP', color: '#FF0420' },
-  { symbol: 'SUI', name: 'Sui', logo: 'https://assets.coingecko.com/coins/images/26375/small/sui_asset.jpeg', rateKey: 'SUI', color: '#4DA2FF' },
-  { symbol: 'SHIB', name: 'Shiba Inu', logo: 'https://assets.coingecko.com/coins/images/11939/small/shiba.png', rateKey: 'SHIB', color: '#FFA409' },
-  { symbol: 'PEPE', name: 'Pepe', logo: 'https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg', rateKey: 'PEPE', color: '#4E9A06' },
-  { symbol: 'ETC', name: 'Ethereum Classic', logo: 'https://assets.coingecko.com/coins/images/453/small/ethereum-classic-logo.png', rateKey: 'ETC', color: '#328332' },
-  { symbol: 'BCH', name: 'Bitcoin Cash', logo: 'https://assets.coingecko.com/coins/images/780/small/bitcoin-cash-circle.png', rateKey: 'BCH', color: '#8DC351' },
-  { symbol: 'XLM', name: 'Stellar', logo: 'https://assets.coingecko.com/coins/images/100/small/Stellar_symbol_black_RGB.png', rateKey: 'XLM', color: '#14B6E7' },
-  { symbol: 'ALGO', name: 'Algorand', logo: 'https://assets.coingecko.com/coins/images/4380/small/download.png', rateKey: 'ALGO', color: '#000000' },
-  { symbol: 'VET', name: 'VeChain', logo: 'https://assets.coingecko.com/coins/images/1167/small/VeChain-Logo-768x725.png', rateKey: 'VET', color: '#15BDFF' },
-  { symbol: 'FTM', name: 'Fantom', logo: 'https://assets.coingecko.com/coins/images/4001/small/Fantom_round.png', rateKey: 'FTM', color: '#1969FF' },
-  { symbol: 'AAVE', name: 'Aave', logo: 'https://assets.coingecko.com/coins/images/12645/small/AAVE.png', rateKey: 'AAVE', color: '#B6509E' },
-  { symbol: 'GRT', name: 'The Graph', logo: 'https://assets.coingecko.com/coins/images/13397/small/Graph_Token.png', rateKey: 'GRT', color: '#6747ED' },
-  { symbol: 'INJ', name: 'Injective', logo: 'https://assets.coingecko.com/coins/images/12882/small/Secondary_Symbol.png', rateKey: 'INJ', color: '#00F2FE' },
-  { symbol: 'RENDER', name: 'Render', logo: 'https://assets.coingecko.com/coins/images/11636/small/rndr.png', rateKey: 'RENDER', color: '#000000' },
-  { symbol: 'FET', name: 'Fetch.ai', logo: 'https://assets.coingecko.com/coins/images/5681/small/Fetch.jpg', rateKey: 'FET', color: '#1B1464' },
-  { symbol: 'SAND', name: 'The Sandbox', logo: 'https://assets.coingecko.com/coins/images/12129/small/sandbox_logo.jpg', rateKey: 'SAND', color: '#00ADEF' },
-  { symbol: 'MANA', name: 'Decentraland', logo: 'https://assets.coingecko.com/coins/images/878/small/decentraland-mana.png', rateKey: 'MANA', color: '#FF2D55' },
-  { symbol: 'AXS', name: 'Axie Infinity', logo: 'https://assets.coingecko.com/coins/images/13029/small/axie_infinity_logo.png', rateKey: 'AXS', color: '#0055D5' },
-  { symbol: 'CRV', name: 'Curve DAO', logo: 'https://assets.coingecko.com/coins/images/12124/small/Curve.png', rateKey: 'CRV', color: '#FF2D2D' },
-  { symbol: 'DASH', name: 'Dash', logo: 'https://assets.coingecko.com/coins/images/19/small/dash-logo.png', rateKey: 'DASH', color: '#008CE7' },
-  { symbol: 'ZEC', name: 'Zcash', logo: 'https://assets.coingecko.com/coins/images/486/small/circle-zcash-color.png', rateKey: 'ZEC', color: '#ECB244' },
-  { symbol: 'EOS', name: 'EOS', logo: 'https://assets.coingecko.com/coins/images/738/small/eos-eos-logo.png', rateKey: 'EOS', color: '#000000' },
-  { symbol: 'CAKE', name: 'PancakeSwap', logo: 'https://assets.coingecko.com/coins/images/12632/small/pancakeswap-cake-logo_%281%29.png', rateKey: 'CAKE', color: '#D1884F' },
-  { symbol: 'ENS', name: 'Ethereum Name Service', logo: 'https://assets.coingecko.com/coins/images/19785/small/acatxTm8_400x400.jpg', rateKey: 'ENS', color: '#5284FF' },
-  { symbol: 'WLD', name: 'Worldcoin', logo: 'https://assets.coingecko.com/coins/images/31069/small/worldcoin.jpeg', rateKey: 'WLD', color: '#000000' },
-  { symbol: 'SEI', name: 'Sei', logo: 'https://assets.coingecko.com/coins/images/28205/small/Sei_Logo_-_Transparent.png', rateKey: 'SEI', color: '#9B1B30' },
-  { symbol: 'BONK', name: 'Bonk', logo: 'https://assets.coingecko.com/coins/images/28600/small/bonk.jpg', rateKey: 'BONK', color: '#F9A825' },
-];
-
-const getCoinInfo = (symbol: string): CoinInfo => {
-  return COINS_LIST.find(c => c.symbol === symbol) || { symbol, name: symbol, logo: '', rateKey: symbol, color: '#666666' };
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
@@ -683,7 +619,7 @@ const Index = () => {
                               <span className="text-[11px] font-mono">
                                 {currentRate > 0 && (
                                   <span style={{ color: getCoinInfo(toCurrency).color }}>
-                                    1 {getCoinInfo(toCurrency).rateKey} = {(1 / currentRate).toFixed(8)} {getCoinInfo(fromCurrency).rateKey}
+                                    1 {getCoinInfo(toCurrency).rateKey} = {(1 / currentRate).toFixed(6)} {getCoinInfo(fromCurrency).rateKey}
                                   </span>
                                 )}
                               </span>
@@ -694,9 +630,10 @@ const Index = () => {
                           </div>
                         </div>
 
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Назначение</label>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <label className="text-xs font-semibold uppercase tracking-wider text-gray-700">Адрес получения</label>
+                            <span className="text-xs text-gray-400">{getCoinInfo(toCurrency).name}{getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''}</span>
                           </div>
                           <Input
                             placeholder={`Ваш ${getCoinInfo(toCurrency).name}${getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''} адрес`}
@@ -762,230 +699,15 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="about" className="animate-fade-in">
-              <div className="space-y-16 max-w-6xl mx-auto">
-
-                <div className="text-center space-y-6 py-8">
-                  <h2 className="text-5xl font-bold text-black leading-tight">Мгновенный обмен<br/>криптовалют</h2>
-                  <p className="text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
-                    Наш сервис создан для тех, кто ценит скорость, конфиденциальность и простоту. Обменивайте криптовалюты без регистрации аккаунта, без лимитов и без скрытых комиссий.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-4 gap-6">
-                  {[
-                    { value: '15+', label: 'Криптовалют', icon: 'Coins', color: 'from-blue-500 to-indigo-500' },
-                    { value: '24/7', label: 'Без выходных', icon: 'Clock', color: 'from-green-500 to-emerald-500' },
-                    { value: '~15 мин', label: 'Время обмена', icon: 'Zap', color: 'from-yellow-500 to-orange-500' },
-                    { value: '0%', label: 'Скрытых комиссий', icon: 'BadgePercent', color: 'from-purple-500 to-pink-500' },
-                  ].map(stat => (
-                    <div key={stat.label} className="rounded-2xl border border-gray-200 bg-white p-8 text-center">
-                      <div className={`mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-5`}>
-                        <Icon name={stat.icon} size={28} className="text-white" />
-                      </div>
-                      <p className="text-3xl font-bold text-black">{stat.value}</p>
-                      <p className="text-sm text-gray-500 mt-2">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div>
-                  <h3 className="text-3xl font-bold text-center text-black mb-10">Почему выбирают нас</h3>
-                  <div className="grid grid-cols-3 gap-6">
-                    {[
-                      { icon: 'Shield', color: '#3B82F6', title: 'Безопасность', desc: 'Мы не храним ваши средства. Каждый обмен — это прямая транзакция между кошельками. Никаких депозитов, никаких рисков.' },
-                      { icon: 'Gauge', color: '#F97316', title: 'Скорость', desc: 'Большинство обменов завершаются в течение 15-30 минут. Оператор обрабатывает заявки в режиме реального времени.' },
-                      { icon: 'Eye', color: '#22C55E', title: 'Прозрачность', desc: 'Курс фиксируется в момент создания заявки. Вы видите точную сумму получения до начала обмена.' },
-                      { icon: 'Lock', color: '#8B5CF6', title: 'Конфиденциальность', desc: 'Минимум данных для обмена. Мы не требуем KYC-верификацию и не передаём данные третьим лицам.' },
-                      { icon: 'Headphones', color: '#EC4899', title: 'Поддержка 24/7', desc: 'Наша команда всегда на связи. Возникли вопросы — напишите нам в Telegram, и мы поможем.' },
-                      { icon: 'TrendingUp', color: '#06B6D4', title: 'Лучшие курсы', desc: 'Курсы обновляются каждые 30 секунд. Мы агрегируем данные с ведущих бирж для лучших котировок.' },
-                    ].map(feature => (
-                      <div key={feature.title} className="rounded-2xl border border-gray-200 bg-white p-8">
-                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5" style={{ backgroundColor: feature.color + '15' }}>
-                          <Icon name={feature.icon} size={26} style={{ color: feature.color }} />
-                        </div>
-                        <p className="font-bold text-black text-xl mb-2">{feature.title}</p>
-                        <p className="text-base text-gray-500 leading-relaxed">{feature.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-gray-200 bg-white p-12">
-                  <h3 className="text-3xl font-bold text-center text-black mb-12">Как это работает</h3>
-                  <div className="grid grid-cols-3 gap-12">
-                    {[
-                      { step: '01', title: 'Выберите валюту', desc: 'Укажите какую криптовалюту хотите обменять и какую получить. Курс рассчитается автоматически.', icon: 'ArrowLeftRight' },
-                      { step: '02', title: 'Отправьте средства', desc: 'Переведите указанную сумму на предоставленный адрес. Нажмите "Я отправил" для подтверждения.', icon: 'Send' },
-                      { step: '03', title: 'Получите результат', desc: 'После подтверждения оплаты оператор отправит криптовалюту на ваш кошелёк. Отслеживайте статус онлайн.', icon: 'CheckCircle' },
-                    ].map(s => (
-                      <div key={s.step} className="text-center">
-                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-blue-500/20">
-                          <Icon name={s.icon} size={36} className="text-white" />
-                        </div>
-                        <span className="text-sm font-bold text-blue-500 uppercase tracking-wider">Шаг {s.step}</span>
-                        <p className="text-xl font-bold text-black mt-2">{s.title}</p>
-                        <p className="text-base text-gray-500 mt-3 leading-relaxed">{s.desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-gray-200 bg-white p-12">
-                  <h3 className="text-3xl font-bold text-center text-black mb-8">Поддерживаемые криптовалюты</h3>
-                  <p className="text-center text-gray-500 mb-10 text-lg">Обменивайте любую из представленных валют в любом направлении</p>
-                  <div className="grid grid-cols-5 gap-4">
-                    {COINS_LIST.map(coin => (
-                      <div key={coin.symbol} className="flex items-center gap-3 px-5 py-4 bg-neutral-50 border border-gray-200 rounded-xl hover:border-gray-300 hover:shadow-sm transition-all">
-                        <img src={coin.logo} alt={coin.symbol} className="w-8 h-8 rounded-full" />
-                        <div>
-                          <span className="font-bold text-base text-black block">{coin.rateKey}</span>
-                          {coin.network && <span className="text-[10px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">{coin.network}</span>}
-                          {!coin.network && <span className="text-xs text-gray-400">{coin.name}</span>}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-              </div>
+              <AboutTab />
             </TabsContent>
 
             <TabsContent value="support" className="animate-fade-in">
-              <div className="max-w-3xl mx-auto">
-                <div className="space-y-8">
-                  <div className="text-center space-y-4">
-                    <h2 className="text-4xl font-bold text-black">Поддержка</h2>
-                    <p className="text-lg text-gray-500">Напишите нам в Telegram — оператор ответит в кратчайшие сроки</p>
-                  </div>
-
-                  <div className="rounded-2xl border border-gray-200 bg-white p-8">
-                    <a
-                      href="https://t.me/wi_exchange_sup_bot"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-6 p-6 border-2 border-blue-100 bg-blue-50/50 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all"
-                    >
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
-                        <Icon name="HeadphonesIcon" size={28} className="text-white" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-xl text-black">Написать в поддержку</p>
-                        <p className="text-sm text-gray-500 mt-1">@wi_exchange_sup_bot — бот поддержки</p>
-                        <p className="text-xs text-blue-600 mt-2 font-medium">Создайте тикет или просто напишите вопрос — оператор ответит</p>
-                      </div>
-                      <Icon name="ExternalLink" size={20} className="text-gray-400 flex-shrink-0" />
-                    </a>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
-                      <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mx-auto mb-4">
-                        <Icon name="Clock" size={22} className="text-green-600" />
-                      </div>
-                      <p className="font-bold text-black text-lg">24/7</p>
-                      <p className="text-sm text-gray-500 mt-1">Работаем без выходных</p>
-                    </div>
-                    <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
-                      <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
-                        <Icon name="MessageCircle" size={22} className="text-blue-600" />
-                      </div>
-                      <p className="font-bold text-black text-lg">~15 мин</p>
-                      <p className="text-sm text-gray-500 mt-1">Среднее время ответа</p>
-                    </div>
-                    <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
-                      <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center mx-auto mb-4">
-                        <Icon name="Languages" size={22} className="text-purple-600" />
-                      </div>
-                      <p className="font-bold text-black text-lg">RU / EN</p>
-                      <p className="text-sm text-gray-500 mt-1">Языки поддержки</p>
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl border-2 border-yellow-200 bg-yellow-50 p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                        <Icon name="AlertTriangle" size={20} className="text-yellow-700" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-yellow-800">Будьте бдительны</p>
-                        <p className="text-sm text-yellow-700 mt-1">Мы никогда не просим ваши пароли, seed-фразы или приватные ключи. Не отправляйте средства по ссылкам из непроверенных источников.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <SupportTab />
             </TabsContent>
 
             <TabsContent value="faq" className="animate-fade-in">
-              <div className="max-w-3xl mx-auto space-y-6">
-                <Card className="border-2">
-                  <CardHeader className="text-center">
-                    <CardTitle className="text-3xl">Как пользоваться обменником</CardTitle>
-                    <p className="text-gray-600 mt-2">Пошаговая инструкция</p>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {[
-                      {
-                        num: '1',
-                        title: 'Авторизация',
-                        icon: 'Lock',
-                        desc: 'Нажмите "Войти через Telegram" в правом верхнем углу. Введите username и код из бота.',
-                      },
-                      {
-                        num: '2',
-                        title: 'Выбор валютной пары',
-                        icon: 'ArrowLeftRight',
-                        desc: 'Выберите валюту, которую хотите отдать, и валюту, которую хотите получить. Курс рассчитается автоматически.',
-                      },
-                      {
-                        num: '3',
-                        title: 'Ввод суммы и адреса',
-                        icon: 'Wallet',
-                        desc: 'Введите сумму обмена и адрес кошелька, на который хотите получить криптовалюту.',
-                      },
-                      {
-                        num: '4',
-                        title: 'Оплата',
-                        icon: 'Send',
-                        desc: 'После создания заявки вы получите адрес для перевода. Отправьте точную сумму на указанный адрес.',
-                      },
-                      {
-                        num: '5',
-                        title: 'Получение',
-                        icon: 'CheckCircle',
-                        desc: 'После подтверждения оплаты оператор обработает заявку и отправит криптовалюту на ваш адрес.',
-                      },
-                    ].map(step => (
-                      <div key={step.num} className="border-l-4 border-gray-900 pl-6 py-4">
-                        <div className="flex items-start gap-4 mb-3">
-                          <div className="flex-shrink-0 w-10 h-10 bg-black text-white flex items-center justify-center font-bold text-lg">{step.num}</div>
-                          <div>
-                            <h3 className="text-xl font-bold text-gray-900">{step.title}</h3>
-                            <div className="flex items-center gap-2 text-gray-500 mt-0.5">
-                              <Icon name={step.icon} size={14} />
-                              <span className="text-xs uppercase tracking-wide">{step.title}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-gray-600 ml-14">{step.desc}</p>
-                      </div>
-                    ))}
-
-                    <div className="mt-8 p-5 bg-neutral-100 border-2 border-gray-300">
-                      <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-3">Поддерживаемые валюты</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {COINS_LIST.map(coin => (
-                          <span key={coin.symbol} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-sm font-mono">
-                            <img src={coin.logo} alt={coin.symbol} className="w-4 h-4 rounded-full" />
-                            {coin.rateKey}
-                            {coin.network && <span className="text-[10px] bg-gray-100 text-gray-500 px-1 rounded">{coin.network}</span>}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+              <FaqTab />
             </TabsContent>
           </Tabs>
         </div>
