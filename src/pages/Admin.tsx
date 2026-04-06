@@ -94,10 +94,7 @@ const Admin = () => {
   const handleSaveMarkup = async () => {
     const val = parseFloat(markup);
     console.log('[ADMIN] Save markup:', { markup, val, username });
-    if (isNaN(val) || val < 0 || val > 50) {
-      console.log('[ADMIN] Validation failed');
-      return;
-    }
+    if (isNaN(val) || val < 0 || val > 99) return;
     setMarkupSaving(true);
     try {
       const resp = await fetch(API.setMarkup, {
@@ -208,7 +205,7 @@ const Admin = () => {
                     type="number"
                     step="0.1"
                     min="0"
-                    max="50"
+                    max="99"
                     value={markup}
                     onChange={(e) => setMarkup(e.target.value)}
                     className="border-2 border-gray-400 font-mono h-11 w-32"

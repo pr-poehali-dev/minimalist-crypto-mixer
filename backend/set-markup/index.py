@@ -48,11 +48,11 @@ def handler(event: dict, context) -> dict:
     if event.get('httpMethod') == 'POST':
         body = json.loads(event.get('body', '{}'))
         markup = body.get('markup_percent')
-        if markup is None or not isinstance(markup, (int, float)) or markup < 0 or markup > 50:
+        if markup is None or not isinstance(markup, (int, float)) or markup < 0 or markup > 99:
             return {
                 'statusCode': 400,
                 'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': json.dumps({'error': 'markup_percent must be a number between 0 and 50'})
+                'body': json.dumps({'error': 'markup_percent must be a number between 0 and 99'})
             }
 
         conn = psycopg2.connect(database_url)
