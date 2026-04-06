@@ -76,13 +76,15 @@ const Order = () => {
       const data = await resp.json();
       if (data.order) {
         setOrder(data.order);
-        const created = new Date(data.order.created_at).getTime();
+        const createdStr = data.order.created_at.endsWith('Z') ? data.order.created_at : data.order.created_at + 'Z';
+        const created = new Date(createdStr).getTime();
         const remaining = Math.max(0, Math.floor((created + 1800000 - Date.now()) / 1000));
         setTimer(remaining);
       } else {
         setError('Заказ не найден');
       }
-    } catch {
+    } catch (e) {
+      console.error('Fetch error:', e);
       setError('Ошибка загрузки');
     }
     setLoading(false);
