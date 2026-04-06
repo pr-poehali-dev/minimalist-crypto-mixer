@@ -1,0 +1,17 @@
+{
+  "tests": [
+    {
+      "name": "Admin exchanges - no admin",
+      "method": "GET",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@normaluser"
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "Access denied. Admin only."
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

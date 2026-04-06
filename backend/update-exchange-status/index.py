@@ -2,7 +2,7 @@ import json
 import os
 import psycopg2
 
-ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot']
+ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123']
 
 ALLOWED_STATUSES = [
     'Ожидает оплаты',

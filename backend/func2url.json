@@ -1,4 +1,5 @@
 {
+  "admin-exchanges": "https://functions.poehali.dev/a2afbcdb-20fd-4338-8912-027e06990b01",
   "telegram-webhook": "https://functions.poehali.dev/3ca5e464-42e7-424b-8397-450b5f791331",
   "get-mixes": "https://functions.poehali.dev/96bab9dd-e2a7-41ef-bef5-a5b233e045d8",
   "update-exchange-status": "https://functions.poehali.dev/f665b00d-ddae-42aa-8edb-1178981736e1",

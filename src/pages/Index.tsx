@@ -12,6 +12,7 @@ import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ExchangesTable, Exchange } from '@/components/ui/exchanges-table';
 import Icon from '@/components/ui/icon';
+import { useNavigate } from 'react-router-dom';
 
 const API = {
   getRates: 'https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf',
@@ -26,11 +27,14 @@ const COIN_ICONS: Record<string, string> = {
   DOGE: 'Dog', LTC: 'Coins', XMR: 'Shield', TRX: 'Triangle', TON: 'Diamond',
 };
 
+const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
+
 interface Rates {
   [key: string]: number;
 }
 
 const Index = () => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [telegramUsername, setTelegramUsername] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -179,6 +183,7 @@ const Index = () => {
       const data = await resp.json();
       if (data.success) {
         setIsAuthenticated(true);
+        localStorage.setItem('exchange_username', telegramUsername);
       } else {
         setAuthError(data.error || 'Неверный код');
       }
@@ -194,6 +199,7 @@ const Index = () => {
     setInputUsername('');
     setIsCodeSent(false);
     setActiveTab('exchange');
+    localStorage.removeItem('exchange_username');
   };
 
   const handleResendCode = async () => {
@@ -347,6 +353,15 @@ const Index = () => {
                     <Icon name="Info" size={16} />
                     FAQ
                   </DropdownItem>
+                  {ADMIN_USERNAMES.includes(telegramUsername.toLowerCase()) && (
+                    <>
+                      <DropdownSeparator />
+                      <DropdownItem className="gap-2" onClick={() => navigate('/admin')}>
+                        <Icon name="Settings" size={16} />
+                        Админ-панель
+                      </DropdownItem>
+                    </>
+                  )}
                   <DropdownSeparator />
                   <DropdownItem className="gap-2" onClick={handleLogout} destructive>
                     <Icon name="LogOut" size={16} />
