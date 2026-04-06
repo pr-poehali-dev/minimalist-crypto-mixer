@@ -40,6 +40,7 @@ const MOBILE_MENU_ITEMS: InteractiveMenuItem[] = [
   { label: 'Обмен', icon: ArrowLeftRight, value: 'exchange' },
   { label: 'Обмены', icon: ClipboardList, value: 'my-exchanges' },
   { label: 'Партнёры', icon: Gift, value: 'referral' },
+  { label: 'Поддержка', icon: Headphones, value: 'support' },
   { label: 'О нас', icon: Info, value: 'about' },
   { label: 'FAQ', icon: HelpCircle, value: 'faq' },
 ];
@@ -48,8 +49,9 @@ const TAB_TO_INDEX: Record<string, number> = {
   'exchange': 0,
   'my-exchanges': 1,
   'referral': 2,
-  'about': 3,
-  'faq': 4,
+  'support': 3,
+  'about': 4,
+  'faq': 5,
 };
 
 interface Rates {
@@ -68,8 +70,10 @@ const Index = () => {
   const [authError, setAuthError] = useState('');
   const [inputUsername, setInputUsername] = useState('');
   const [activeTab, setActiveTabRaw] = useState('exchange');
+  const [discountCheckNeeded, setDiscountCheckNeeded] = useState(false);
   const setActiveTab = (tab: string) => {
     setActiveTabRaw(tab);
+    if (tab === 'exchange') setDiscountCheckNeeded(true);
     window.scrollTo({ top: 0 });
   };
 
@@ -124,6 +128,13 @@ const Index = () => {
     const interval = setInterval(fetchRates, 30000);
     return () => clearInterval(interval);
   }, [fetchRates, checkDiscount]);
+
+  useEffect(() => {
+    if (discountCheckNeeded) {
+      checkDiscount();
+      setDiscountCheckNeeded(false);
+    }
+  }, [discountCheckNeeded, checkDiscount]);
 
   const getExchangeRate = useCallback((from: string, to: string) => {
     const fromKey = getCoinInfo(from).rateKey;
@@ -540,7 +551,7 @@ const Index = () => {
             <RadioGroup
               value={activeTab}
               onValueChange={setActiveTab}
-              className="group relative inline-grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-[20%] after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=exchange]:after:translate-x-0 data-[state=my-exchanges]:after:translate-x-[100%] data-[state=referral]:after:translate-x-[200%] data-[state=about]:after:translate-x-[300%] data-[state=faq]:after:translate-x-[400%]"
+              className="group relative inline-grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-[16.666%] after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=exchange]:after:translate-x-0 data-[state=my-exchanges]:after:translate-x-[100%] data-[state=referral]:after:translate-x-[200%] data-[state=support]:after:translate-x-[300%] data-[state=about]:after:translate-x-[400%] data-[state=faq]:after:translate-x-[500%]"
               data-state={activeTab}
             >
               <div
@@ -558,6 +569,10 @@ const Index = () => {
               <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=referral]:text-white group-data-[state=referral]:font-semibold">
                 Партнёрство
                 <RadioGroupItem id="tab-referral-h" value="referral" className="sr-only" />
+              </label>
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=support]:text-white group-data-[state=support]:font-semibold">
+                Поддержка
+                <RadioGroupItem id="tab-support-h" value="support" className="sr-only" />
               </label>
               <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=about]:text-white group-data-[state=about]:font-semibold">
                 О нас
@@ -590,6 +605,10 @@ const Index = () => {
                   <DropdownItem className="gap-2" onClick={() => setActiveTab('referral')}>
                     <Icon name="Gift" size={16} />
                     Партнёрство
+                  </DropdownItem>
+                  <DropdownItem className="gap-2" onClick={() => setActiveTab('support')}>
+                    <Icon name="Headphones" size={16} />
+                    Поддержка
                   </DropdownItem>
                   <DropdownItem className="gap-2" onClick={() => setActiveTab('faq')}>
                     <Icon name="Info" size={16} />
