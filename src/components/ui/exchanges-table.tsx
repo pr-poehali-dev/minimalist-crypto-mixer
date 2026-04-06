@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Copy } from "lucide-react";
 
@@ -146,76 +146,74 @@ export function ExchangesTable({
                   const st = getStatusStyle(ex.status);
                   const isExpanded = expandedRow === ex.id;
                   return (
-                    <motion.tr
-                      key={ex.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="border-b border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
-                      onClick={() => setExpandedRow(isExpanded ? null : ex.id)}
-                    >
-                      <td className="px-4 py-3 font-mono text-sm text-gray-600">{ex.id}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{formatDate(ex.created_at)}</td>
-                      <td className="px-4 py-3">
-                        <span className="font-mono text-sm font-semibold text-black">
-                          {ex.from_currency} → {ex.to_currency}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 font-mono text-sm text-black">{parseFloat(ex.from_amount).toFixed(6)} {ex.from_currency}</td>
-                      <td className="px-4 py-3 font-mono text-sm text-black">{parseFloat(ex.to_amount).toFixed(6)} {ex.to_currency}</td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-sm border ${st.bg} ${st.border} ${st.text}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${st.dot}`}></span>
-                          {ex.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <ChevronDown size={14} className={`text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
-                      </td>
-                    </motion.tr>
+                    <React.Fragment key={ex.id}>
+                      <motion.tr
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="border-b border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+                        onClick={() => setExpandedRow(isExpanded ? null : ex.id)}
+                      >
+                        <td className="px-4 py-3 font-mono text-sm text-gray-600">{ex.id}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{formatDate(ex.created_at)}</td>
+                        <td className="px-4 py-3">
+                          <span className="font-mono text-sm font-semibold text-black">
+                            {ex.from_currency} → {ex.to_currency}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 font-mono text-sm text-black">{parseFloat(ex.from_amount).toFixed(6)} {ex.from_currency}</td>
+                        <td className="px-4 py-3 font-mono text-sm text-black">{parseFloat(ex.to_amount).toFixed(6)} {ex.to_currency}</td>
+                        <td className="px-4 py-3">
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-sm border ${st.bg} ${st.border} ${st.text}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${st.dot}`}></span>
+                            {ex.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <ChevronDown size={14} className={`text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                        </td>
+                      </motion.tr>
+                      {isExpanded && (
+                        <tr className="bg-neutral-50">
+                          <td colSpan={7} className="px-6 py-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>
+                                <div className="flex items-center gap-2">
+                                  <p className="font-mono text-xs break-all text-gray-700">{ex.deposit_address}</p>
+                                  <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.deposit_address); }} className="text-gray-400 hover:text-black">
+                                    <Copy size={12} />
+                                  </button>
+                                </div>
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес получения</p>
+                                <div className="flex items-center gap-2">
+                                  <p className="font-mono text-xs break-all text-gray-700">{ex.output_address}</p>
+                                  <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.output_address); }} className="text-gray-400 hover:text-black">
+                                    <Copy size={12} />
+                                  </button>
+                                </div>
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Курс</p>
+                                <p className="font-mono text-sm text-black">1 {ex.from_currency} = {parseFloat(ex.rate).toFixed(6)} {ex.to_currency}</p>
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Обновлено</p>
+                                <p className="text-sm text-gray-600">{ex.updated_at ? formatDate(ex.updated_at) : '—'}</p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
                   );
                 })}
               </AnimatePresence>
             </tbody>
           </table>
         </div>
-
-        {expandedRow && (() => {
-          const ex = paginatedExchanges.find(e => e.id === expandedRow);
-          if (!ex) return null;
-          return (
-            <div className="border-t-2 border-gray-300 bg-neutral-50 p-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>
-                  <div className="flex items-center gap-2">
-                    <p className="font-mono text-xs break-all text-gray-700">{ex.deposit_address}</p>
-                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.deposit_address); }} className="text-gray-400 hover:text-black">
-                      <Copy size={12} />
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес получения</p>
-                  <div className="flex items-center gap-2">
-                    <p className="font-mono text-xs break-all text-gray-700">{ex.output_address}</p>
-                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.output_address); }} className="text-gray-400 hover:text-black">
-                      <Copy size={12} />
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Курс</p>
-                  <p className="font-mono text-sm text-black">1 {ex.from_currency} = {parseFloat(ex.rate).toFixed(6)} {ex.to_currency}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Обновлено</p>
-                  <p className="text-sm text-gray-600">{ex.updated_at ? formatDate(ex.updated_at) : '—'}</p>
-                </div>
-              </div>
-            </div>
-          );
-        })()}
       </div>
 
       {totalPages > 1 && (
