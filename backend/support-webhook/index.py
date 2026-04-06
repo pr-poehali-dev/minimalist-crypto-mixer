@@ -45,16 +45,12 @@ def handler(event: dict, context) -> dict:
     reply_to = message.get('reply_to_message')
 
     if not chat_id or not text:
-        print(f'[SKIP] no chat_id or text: chat_id={chat_id}, text={text!r}')
         return ok()
 
     bot_token = os.environ.get('SUPPORT_BOT_TOKEN')
     admin_chat_id = os.environ.get('SUPPORT_ADMIN_CHAT_ID')
 
-    print(f'[MSG] chat_id={chat_id}, text={text!r}, bot_token_set={bool(bot_token)}, admin_id_set={bool(admin_chat_id)}')
-
     if not bot_token or not admin_chat_id:
-        print(f'[ERROR] Missing secrets: bot_token={bool(bot_token)}, admin_chat_id={bool(admin_chat_id)}')
         return ok()
 
     admin_chat_id = int(admin_chat_id)
@@ -77,23 +73,25 @@ def handler(event: dict, context) -> dict:
         send_ticket_status(bot_token, chat_id, database_url, schema)
         return ok()
 
-    print(f'[CHECK] chat_id={chat_id}, admin_chat_id={admin_chat_id}, equal={chat_id == admin_chat_id}, reply_to={bool(reply_to)}')
-
     if chat_id == admin_chat_id and reply_to:
-        print(f'[ADMIN_REPLY] admin replying to message')
-        handle_admin_reply(bot_token, text, reply_to, database_url, schema)
+        try:
+            handle_admin_reply(bot_token, text, reply_to, database_url, schema)
+        except Exception as e:
+            print(f'[ERROR] admin_reply: {e}')
         return ok()
 
     if chat_id != admin_chat_id:
-        print(f'[USER_MSG] user {chat_id} sending message, forwarding to admin {admin_chat_id}')
         try:
             handle_user_message(bot_token, admin_chat_id, chat_id, username, first_name, text, database_url, schema, category='Другое')
-            print(f'[USER_MSG] done')
         except Exception as e:
-            print(f'[USER_MSG_ERROR] {e}')
+            print(f'[ERROR] user_msg: {e}')
+            send_msg(bot_token, chat_id, '⚠️ Произошла ошибка. Попробуйте позже.')
         return ok()
 
-    print(f'[SKIP] admin without reply, ignoring')
+    send_msg(bot_token, chat_id,
+        'Вы — администратор.\n\n'
+        'Чтобы ответить пользователю — сделайте реплай на его тикет.\n'
+        'Ожидайте входящих обращений от пользователей.')
     return ok()
 
 
