@@ -36,6 +36,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
   useEffect(() => {
     setDimension({ width: window.innerWidth, height: window.innerHeight })
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [])
 
   useEffect(() => {
@@ -43,6 +47,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       setTimeout(() => {
         setIsExiting(true)
         setTimeout(() => {
+          document.body.style.overflow = ''
           onComplete?.()
         }, 1000)
       }, 1000)
@@ -57,8 +62,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     )
   }, [index, onComplete])
 
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width / 2} ${dimension.height + 300} 0 ${dimension.height} L0 0`
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width / 2} ${dimension.height} 0 ${dimension.height} L0 0`
+  const h = dimension.height + 600
+  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${h} Q${dimension.width / 2} ${h + 300} 0 ${h} L0 0`
+  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${h} Q${dimension.width / 2} ${h} 0 ${h} L0 0`
 
   const curve = {
     initial: {
@@ -71,13 +77,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     },
   }
 
-
   return (
-      <motion.div
+    <motion.div
       variants={slideUp}
       initial="initial"
       animate={isExiting ? "exit" : "initial"}
-      className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 z-[99999999999]"
+      className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 z-[99999999999]"
+      style={{ width: '100vw', height: '100dvh', top: 0, left: 0 }}
     >
       {dimension.width > 0 && (
         <>
@@ -90,7 +96,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             <span className="block w-2.5 h-2.5 bg-white rounded-full mr-2.5"></span>
             {words[index]}
           </motion.p>
-          <svg className="absolute top-0 w-full h-[calc(100%+300px)]">
+          <svg className="absolute top-0 left-0 w-full" style={{ height: `${h + 300}px` }}>
             <defs>
               <linearGradient id="preloaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#2563eb" />

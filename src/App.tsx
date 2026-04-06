@@ -17,6 +17,7 @@ const App = () => {
 
   const handleComplete = useCallback(() => {
     setShowPreloader(false);
+    document.body.style.backgroundColor = '';
   }, []);
 
   return (
