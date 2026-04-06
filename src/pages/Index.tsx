@@ -23,7 +23,8 @@ import FaqTab from '@/components/FaqTab';
 import Footer from '@/components/Footer';
 import { HowItWorks, PopularPairs, StatsSection, TrustBanner } from '@/components/HeroSections';
 import { InteractiveMenu, InteractiveMenuItem } from '@/components/ui/modern-mobile-menu';
-import { ArrowLeftRight, ClipboardList, Info, Headphones, HelpCircle } from 'lucide-react';
+import { ArrowLeftRight, ClipboardList, Info, Headphones, HelpCircle, Gift } from 'lucide-react';
+import ReferralTab from '@/components/ReferralTab';
 
 const API = {
   getRates: 'https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf',
@@ -36,17 +37,17 @@ const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
 
 const MOBILE_MENU_ITEMS: InteractiveMenuItem[] = [
   { label: 'Обмен', icon: ArrowLeftRight, value: 'exchange' },
-  { label: 'Мои обмены', icon: ClipboardList, value: 'my-exchanges' },
+  { label: 'Обмены', icon: ClipboardList, value: 'my-exchanges' },
+  { label: 'Партнёры', icon: Gift, value: 'referral' },
   { label: 'О нас', icon: Info, value: 'about' },
-  { label: 'Поддержка', icon: Headphones, value: 'support' },
   { label: 'FAQ', icon: HelpCircle, value: 'faq' },
 ];
 
 const TAB_TO_INDEX: Record<string, number> = {
   'exchange': 0,
   'my-exchanges': 1,
-  'about': 2,
-  'support': 3,
+  'referral': 2,
+  'about': 3,
   'faq': 4,
 };
 
@@ -520,7 +521,7 @@ const Index = () => {
             <RadioGroup
               value={activeTab}
               onValueChange={setActiveTab}
-              className="group relative inline-grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-[20%] after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=exchange]:after:translate-x-0 data-[state=my-exchanges]:after:translate-x-[100%] data-[state=about]:after:translate-x-[200%] data-[state=support]:after:translate-x-[300%] data-[state=faq]:after:translate-x-[400%]"
+              className="group relative inline-grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-[20%] after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=exchange]:after:translate-x-0 data-[state=my-exchanges]:after:translate-x-[100%] data-[state=referral]:after:translate-x-[200%] data-[state=about]:after:translate-x-[300%] data-[state=faq]:after:translate-x-[400%]"
               data-state={activeTab}
             >
               <div
@@ -535,13 +536,13 @@ const Index = () => {
                 Мои обмены
                 <RadioGroupItem id="tab-my-exchanges-h" value="my-exchanges" className="sr-only" />
               </label>
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=referral]:text-white group-data-[state=referral]:font-semibold">
+                Партнёрство
+                <RadioGroupItem id="tab-referral-h" value="referral" className="sr-only" />
+              </label>
               <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=about]:text-white group-data-[state=about]:font-semibold">
                 О нас
                 <RadioGroupItem id="tab-about-h" value="about" className="sr-only" />
-              </label>
-              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=support]:text-white group-data-[state=support]:font-semibold">
-                Поддержка
-                <RadioGroupItem id="tab-support-h" value="support" className="sr-only" />
               </label>
               <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=faq]:text-white group-data-[state=faq]:font-semibold">
                 FAQ
@@ -566,6 +567,10 @@ const Index = () => {
                   <DropdownItem className="gap-2" onClick={() => setActiveTab('my-exchanges')}>
                     <Icon name="ClipboardList" size={16} />
                     Мои обмены
+                  </DropdownItem>
+                  <DropdownItem className="gap-2" onClick={() => setActiveTab('referral')}>
+                    <Icon name="Gift" size={16} />
+                    Партнёрство
                   </DropdownItem>
                   <DropdownItem className="gap-2" onClick={() => setActiveTab('faq')}>
                     <Icon name="Info" size={16} />
@@ -839,6 +844,10 @@ const Index = () => {
                 )}
               </div>
               <Footer />
+            </TabsContent>
+
+            <TabsContent value="referral" className="animate-fade-in">
+              <ReferralTab telegramUsername={telegramUsername} isAuthenticated={isAuthenticated} />
             </TabsContent>
 
             <TabsContent value="about" className="animate-fade-in">

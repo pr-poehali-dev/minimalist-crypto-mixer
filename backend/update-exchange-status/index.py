@@ -4,6 +4,40 @@ import psycopg2
 
 ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123']
 
+def process_referral_earning(exchange_id, schema, conn):
+    """Начислить реферальный бонус при завершении обмена"""
+    cur = conn.cursor()
+    cur.execute(f'SELECT 1 FROM {schema}.referral_earnings WHERE exchange_id = %s', (exchange_id,))
+    if cur.fetchone():
+        cur.close()
+        return
+    cur.execute(
+        f'SELECT user_username, from_amount, from_currency FROM {schema}.exchanges WHERE id = %s AND status = %s',
+        (exchange_id, 'Завершено')
+    )
+    ex = cur.fetchone()
+    if not ex:
+        cur.close()
+        return
+    user, amount, currency = ex
+    cur.execute(
+        f'SELECT referrer_username FROM {schema}.referral_links WHERE referred_username = %s',
+        (user,)
+    )
+    link = cur.fetchone()
+    if not link:
+        cur.close()
+        return
+    referrer = link[0]
+    earning = float(amount) * 0.01
+    cur.execute(
+        f'''INSERT INTO {schema}.referral_earnings (referrer_username, referred_username, exchange_id, amount_usd, currency, status)
+            VALUES (%s, %s, %s, %s, %s, %s)''',
+        (referrer, user, exchange_id, earning, currency, 'начислено')
+    )
+    conn.commit()
+    cur.close()
+
 ALLOWED_STATUSES = [
     'Ожидает оплаты',
     'Оплата отправлена',
@@ -88,6 +122,10 @@ def handler(event: dict, context) -> dict:
         }
 
     conn.commit()
+
+    if new_status == 'Завершено':
+        process_referral_earning(exchange_id, schema, conn)
+
     cur.close()
     conn.close()
 

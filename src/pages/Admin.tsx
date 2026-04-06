@@ -9,6 +9,7 @@ const API = {
   setMarkup: 'https://functions.poehali.dev/6f9de021-2dff-4160-938a-cb3e8caa1b7a',
   adminExchanges: 'https://functions.poehali.dev/a2afbcdb-20fd-4338-8912-027e06990b01',
   updateStatus: 'https://functions.poehali.dev/f665b00d-ddae-42aa-8edb-1178981736e1',
+  referral: 'https://functions.poehali.dev/2ae57ed9-acd8-4db7-badf-3788ebdbf00b',
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
@@ -47,6 +48,11 @@ const Admin = () => {
   const [hashInput, setHashInput] = useState<Record<number, string>>({});
   const [showHashInput, setShowHashInput] = useState<number | null>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [referralData, setReferralData] = useState<any>(null);
+  const [loadingReferrals, setLoadingReferrals] = useState(false);
+  const [processingWithdrawal, setProcessingWithdrawal] = useState<number | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('exchange_username');
@@ -87,12 +93,30 @@ const Admin = () => {
     setLoadingExchanges(false);
   }, [username]);
 
+  const fetchReferrals = useCallback(async () => {
+    if (!username) return;
+    setLoadingReferrals(true);
+    try {
+      const resp = await fetch(API.referral, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-User-Username': username },
+        body: JSON.stringify({ action: 'admin_get_referrals' }),
+      });
+      const data = await resp.json();
+      setReferralData(data);
+    } catch (e) {
+      console.error('Failed to fetch referrals', e);
+    }
+    setLoadingReferrals(false);
+  }, [username]);
+
   useEffect(() => {
     if (isAdmin) {
       fetchMarkup();
       fetchExchanges();
+      fetchReferrals();
     }
-  }, [isAdmin, fetchMarkup, fetchExchanges]);
+  }, [isAdmin, fetchMarkup, fetchExchanges, fetchReferrals]);
 
   const handleSaveMarkup = async () => {
     const val = parseFloat(markup);
@@ -147,6 +171,21 @@ const Admin = () => {
       console.error('Failed to update status', e);
     }
     setUpdatingId(null);
+  };
+
+  const handleProcessWithdrawal = async (withdrawalId: number, status: string) => {
+    setProcessingWithdrawal(withdrawalId);
+    try {
+      await fetch(API.referral, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-User-Username': username },
+        body: JSON.stringify({ action: 'admin_process_withdrawal', withdrawal_id: withdrawalId, status }),
+      });
+      fetchReferrals();
+    } catch (e) {
+      console.error('Failed to process withdrawal', e);
+    }
+    setProcessingWithdrawal(null);
   };
 
   const getStatusStyle = (status: string) => {
@@ -360,6 +399,202 @@ const Admin = () => {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Referral Management */}
+        <Card className="border-2 border-gray-300">
+          <CardHeader className="border-b-2 border-gray-300 flex flex-row items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Icon name="Gift" size={18} />
+              Реферальная программа
+              {referralData?.success && (
+                <span className="text-sm font-normal text-gray-400">
+                  ({referralData.codes?.length || 0} кодов)
+                </span>
+              )}
+            </CardTitle>
+            <Button variant="outline" size="sm" onClick={fetchReferrals} disabled={loadingReferrals}>
+              <Icon name="RefreshCw" size={14} className={loadingReferrals ? 'animate-spin' : ''} />
+            </Button>
+          </CardHeader>
+          <CardContent className="pt-6">
+            {loadingReferrals && !referralData ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              </div>
+            ) : !referralData?.success ? (
+              <p className="text-center text-gray-400 py-8">Нет данных</p>
+            ) : (
+              <div className="space-y-8">
+                {/* Stats overview */}
+                <div className="grid grid-cols-4 gap-4">
+                  {[
+                    { label: 'Кодов', value: referralData.codes?.length || 0, icon: 'Hash' },
+                    { label: 'Связей', value: referralData.links?.length || 0, icon: 'Link' },
+                    { label: 'Начислений', value: referralData.earnings?.length || 0, icon: 'Coins' },
+                    {
+                      label: 'Ожидают вывод',
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      value: referralData.withdrawals?.filter((w: any) => w.status === 'Ожидает').length || 0,
+                      icon: 'Clock',
+                    },
+                  ].map((stat) => (
+                    <div key={stat.label} className="border border-gray-200 rounded-lg p-4 text-center bg-neutral-50">
+                      <Icon name={stat.icon} size={18} className="text-gray-400 mx-auto mb-2" />
+                      <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+                      <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pending withdrawals */}
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <Icon name="AlertCircle" size={14} />
+                    Заявки на вывод
+                  </h3>
+                  {(!referralData.withdrawals || referralData.withdrawals.length === 0) ? (
+                    <p className="text-sm text-gray-400 py-4 text-center">Нет заявок на вывод</p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b-2 border-gray-300 bg-neutral-100">
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Пользователь</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Сумма</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Кошелёк</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Дата</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Статус</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Действие</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                          {referralData.withdrawals.map((w: any) => (
+                            <tr key={w.id} className="border-b border-gray-200 hover:bg-gray-50">
+                              <td className="px-4 py-3 font-mono text-sm font-bold text-black">{w.id}</td>
+                              <td className="px-4 py-3 text-sm font-mono text-gray-800">{w.username}</td>
+                              <td className="px-4 py-3 font-mono text-sm font-semibold">
+                                ${w.amount_usd?.toFixed(2)} {w.currency}
+                              </td>
+                              <td className="px-4 py-3 text-xs font-mono text-gray-600 max-w-[200px] truncate" title={w.wallet_address}>
+                                {w.wallet_address}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-600">
+                                {w.created_at ? formatDate(w.created_at) : '-'}
+                              </td>
+                              <td className="px-4 py-3">
+                                <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-sm border ${
+                                  w.status === 'Ожидает' ? 'bg-yellow-50 border-yellow-200 text-yellow-700' :
+                                  w.status === 'Выполнено' ? 'bg-green-50 border-green-200 text-green-700' :
+                                  w.status === 'Отклонено' ? 'bg-red-50 border-red-200 text-red-700' :
+                                  'bg-gray-50 border-gray-200 text-gray-700'
+                                }`}>
+                                  {w.status}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3">
+                                {w.status === 'Ожидает' ? (
+                                  <div className="flex gap-1">
+                                    <button
+                                      onClick={() => handleProcessWithdrawal(w.id, 'Выполнено')}
+                                      disabled={processingWithdrawal === w.id}
+                                      className="text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 disabled:opacity-50 font-semibold"
+                                    >
+                                      {processingWithdrawal === w.id ? '...' : 'Одобрить'}
+                                    </button>
+                                    <button
+                                      onClick={() => handleProcessWithdrawal(w.id, 'Отклонено')}
+                                      disabled={processingWithdrawal === w.id}
+                                      className="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:opacity-50 font-semibold"
+                                    >
+                                      Отклонить
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-gray-400">-</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {/* All referral codes */}
+                {referralData.codes && referralData.codes.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <Icon name="Hash" size={14} />
+                      Все реферальные коды
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                      {referralData.codes.map((c: any) => (
+                        <div key={c.id} className="border border-gray-200 rounded-lg p-3 bg-neutral-50 flex items-center justify-between">
+                          <div className="min-w-0">
+                            <p className="font-mono text-sm font-bold text-gray-800">{c.code}</p>
+                            <p className="text-xs text-gray-500 truncate">{c.username}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Recent earnings */}
+                {referralData.earnings && referralData.earnings.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <Icon name="Coins" size={14} />
+                      Последние начисления
+                    </h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b-2 border-gray-300 bg-neutral-100">
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Реферер</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Реферал</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Обмен</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Сумма</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Статус</th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Дата</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                          {referralData.earnings.slice(0, 20).map((e: any) => (
+                            <tr key={e.id} className="border-b border-gray-200 hover:bg-gray-50">
+                              <td className="px-4 py-3 text-sm font-mono text-gray-800">{e.referrer_username}</td>
+                              <td className="px-4 py-3 text-sm font-mono text-gray-600">{e.referred_username}</td>
+                              <td className="px-4 py-3 font-mono text-sm text-gray-600">#{e.exchange_id}</td>
+                              <td className="px-4 py-3 font-mono text-sm font-semibold">
+                                {e.amount_usd?.toFixed(4)} {e.currency}
+                              </td>
+                              <td className="px-4 py-3">
+                                <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-sm border ${
+                                  e.status === 'начислено' ? 'bg-blue-50 border-blue-200 text-blue-700' :
+                                  'bg-gray-50 border-gray-200 text-gray-700'
+                                }`}>
+                                  {e.status}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-600">
+                                {e.created_at ? formatDate(e.created_at) : '-'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </CardContent>

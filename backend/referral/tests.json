@@ -1,0 +1,159 @@
+{
+  "tests": [
+    {
+      "name": "Get referral code - no auth",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "get_referral_code"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "Authorization required"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get referral code - authenticated",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "body": {
+        "action": "get_referral_code"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Apply referral code - missing code",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "body": {
+        "action": "apply_referral_code",
+        "code": ""
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Apply referral code - invalid code",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "body": {
+        "action": "apply_referral_code",
+        "code": "ZZZZZZ"
+      },
+      "expectedStatus": 404,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get referral stats - no auth",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "get_referral_stats"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "Authorization required"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Request withdrawal - below minimum",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@testuser"
+      },
+      "body": {
+        "action": "request_withdrawal",
+        "wallet_address": "0x123",
+        "currency": "USDT",
+        "amount": 2
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Process earning - missing exchange_id",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "process_earning"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Admin get referrals - not admin",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@normaluser"
+      },
+      "body": {
+        "action": "admin_get_referrals"
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "Access denied. Admin only."
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Admin process withdrawal - not admin",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-User-Username": "@normaluser"
+      },
+      "body": {
+        "action": "admin_process_withdrawal",
+        "withdrawal_id": 1,
+        "status": "Выполнено"
+      },
+      "expectedStatus": 403,
+      "expectedBody": {
+        "error": "Access denied. Admin only."
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Invalid action",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "action": "nonexistent_action"
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "Invalid action"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
