@@ -173,48 +173,42 @@ export function ExchangesTable({
                           <ChevronDown size={14} className={`text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                         </td>
                       </motion.tr>
-                      <AnimatePresence>
                       {isExpanded && (
-                        <motion.tr
-                          className="bg-neutral-50"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25, ease: "easeInOut" }}
-                        >
-                          <td colSpan={7} className="px-6 py-4 overflow-hidden">
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>
-                                <div className="flex items-center gap-2">
-                                  <p className="font-mono text-xs break-all text-gray-700">{ex.deposit_address}</p>
-                                  <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.deposit_address); }} className="text-gray-400 hover:text-black">
-                                    <Copy size={12} />
-                                  </button>
+                        <tr className="bg-neutral-50">
+                          <td colSpan={7} className="p-0 overflow-hidden">
+                            <div className="px-6 py-4 animate-accordion-down origin-top">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес пополнения</p>
+                                  <div className="flex items-center gap-2">
+                                    <p className="font-mono text-xs break-all text-gray-700">{ex.deposit_address}</p>
+                                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.deposit_address); }} className="text-gray-400 hover:text-black">
+                                      <Copy size={12} />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                              <div>
-                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес получения</p>
-                                <div className="flex items-center gap-2">
-                                  <p className="font-mono text-xs break-all text-gray-700">{ex.output_address}</p>
-                                  <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.output_address); }} className="text-gray-400 hover:text-black">
-                                    <Copy size={12} />
-                                  </button>
+                                <div>
+                                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Адрес получения</p>
+                                  <div className="flex items-center gap-2">
+                                    <p className="font-mono text-xs break-all text-gray-700">{ex.output_address}</p>
+                                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(ex.output_address); }} className="text-gray-400 hover:text-black">
+                                      <Copy size={12} />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                              <div>
-                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Курс</p>
-                                <p className="font-mono text-sm text-black">1 {ex.from_currency} = {parseFloat(ex.rate).toFixed(6)} {ex.to_currency}</p>
-                              </div>
-                              <div>
-                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Обновлено</p>
-                                <p className="text-sm text-gray-600">{ex.updated_at ? formatDate(ex.updated_at) : '—'}</p>
+                                <div>
+                                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Курс</p>
+                                  <p className="font-mono text-sm text-black">1 {ex.from_currency} = {parseFloat(ex.rate).toFixed(6)} {ex.to_currency}</p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Обновлено</p>
+                                  <p className="text-sm text-gray-600">{ex.updated_at ? formatDate(ex.updated_at) : '—'}</p>
+                                </div>
                               </div>
                             </div>
                           </td>
-                        </motion.tr>
+                        </tr>
                       )}
-                      </AnimatePresence>
                     </React.Fragment>
                   );
                 })}
