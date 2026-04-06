@@ -467,7 +467,7 @@ const Index = () => {
       <header className="border-b border-border/50">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
           <h1 className="flex-shrink-0">
-            <img src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/bucket/cfecc782-c64c-4d1a-8f84-1a85396fc50d.png" alt="BLQOU" className="h-10 md:h-14 rounded-lg object-contain" />
+            <img src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/bucket/cfecc782-c64c-4d1a-8f84-1a85396fc50d.png" alt="BLQOU" className="h-14 md:h-20 rounded-lg object-contain" />
           </h1>
 
           {/* Mobile auth button */}
