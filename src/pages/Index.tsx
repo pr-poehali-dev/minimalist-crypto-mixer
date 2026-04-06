@@ -606,13 +606,16 @@ const Index = () => {
                           </div>
 
                           <div className="flex items-center pt-7">
-                            <button
+                            <motion.button
                               type="button"
                               onClick={handleSwapCurrencies}
-                              className="w-10 h-10 border-2 border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center transition-all hover:border-gray-400 rounded-full shadow-sm flex-shrink-0"
+                              className="w-10 h-10 border-2 border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center transition-colors hover:border-gray-400 rounded-full shadow-sm flex-shrink-0"
+                              whileTap={{ scale: 0.9, rotate: 180 }}
+                              whileHover={{ scale: 1.08 }}
+                              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                             >
                               <Icon name="ArrowLeftRight" size={16} className="text-gray-600" />
-                            </button>
+                            </motion.button>
                           </div>
 
                           <div className="flex-1 min-w-0">
