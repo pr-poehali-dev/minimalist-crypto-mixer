@@ -4,7 +4,7 @@ import Icon from '@/components/ui/icon';
 const ADVANTAGES = [
   {
     icon: 'Zap',
-    title: 'Мгновенны�� обмен',
+    title: 'Мгновенный обмен',
     desc: 'Обмен проходит за 2–15 минут. Никаких очередей и ожиданий — всё автоматизировано.',
     bg: 'bg-amber-50',
     border: 'border-amber-200',
@@ -40,7 +40,7 @@ const ADVANTAGES = [
   },
   {
     icon: 'Coins',
-    title: '15+ криптовалют',
+    title: '170+ криптовалют',
     desc: 'BTC, ETH, USDT, SOL, XMR, TON и другие. Все популярные сети и токены.',
     bg: 'bg-orange-50',
     border: 'border-orange-200',
