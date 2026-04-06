@@ -37,7 +37,7 @@ def handler(event: dict, context) -> dict:
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
     cur.execute(
-        f'''SELECT id, user_username, from_currency, to_currency, from_amount, to_amount,
+        f'''SELECT id, short_id, user_username, from_currency, to_currency, from_amount, to_amount,
                    rate, deposit_address, output_address, status, created_at, updated_at
             FROM {schema}.exchanges
             WHERE user_username = %s
@@ -52,6 +52,7 @@ def handler(event: dict, context) -> dict:
     for r in rows:
         result.append({
             'id': r['id'],
+            'short_id': r.get('short_id', ''),
             'from_currency': r['from_currency'],
             'to_currency': r['to_currency'],
             'from_amount': str(r['from_amount']),

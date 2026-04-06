@@ -1,0 +1,1 @@
+ALTER TABLE exchanges ADD COLUMN short_id VARCHAR(10) UNIQUE;

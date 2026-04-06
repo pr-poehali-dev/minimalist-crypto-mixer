@@ -1,7 +1,13 @@
 import json
 import os
 import random
+import string
 import psycopg2
+
+def generate_short_id():
+    letters = random.choices(string.ascii_uppercase, k=2)
+    digits = random.choices(string.digits, k=2)
+    return ''.join(letters) + ''.join(digits)
 
 def handler(event: dict, context) -> dict:
     '''Создание заявки на обмен криптовалюты'''
@@ -43,7 +49,7 @@ def handler(event: dict, context) -> dict:
         return {
             'statusCode': 400,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': 'All fields are required: from_currency, to_currency, from_amount, to_amount, rate, output_address'})
+            'body': json.dumps({'error': 'All fields are required'})
         }
 
     chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789'
@@ -54,12 +60,18 @@ def handler(event: dict, context) -> dict:
     conn = psycopg2.connect(database_url)
     cur = conn.cursor()
 
+    for _ in range(10):
+        short_id = generate_short_id()
+        cur.execute(f'SELECT 1 FROM {schema}.exchanges WHERE short_id = %s', (short_id,))
+        if not cur.fetchone():
+            break
+
     cur.execute(
         f'''INSERT INTO {schema}.exchanges
-            (user_username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, status)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (user_username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id''',
-        (username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, 'Ожидает оплаты')
+        (username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, 'Ожидает оплаты')
     )
     exchange_id = cur.fetchone()[0]
     conn.commit()
@@ -72,6 +84,7 @@ def handler(event: dict, context) -> dict:
         'body': json.dumps({
             'success': True,
             'exchange_id': exchange_id,
+            'short_id': short_id,
             'deposit_address': deposit_address
         })
     }

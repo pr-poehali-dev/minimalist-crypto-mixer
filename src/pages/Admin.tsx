@@ -17,6 +17,7 @@ const STATUSES = ['Ожидает оплаты', 'Оплата получена'
 
 interface Exchange {
   id: number;
+  short_id: string;
   user_username: string;
   from_currency: string;
   to_currency: string;
@@ -251,7 +252,7 @@ const Admin = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b-2 border-gray-300 bg-neutral-100">
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">#</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Дата</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Пользователь</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Пара</th>
@@ -268,7 +269,7 @@ const Admin = () => {
                           className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
                           onClick={() => setExpandedRow(expandedRow === ex.id ? null : ex.id)}
                         >
-                          <td className="px-4 py-3 font-mono text-sm text-gray-600">{ex.id}</td>
+                          <td className="px-4 py-3 font-mono text-sm font-bold text-black">{ex.short_id || ex.id}</td>
                           <td className="px-4 py-3 text-sm text-gray-600">{formatDate(ex.created_at)}</td>
                           <td className="px-4 py-3 text-sm font-mono text-gray-800">{ex.user_username}</td>
                           <td className="px-4 py-3 font-mono text-sm font-semibold">{ex.from_currency} → {ex.to_currency}</td>
