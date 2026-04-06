@@ -62,7 +62,7 @@ export default function CryptoChartsDisplay() {
   return (
     <div className="w-full h-full bg-white p-4 md:p-6 flex flex-col overflow-hidden">
       <div className="text-center mb-4 md:mb-6">
-        <h3 className="text-lg md:text-xl font-bold text-black tracking-tight">Почему выбирают нас</h3>
+        <h3 className="text-lg md:text-xl font-bold text-gray-800 tracking-tight">Почему выбирают нас</h3>
         <p className="text-xs text-gray-400 mt-1">6 причин доверить нам ваш обмен</p>
       </div>
 

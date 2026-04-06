@@ -165,7 +165,7 @@ const FaqTab = () => {
     <div className="max-w-3xl mx-auto">
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-5xl font-bold text-black tracking-tight">FAQ</h2>
+          <h2 className="text-5xl font-bold text-gray-800 tracking-tight">FAQ</h2>
           <p className="text-lg text-gray-500">Ответы на часто задаваемые вопросы</p>
         </div>
 
@@ -180,8 +180,8 @@ const FaqTab = () => {
               className={`
                 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200
                 ${activeCategory === cat.key
-                  ? 'bg-black text-white shadow-sm'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:text-black'
+                  ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-sm'
+                  : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:text-gray-800'
                 }
               `}
             >
@@ -215,7 +215,7 @@ const FaqTab = () => {
                         <span className="text-3xl font-bold text-gray-200 tabular-nums select-none w-10 flex-shrink-0">
                           {String(idx + 1).padStart(2, '0')}
                         </span>
-                        <span className="flex-1 text-base font-semibold text-black group-hover:text-gray-700 transition-colors">
+                        <span className="flex-1 text-base font-semibold text-gray-800 group-hover:text-gray-700 transition-colors">
                           {item.question}
                         </span>
                         <motion.div

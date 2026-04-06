@@ -6,7 +6,7 @@ const SupportTab = () => {
     <div className="max-w-4xl mx-auto">
       <div className="space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl font-bold text-black">Поддержка</h2>
+          <h2 className="text-4xl font-bold text-gray-800">Поддержка</h2>
           <p className="text-lg text-gray-500">Мы всегда на связи — выберите удобный способ</p>
         </div>
 
@@ -21,7 +21,7 @@ const SupportTab = () => {
               <Icon name="HeadphonesIcon" size={28} className="text-white" />
             </div>
             <div>
-              <p className="font-bold text-xl text-black">Написать в поддержку</p>
+              <p className="font-bold text-xl text-gray-800">Написать в поддержку</p>
               <p className="text-sm text-gray-500 mt-1">@wi_exchange_sup_bot — бот поддержки</p>
               <p className="text-xs text-blue-600 mt-2 font-medium">Создайте тикет или просто напишите вопрос — оператор ответит</p>
             </div>
@@ -34,27 +34,27 @@ const SupportTab = () => {
             <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mx-auto mb-4">
               <Icon name="Clock" size={22} className="text-green-600" />
             </div>
-            <p className="font-bold text-black text-lg">24/7</p>
+            <p className="font-bold text-gray-800 text-lg">24/7</p>
             <p className="text-sm text-gray-500 mt-1">Работаем без выходных</p>
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
             <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
               <Icon name="MessageCircle" size={22} className="text-blue-600" />
             </div>
-            <p className="font-bold text-black text-lg">~15 мин</p>
+            <p className="font-bold text-gray-800 text-lg">~15 мин</p>
             <p className="text-sm text-gray-500 mt-1">Среднее время ответа</p>
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
             <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center mx-auto mb-4">
               <Icon name="Languages" size={22} className="text-purple-600" />
             </div>
-            <p className="font-bold text-black text-lg">RU / EN</p>
+            <p className="font-bold text-gray-800 text-lg">RU / EN</p>
             <p className="text-sm text-gray-500 mt-1">Языки поддержки</p>
           </div>
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-8">
-          <h3 className="text-xl font-bold text-black mb-6">Как мы можем помочь</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-6">Как мы можем помочь</h3>
           <div className="grid grid-cols-2 gap-4">
             {[
               { icon: 'HelpCircle', title: 'Вопросы по обмену', desc: 'Помощь с созданием заявки, выбором валюты и курсами', color: 'text-blue-500', bg: 'bg-blue-50' },
@@ -67,7 +67,7 @@ const SupportTab = () => {
                   <Icon name={item.icon} size={20} className={item.color} />
                 </div>
                 <div>
-                  <p className="font-semibold text-black text-sm">{item.title}</p>
+                  <p className="font-semibold text-gray-800 text-sm">{item.title}</p>
                   <p className="text-xs text-gray-500 mt-1">{item.desc}</p>
                 </div>
               </div>
@@ -76,7 +76,7 @@ const SupportTab = () => {
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-8">
-          <h3 className="text-xl font-bold text-black mb-6">Как создать тикет</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-6">Как создать тикет</h3>
           <div className="grid grid-cols-3 gap-6">
             {[
               { step: '1', title: 'Откройте бота', desc: 'Перейдите по ссылке @wi_exchange_sup_bot в Telegram', icon: 'ExternalLink' },
@@ -84,10 +84,10 @@ const SupportTab = () => {
               { step: '3', title: 'Получите ответ', desc: 'Оператор ответит в том же чате в течение 15 минут', icon: 'CheckCircle' },
             ].map(s => (
               <div key={s.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center mx-auto mb-4 text-lg font-bold">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center mx-auto mb-4 text-lg font-bold">
                   {s.step}
                 </div>
-                <p className="font-bold text-black">{s.title}</p>
+                <p className="font-bold text-gray-800">{s.title}</p>
                 <p className="text-xs text-gray-500 mt-2 leading-relaxed">{s.desc}</p>
               </div>
             ))}
@@ -95,7 +95,7 @@ const SupportTab = () => {
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-8">
-          <h3 className="text-xl font-bold text-black mb-4">Команды бота</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-4">Команды бота</h3>
           <p className="text-sm text-gray-500 mb-6">Используйте эти команды для быстрого взаимодействия с ботом поддержки</p>
           <div className="space-y-3">
             {[

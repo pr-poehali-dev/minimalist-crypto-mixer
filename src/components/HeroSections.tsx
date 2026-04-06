@@ -25,7 +25,7 @@ export const HowItWorks = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-black"
+          className="text-3xl md:text-4xl font-bold text-gray-800"
         >
           Как это работает
         </motion.h2>
@@ -52,10 +52,10 @@ export const HowItWorks = () => {
             className="relative bg-white border border-gray-200 rounded-2xl p-6 text-center hover:border-gray-300 hover:shadow-sm transition-all group"
           >
             <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">{step.num}</span>
-            <div className="w-14 h-14 rounded-2xl bg-black flex items-center justify-center mx-auto mt-3 mb-4 group-hover:scale-105 transition-transform">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mt-3 mb-4 group-hover:scale-105 transition-transform shadow-md shadow-blue-500/15">
               <Icon name={step.icon} size={24} className="text-white" />
             </div>
-            <h3 className="font-bold text-black text-base">{step.title}</h3>
+            <h3 className="font-bold text-gray-800 text-base">{step.title}</h3>
             <p className="text-sm text-gray-500 mt-2 leading-relaxed">{step.desc}</p>
             {i < steps.length - 1 && (
               <div className="hidden md:block absolute top-1/2 -right-4 text-gray-300">
@@ -86,7 +86,7 @@ export const PopularPairs = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-black"
+          className="text-3xl md:text-4xl font-bold text-gray-800"
         >
           Популярные направления
         </motion.h2>
@@ -118,7 +118,7 @@ export const PopularPairs = () => {
                 <img src={pair.toLogo} alt={pair.to} className="w-9 h-9 rounded-full border-2 border-white" />
               </div>
               <div>
-                <p className="font-bold text-black text-sm">
+                <p className="font-bold text-gray-800 text-sm">
                   <span style={{ color: pair.fromColor }}>{pair.from}</span>
                   <span className="text-gray-400 mx-1.5">→</span>
                   <span style={{ color: pair.toColor }}>{pair.to}</span>
@@ -143,7 +143,7 @@ export const StatsSection = () => {
 
   return (
     <section className="max-w-5xl mx-auto py-16 px-4">
-      <div className="bg-black rounded-3xl p-8 md:p-12">
+      <div className="bg-gradient-to-br from-slate-100 to-blue-50 border border-gray-200 rounded-3xl p-8 md:p-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {stats.map((stat, i) => (
             <motion.div
@@ -155,11 +155,11 @@ export const StatsSection = () => {
               variants={fadeUp}
               className="text-center"
             >
-              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mx-auto mb-4">
-                <Icon name={stat.icon} size={22} className="text-white" />
+              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                <Icon name={stat.icon} size={22} className="text-blue-600" />
               </div>
-              <p className="text-3xl md:text-4xl font-bold text-white">{stat.value}</p>
-              <p className="text-sm text-gray-400 mt-1">{stat.label}</p>
+              <p className="text-3xl md:text-4xl font-bold text-gray-800">{stat.value}</p>
+              <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -185,7 +185,7 @@ export const Testimonials = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-black"
+          className="text-3xl md:text-4xl font-bold text-gray-800"
         >
           Отзывы клиентов
         </motion.h2>
@@ -224,10 +224,10 @@ export const Testimonials = () => {
             <p className="text-sm text-gray-700 leading-relaxed">{review.text}</p>
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
                   <span className="text-white text-xs font-bold">{review.name[0]}</span>
                 </div>
-                <span className="text-sm font-semibold text-black">{review.name}</span>
+                <span className="text-sm font-semibold text-gray-800">{review.name}</span>
               </div>
               <span className="text-[11px] text-gray-400">{review.time}</span>
             </div>

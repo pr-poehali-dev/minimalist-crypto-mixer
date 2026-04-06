@@ -324,7 +324,7 @@ const Index = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 bg-neutral-200/80 hover:bg-neutral-300/80 px-3 h-full rounded-r-sm text-black font-mono text-sm transition-colors border-l border-gray-300"
+          className="flex items-center gap-1.5 bg-neutral-200/80 hover:bg-neutral-300/80 px-3 h-full rounded-r-sm text-gray-800 font-mono text-sm transition-colors border-l border-gray-300"
         >
           {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
           <span className="font-semibold">{info.rateKey}</span>
@@ -499,7 +499,7 @@ const Index = () => {
                           value={inputUsername}
                           onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
                           onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
-                          className="border-black/20 focus:border-black h-12"
+                          className="border-gray-300 focus:border-blue-500 h-12"
                         />
                         <div onClick={handleRequestCode} className="w-full">
                           <FlowButton text="Получить код" />
@@ -535,7 +535,7 @@ const Index = () => {
               <div className="max-w-4xl mx-auto">
                   <Card className="border-2 border-gray-300 bg-white shadow-sm">
                     <CardHeader className="border-b-2 border-gray-300">
-                      <CardTitle className="text-xl font-medium text-black tracking-tight flex items-center gap-2">
+                      <CardTitle className="text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
                         <Icon name="ArrowLeftRight" size={20} />
                         Обмен криптовалюты
                       </CardTitle>
@@ -558,7 +558,7 @@ const Index = () => {
                                 placeholder="0.00"
                                 value={fromAmount}
                                 onChange={(e) => handleFromAmountChange(e.target.value)}
-                                className="border-0 bg-transparent text-black font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
+                                className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
                               />
                               <CurrencySelector
                                 selected={fromCurrency}
@@ -607,7 +607,7 @@ const Index = () => {
                                 placeholder="0.00"
                                 value={toAmount}
                                 onChange={(e) => handleToAmountChange(e.target.value)}
-                                className="border-0 bg-transparent text-black font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
+                                className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
                               />
                               <CurrencySelector
                                 selected={toCurrency}
@@ -641,13 +641,13 @@ const Index = () => {
                             placeholder={`Ваш ${getCoinInfo(toCurrency).name}${getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''} адрес`}
                             value={outputAddress}
                             onChange={(e) => setOutputAddress(e.target.value)}
-                            className="bg-neutral-50 border-2 border-gray-300 text-black font-mono placeholder:text-gray-400 h-12"
+                            className="bg-neutral-50 border-2 border-gray-300 text-gray-800 font-mono placeholder:text-gray-400 h-12"
                           />
                         </div>
 
                         <Button
                           type="submit"
-                          className="w-full h-12 text-sm font-semibold bg-black hover:bg-gray-800 text-white uppercase tracking-wider transition-all"
+                          className="w-full h-12 text-sm font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white uppercase tracking-wider transition-all"
                           disabled={!fromAmount || !toAmount || !outputAddress || isSubmitting || isLoadingRates}
                         >
                           {isSubmitting ? 'Создание заявки...' : `Обменять ${getCoinInfo(fromCurrency).rateKey} на ${getCoinInfo(toCurrency).rateKey}`}
@@ -672,7 +672,7 @@ const Index = () => {
               <ContainerScroll
                 titleComponent={
                   <>
-                    <h2 className="text-3xl md:text-4xl font-semibold text-black">
+                    <h2 className="text-3xl md:text-4xl font-semibold text-gray-800">
                       <span className="text-4xl md:text-[5rem] font-bold mt-1 leading-none">
                         Почему именно мы
                       </span>
