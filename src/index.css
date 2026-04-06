@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -40,15 +42,13 @@
     --folder-icon: 0 0% 20%;
 
     /* Design System Variables */
-    --font-sans:
-      "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
-    --font-mono:
-      "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
     --spacing: 0.25rem;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --default-transition-duration: 0.15s;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    --default-font-family: var(--font-mono);
+    --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
 }
@@ -61,7 +61,12 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
@@ -71,6 +76,9 @@
   h5,
   h6 {
     font-family:
-      "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }
