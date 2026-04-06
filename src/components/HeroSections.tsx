@@ -76,7 +76,7 @@ export const PopularPairs = () => {
     { from: 'BTC', to: 'USDT', fromLogo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', toLogo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', fromColor: '#F7931A', toColor: '#26A17B' },
     { from: 'ETH', to: 'USDT', fromLogo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', toLogo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', fromColor: '#627EEA', toColor: '#26A17B' },
     { from: 'SOL', to: 'BTC', fromLogo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png', toLogo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', fromColor: '#9945FF', toColor: '#F7931A' },
-    { from: 'XMR', to: 'BTC', fromLogo: 'https://assets.coingecko.com/coins/images/69/small/monero_logo.png', toLogo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', fromColor: '#FF6600', toColor: '#F7931A' },
+    { from: 'TRX', to: 'BTC', fromLogo: 'https://assets.coingecko.com/coins/images/1094/small/tron-logo.png', toLogo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', fromColor: '#EF0027', toColor: '#F7931A' },
     { from: 'TON', to: 'USDT', fromLogo: 'https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png', toLogo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', fromColor: '#0098EA', toColor: '#26A17B' },
   ];
 

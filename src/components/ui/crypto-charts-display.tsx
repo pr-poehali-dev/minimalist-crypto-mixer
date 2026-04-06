@@ -40,8 +40,8 @@ const ADVANTAGES = [
   },
   {
     icon: 'Coins',
-    title: '170+ криптовалют',
-    desc: 'BTC, ETH, USDT, SOL, XMR, TON и другие. Все популярные сети и токены.',
+    title: '60+ криптовалют',
+    desc: 'BTC, ETH, USDT, SOL, TON и другие. Все популярные сети и токены.',
     bg: 'bg-orange-50',
     border: 'border-orange-200',
     iconBg: 'bg-orange-500',

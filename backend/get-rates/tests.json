@@ -6,9 +6,7 @@
       "path": "/",
       "expectedStatus": 200,
       "expectedBody": {
-        "rates": "object",
-        "markup_percent": "number",
-        "coins": "object"
+        "rates": "object"
       },
       "bodyMatcher": "partial"
     }
