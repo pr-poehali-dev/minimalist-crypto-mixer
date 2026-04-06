@@ -314,32 +314,28 @@ const Index = () => {
     isOpen,
     setIsOpen,
     onSelect,
-    label,
   }: {
     selected: string;
     isOpen: boolean;
     setIsOpen: (v: boolean) => void;
     onSelect: (coin: string) => void;
-    label: string;
+    label?: string;
   }) => {
     const info = getCoinInfo(selected);
     return (
-      <div className="relative">
-        <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">{label}</label>
+      <div className="relative flex-shrink-0">
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between bg-neutral-100 border-2 border-gray-300 px-3 h-11 text-black font-mono text-sm hover:border-gray-400 transition-colors"
+          className="flex items-center gap-1.5 bg-neutral-200/80 hover:bg-neutral-300/80 px-3 h-full rounded-r-sm text-black font-mono text-sm transition-colors border-l border-gray-300"
         >
-          <span className="flex items-center gap-2">
-            {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
-            <span className="truncate">{info.network ? `${info.rateKey}` : info.symbol}</span>
-            {info.network && <span className="text-[10px] bg-gray-200 text-gray-600 px-1 rounded">{info.network}</span>}
-          </span>
-          <Icon name="ChevronDown" size={14} className={`text-gray-400 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+          {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
+          <span className="font-semibold">{info.rateKey}</span>
+          {info.network && <span className="text-[9px] bg-gray-300 text-gray-700 px-1 rounded">{info.network}</span>}
+          <Icon name="ChevronDown" size={12} className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
         {isOpen && (
-          <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border-2 border-gray-300 shadow-lg max-h-72 overflow-y-auto" style={{ minWidth: '220px' }}>
+          <div className="absolute z-50 top-full right-0 mt-1 bg-white border-2 border-gray-300 shadow-lg max-h-72 overflow-y-auto" style={{ minWidth: '240px' }}>
             {COINS_LIST.map(coin => (
               <button
                 key={coin.symbol}
@@ -496,7 +492,7 @@ const Index = () => {
             </div>
 
             <TabsContent value="exchange" className="animate-fade-in">
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-4xl mx-auto">
                 {showConfirmation && createdExchange ? (
                   <Card className="border-2 border-gray-300 bg-white shadow-sm">
                     <CardHeader className="border-b-2 border-gray-300">
@@ -568,81 +564,92 @@ const Index = () => {
                       </p>
                     </CardHeader>
                     <CardContent className="pt-6">
-                      <form onSubmit={handleSubmitExchange} className="space-y-4">
-                        <div className="p-5 bg-neutral-50 border-2 border-gray-200 space-y-4">
-                          <div className="grid grid-cols-[1fr_170px] gap-3">
-                            <div>
-                              <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Отдаёте</label>
+                      <form onSubmit={handleSubmitExchange} className="space-y-5">
+                        <div className="flex items-start gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-2">
+                              <label className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Отправляете</label>
+                              <span className="text-xs text-gray-400">{getCoinInfo(fromCurrency).name}{getCoinInfo(fromCurrency).network ? ` (${getCoinInfo(fromCurrency).network})` : ''}</span>
+                            </div>
+                            <div className="flex items-center border-2 border-gray-300 bg-neutral-50 h-12">
                               <Input
                                 type="number"
                                 step="any"
                                 placeholder="0.00"
                                 value={fromAmount}
                                 onChange={(e) => handleFromAmountChange(e.target.value)}
-                                className="bg-white border-2 border-gray-400 text-black font-mono placeholder:text-gray-400 h-11"
+                                className="border-0 bg-transparent text-black font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
+                              />
+                              <CurrencySelector
+                                selected={fromCurrency}
+                                isOpen={showFromDropdown}
+                                setIsOpen={(v) => { setShowFromDropdown(v); setShowToDropdown(false); }}
+                                onSelect={selectFromCurrency}
+                                label=""
                               />
                             </div>
-                            <CurrencySelector
-                              selected={fromCurrency}
-                              isOpen={showFromDropdown}
-                              setIsOpen={(v) => { setShowFromDropdown(v); setShowToDropdown(false); }}
-                              onSelect={selectFromCurrency}
-                              label="Валюта"
-                            />
+                            <div className="flex items-center justify-between mt-1.5 px-1">
+                              <span className="text-[11px] text-gray-400 font-mono">
+                                {currentRate > 0 ? `1 ${getCoinInfo(fromCurrency).rateKey} = ${currentRate.toFixed(6)} ${getCoinInfo(toCurrency).rateKey}` : ''}
+                              </span>
+                              <span className="text-[11px] text-gray-400 font-mono">
+                                {fromAmount && rates[getCoinInfo(fromCurrency).rateKey] ? `$${(Number(fromAmount) * rates[getCoinInfo(fromCurrency).rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
+                              </span>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="flex justify-center -my-1">
-                          <button
-                            type="button"
-                            onClick={handleSwapCurrencies}
-                            className="w-10 h-10 border-2 border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center transition-all hover:border-gray-400 rounded-full shadow-sm"
-                          >
-                            <Icon name="ArrowUpDown" size={16} className="text-gray-600" />
-                          </button>
-                        </div>
+                          <div className="flex items-center pt-7">
+                            <button
+                              type="button"
+                              onClick={handleSwapCurrencies}
+                              className="w-10 h-10 border-2 border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center transition-all hover:border-gray-400 rounded-full shadow-sm flex-shrink-0"
+                            >
+                              <Icon name="ArrowLeftRight" size={16} className="text-gray-600" />
+                            </button>
+                          </div>
 
-                        <div className="p-5 bg-neutral-50 border-2 border-gray-200 space-y-4">
-                          <div className="grid grid-cols-[1fr_170px] gap-3">
-                            <div>
-                              <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Получаете</label>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-2">
+                              <label className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Получаете</label>
+                              <span className="text-xs text-gray-400">{getCoinInfo(toCurrency).name}{getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''}</span>
+                            </div>
+                            <div className="flex items-center border-2 border-gray-300 bg-neutral-50 h-12">
                               <Input
                                 type="number"
                                 step="any"
                                 placeholder="0.00"
                                 value={toAmount}
                                 onChange={(e) => handleToAmountChange(e.target.value)}
-                                className="bg-white border-2 border-gray-400 text-black font-mono placeholder:text-gray-400 h-11"
+                                className="border-0 bg-transparent text-black font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0"
+                              />
+                              <CurrencySelector
+                                selected={toCurrency}
+                                isOpen={showToDropdown}
+                                setIsOpen={(v) => { setShowToDropdown(v); setShowFromDropdown(false); }}
+                                onSelect={selectToCurrency}
+                                label=""
                               />
                             </div>
-                            <CurrencySelector
-                              selected={toCurrency}
-                              isOpen={showToDropdown}
-                              setIsOpen={(v) => { setShowToDropdown(v); setShowFromDropdown(false); }}
-                              onSelect={selectToCurrency}
-                              label="Валюта"
-                            />
+                            <div className="flex items-center justify-between mt-1.5 px-1">
+                              <span className="text-[11px] text-gray-400 font-mono">
+                                {currentRate > 0 ? `1 ${getCoinInfo(toCurrency).rateKey} = ${(1 / currentRate).toFixed(8)} ${getCoinInfo(fromCurrency).rateKey}` : ''}
+                              </span>
+                              <span className="text-[11px] text-gray-400 font-mono">
+                                {toAmount && rates[getCoinInfo(toCurrency).rateKey] ? `$${(Number(toAmount) * rates[getCoinInfo(toCurrency).rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
+                              </span>
+                            </div>
                           </div>
                         </div>
 
-                        {currentRate > 0 && fromAmount && (
-                          <div className="p-3 bg-blue-50 border border-blue-200 flex items-center justify-between">
-                            <span className="text-xs text-blue-700 font-medium">Курс обмена</span>
-                            <span className="font-mono text-sm text-blue-900 font-semibold">
-                              1 {fromCurrency} = {currentRate.toFixed(6)} {toCurrency}
-                            </span>
-                          </div>
-                        )}
-
                         <div>
-                          <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">
-                            Адрес для получения {toCurrency}
-                          </label>
+                          <div className="flex items-center justify-between mb-2">
+                            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Назначение</label>
+                          </div>
                           <Input
-                            placeholder={`Ваш ${toCurrency} адрес...`}
+                            placeholder={`Ваш ${getCoinInfo(toCurrency).name}${getCoinInfo(toCurrency).network ? ` (${getCoinInfo(toCurrency).network})` : ''} адрес`}
                             value={outputAddress}
                             onChange={(e) => setOutputAddress(e.target.value)}
-                            className="bg-white border-2 border-gray-400 text-black font-mono placeholder:text-gray-400 h-11"
+                            className="bg-neutral-50 border-2 border-gray-300 text-black font-mono placeholder:text-gray-400 h-12"
                           />
                         </div>
 
@@ -651,7 +658,7 @@ const Index = () => {
                           className="w-full h-12 text-sm font-semibold bg-black hover:bg-gray-800 text-white uppercase tracking-wider transition-all"
                           disabled={!fromAmount || !toAmount || !outputAddress || isSubmitting || isLoadingRates}
                         >
-                          {isSubmitting ? 'Создание заявки...' : `Обменять ${fromCurrency} на ${toCurrency}`}
+                          {isSubmitting ? 'Создание заявки...' : `Обменять ${getCoinInfo(fromCurrency).rateKey} на ${getCoinInfo(toCurrency).rateKey}`}
                         </Button>
 
                         {!isAuthenticated && (
