@@ -818,15 +818,15 @@ const Index = () => {
 
             <TabsContent value="my-exchanges" className="animate-fade-in">
               <div className="max-w-[1400px] mx-auto">
-                <div className="mb-6">
-                  <h2 className="text-3xl font-bold text-gray-900">Мои обмены</h2>
-                  <p className="text-gray-600 mt-2">
+                <div className="mb-4 md:mb-6">
+                  <h2 className="text-xl md:text-3xl font-bold text-gray-900">Мои обмены</h2>
+                  <p className="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">
                     История всех ваших операций обмена
                   </p>
                 </div>
                 {!isAuthenticated ? (
-                  <div className="text-center py-16">
-                    <p className="text-gray-500 text-lg">Авторизуйтесь для просмотра обменов</p>
+                  <div className="text-center py-10 md:py-16">
+                    <p className="text-gray-500 text-sm md:text-lg">Авторизуйтесь для просмотра обменов</p>
                   </div>
                 ) : isLoadingExchanges ? (
                   <div className="flex items-center justify-center py-12">
