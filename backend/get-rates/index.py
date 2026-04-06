@@ -62,7 +62,7 @@ def handler(event: dict, context) -> dict:
         'headers': {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'public, max-age=30'
+            'Cache-Control': 'no-cache'
         },
         'body': json.dumps({
             'rates': rates,

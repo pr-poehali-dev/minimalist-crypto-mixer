@@ -35,8 +35,12 @@ interface Rates {
 
 const Index = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [telegramUsername, setTelegramUsername] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem('exchange_username');
+  });
+  const [telegramUsername, setTelegramUsername] = useState(() => {
+    return localStorage.getItem('exchange_username') || '';
+  });
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [authError, setAuthError] = useState('');
   const [inputUsername, setInputUsername] = useState('');
