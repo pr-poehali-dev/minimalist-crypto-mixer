@@ -6,6 +6,7 @@ ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123']
 
 ALLOWED_STATUSES = [
     'Ожидает оплаты',
+    'Оплата отправлена',
     'Оплата получена',
     'В обработке',
     'Отправлено',

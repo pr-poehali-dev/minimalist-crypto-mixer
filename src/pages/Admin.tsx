@@ -13,7 +13,7 @@ const API = {
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
 
-const STATUSES = ['Ожидает оплаты', 'Оплата получена', 'В обработке', 'Отправлено', 'Завершено', 'Отменено', 'Не оплачена'];
+const STATUSES = ['Ожидает оплаты', 'Оплата отправлена', 'Оплата получена', 'В обработке', 'Отправлено', 'Завершено', 'Отменено', 'Не оплачена'];
 
 interface Exchange {
   id: number;
@@ -145,6 +145,7 @@ const Admin = () => {
       'Отправлено': 'bg-purple-50 border-purple-200 text-purple-700',
       'Завершено': 'bg-green-50 border-green-200 text-green-700',
       'Отменено': 'bg-red-50 border-red-200 text-red-700',
+      'Оплата отправлена': 'bg-cyan-50 border-cyan-200 text-cyan-700',
       'Не оплачена': 'bg-orange-50 border-orange-200 text-orange-700',
     };
     return map[status] || 'bg-gray-50 border-gray-200 text-gray-700';

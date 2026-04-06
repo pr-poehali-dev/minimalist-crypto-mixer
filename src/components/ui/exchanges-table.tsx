@@ -3,9 +3,11 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Copy } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export interface Exchange {
   id: number;
+  short_id?: string;
   from_currency: string;
   to_currency: string;
   from_amount: string;
@@ -30,6 +32,7 @@ export function ExchangesTable({
   exchanges: initialExchanges = [],
   className = "",
 }: ExchangesTableProps) {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
@@ -80,6 +83,7 @@ export function ExchangesTable({
       "Отправлено": { bg: "bg-purple-50", border: "border-purple-200", text: "text-purple-700", dot: "bg-purple-500" },
       "Завершено": { bg: "bg-green-50", border: "border-green-200", text: "text-green-700", dot: "bg-green-500" },
       "Отменено": { bg: "bg-red-50", border: "border-red-200", text: "text-red-700", dot: "bg-red-500" },
+      "Оплата отправлена": { bg: "bg-cyan-50", border: "border-cyan-200", text: "text-cyan-700", dot: "bg-cyan-500" },
       "Не оплачена": { bg: "bg-orange-50", border: "border-orange-200", text: "text-orange-700", dot: "bg-orange-500" },
     };
     return map[status] || { bg: "bg-gray-50", border: "border-gray-200", text: "text-gray-700", dot: "bg-gray-500" };
@@ -206,6 +210,15 @@ export function ExchangesTable({
                                   <p className="text-sm text-gray-600">{ex.updated_at ? formatDate(ex.updated_at) : '—'}</p>
                                 </div>
                               </div>
+                              {ex.short_id && (
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); navigate(`/order/${ex.short_id}`); }}
+                                  className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-black text-white text-xs font-semibold uppercase tracking-wider hover:bg-gray-800 transition-colors"
+                                >
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                  Отследить заказ
+                                </button>
+                              )}
                             </div>
                           </td>
                         </tr>

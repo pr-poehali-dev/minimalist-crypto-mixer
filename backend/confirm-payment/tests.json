@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "name": "Confirm - missing short_id",
+      "method": "POST",
+      "path": "/",
+      "body": {},
+      "expectedStatus": 400,
+      "expectedBody": { "error": "short_id is required" },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

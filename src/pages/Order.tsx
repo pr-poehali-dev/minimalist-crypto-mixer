@@ -5,14 +5,10 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 
 const API_GET_ORDER = 'https://functions.poehali.dev/da825e7a-ffdb-4fe2-8ced-a59edb04e1e6';
+const API_CONFIRM = 'https://functions.poehali.dev/57779eea-72f4-4cc7-8605-2ae935a9a5a0';
 
 interface CoinInfo {
-  symbol: string;
-  name: string;
-  logo: string;
-  color: string;
-  network?: string;
-  rateKey: string;
+  symbol: string; name: string; logo: string; color: string; network?: string; rateKey: string;
 }
 
 const COINS_LIST: CoinInfo[] = [
@@ -38,6 +34,7 @@ const getCoinInfo = (symbol: string): CoinInfo =>
 
 const STATUS_STYLES: Record<string, string> = {
   'Ожидает оплаты': 'bg-yellow-50 border-yellow-300 text-yellow-700',
+  'Оплата отправлена': 'bg-cyan-50 border-cyan-300 text-cyan-700',
   'Оплата получена': 'bg-blue-50 border-blue-300 text-blue-700',
   'В обработке': 'bg-indigo-50 border-indigo-300 text-indigo-700',
   'Отправлено': 'bg-purple-50 border-purple-300 text-purple-700',
@@ -46,19 +43,19 @@ const STATUS_STYLES: Record<string, string> = {
   'Не оплачена': 'bg-orange-50 border-orange-300 text-orange-700',
 };
 
+const TRACKING_STEPS = [
+  { key: 'Ожидает оплаты', label: 'Ожидание оплаты', icon: 'Clock' },
+  { key: 'Оплата отправлена', label: 'Оплата отправлена', icon: 'Send' },
+  { key: 'Оплата получена', label: 'Оплата получена', icon: 'CheckCircle' },
+  { key: 'В обработке', label: 'Обработка обмена', icon: 'RefreshCw' },
+  { key: 'Отправлено', label: 'Средства отправлены', icon: 'ArrowUpRight' },
+  { key: 'Завершено', label: 'Завершено', icon: 'Check' },
+];
+
 interface OrderData {
-  id: number;
-  short_id: string;
-  from_currency: string;
-  to_currency: string;
-  from_amount: string;
-  to_amount: string;
-  rate: string;
-  deposit_address: string;
-  output_address: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
+  id: number; short_id: string; from_currency: string; to_currency: string;
+  from_amount: string; to_amount: string; rate: string; deposit_address: string;
+  output_address: string; status: string; created_at: string; updated_at: string;
 }
 
 const Order = () => {
@@ -68,6 +65,7 @@ const Order = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [timer, setTimer] = useState(0);
+  const [confirming, setConfirming] = useState(false);
 
   const fetchOrder = useCallback(async () => {
     if (!shortId) return;
@@ -112,6 +110,35 @@ const Order = () => {
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
+  const handleConfirmPayment = async () => {
+    if (!order) return;
+    setConfirming(true);
+    try {
+      const resp = await fetch(API_CONFIRM, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ short_id: order.short_id }),
+      });
+      const data = await resp.json();
+      if (data.success) {
+        setOrder(prev => prev ? { ...prev, status: 'Оплата отправлена' } : null);
+      }
+    } catch (e) {
+      console.error('Confirm error:', e);
+    }
+    setConfirming(false);
+  };
+
+  const getStepStatus = (stepKey: string) => {
+    if (!order) return 'pending';
+    const stepIndex = TRACKING_STEPS.findIndex(s => s.key === stepKey);
+    const currentIndex = TRACKING_STEPS.findIndex(s => s.key === order.status);
+    if (currentIndex < 0) return 'pending';
+    if (stepIndex < currentIndex) return 'completed';
+    if (stepIndex === currentIndex) return 'active';
+    return 'pending';
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -136,6 +163,9 @@ const Order = () => {
 
   const from = getCoinInfo(order.from_currency);
   const to = getCoinInfo(order.to_currency);
+  const isWaiting = order.status === 'Ожидает оплаты';
+  const isTerminal = ['Завершено', 'Отменено', 'Не оплачена'].includes(order.status);
+  const isTracking = !isWaiting && !isTerminal;
 
   return (
     <div className="min-h-screen bg-background">
@@ -165,11 +195,9 @@ const Order = () => {
                   {new Date(order.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
-              <div className="text-right space-y-1">
-                <span className={`inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-sm border ${STATUS_STYLES[order.status] || 'bg-gray-50 border-gray-200 text-gray-700'}`}>
-                  {order.status}
-                </span>
-              </div>
+              <span className={`inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-sm border ${STATUS_STYLES[order.status] || 'bg-gray-50 border-gray-200 text-gray-700'}`}>
+                {order.status}
+              </span>
             </div>
           </CardHeader>
           <CardContent className="pt-6 space-y-5">
@@ -195,17 +223,83 @@ const Order = () => {
               </div>
             </div>
 
-            {order.status === 'Ожидает оплаты' && (
-              <div className="p-4 border-2 border-gray-300 bg-neutral-50">
-                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">
-                  Отправьте <span style={{ color: from.color }}>{order.from_amount} {from.rateKey}</span> на адрес
-                </p>
-                <div className="flex items-center gap-2">
-                  <p className="font-mono text-sm font-bold text-black break-all flex-1">{order.deposit_address}</p>
-                  <button onClick={() => navigator.clipboard.writeText(order.deposit_address)} className="text-gray-400 hover:text-black transition-colors flex-shrink-0 p-1">
-                    <Icon name="Copy" size={16} />
-                  </button>
+            {isWaiting && (
+              <>
+                <div className="p-4 border-2 border-gray-300 bg-neutral-50">
+                  <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">
+                    Отправьте <span style={{ color: from.color }}>{order.from_amount} {from.rateKey}</span> на адрес
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-mono text-sm font-bold text-black break-all flex-1">{order.deposit_address}</p>
+                    <button onClick={() => navigator.clipboard.writeText(order.deposit_address)} className="text-gray-400 hover:text-black transition-colors flex-shrink-0 p-1">
+                      <Icon name="Copy" size={16} />
+                    </button>
+                  </div>
                 </div>
+
+                <div className="p-4 border-2 border-yellow-300 bg-yellow-50 flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-semibold text-yellow-800 uppercase tracking-wider">Время на оплату</p>
+                    <p className="text-xs text-yellow-600 mt-0.5">После истечения заявка будет отменена</p>
+                  </div>
+                  <p className={`text-2xl font-bold font-mono ${timer <= 300 ? 'text-red-600' : 'text-yellow-800'}`}>
+                    {fmt(timer)}
+                  </p>
+                </div>
+
+                {timer > 0 && (
+                  <Button
+                    onClick={handleConfirmPayment}
+                    disabled={confirming}
+                    className="w-full h-12 bg-black hover:bg-gray-800 text-white font-semibold text-sm uppercase tracking-wider"
+                  >
+                    <Icon name="Check" size={18} className="mr-2" />
+                    {confirming ? 'Подтверждение...' : 'Я отправил'}
+                  </Button>
+                )}
+              </>
+            )}
+
+            {(isTracking || order.status === 'Завершено') && (
+              <div className="p-5 border-2 border-gray-200 bg-neutral-50">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Отслеживание заказа</p>
+                <div className="space-y-0">
+                  {TRACKING_STEPS.map((step, i) => {
+                    const status = getStepStatus(step.key);
+                    return (
+                      <div key={step.key} className="flex items-start gap-3">
+                        <div className="flex flex-col items-center">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            status === 'completed' ? 'bg-green-500 text-white' :
+                            status === 'active' ? 'bg-blue-500 text-white animate-pulse' :
+                            'bg-gray-200 text-gray-400'
+                          }`}>
+                            <Icon name={status === 'completed' ? 'Check' : step.icon} size={14} />
+                          </div>
+                          {i < TRACKING_STEPS.length - 1 && (
+                            <div className={`w-0.5 h-6 ${status === 'completed' ? 'bg-green-300' : 'bg-gray-200'}`} />
+                          )}
+                        </div>
+                        <div className="pt-1.5">
+                          <p className={`text-sm font-medium ${
+                            status === 'completed' ? 'text-green-700' :
+                            status === 'active' ? 'text-blue-700 font-semibold' :
+                            'text-gray-400'
+                          }`}>
+                            {step.label}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {order.status === 'Не оплачена' && (
+              <div className="p-4 border-2 border-orange-300 bg-orange-50 text-center">
+                <p className="text-sm font-semibold text-orange-800">Время на оплату истекло</p>
+                <p className="text-xs text-orange-600 mt-1">Создайте новую заявку на обмен</p>
               </div>
             )}
 
@@ -225,35 +319,9 @@ const Order = () => {
               <p className="font-mono text-sm text-black break-all">{order.output_address}</p>
             </div>
 
-            {order.status === 'Ожидает оплаты' && (
-              <div className="p-4 border-2 border-yellow-300 bg-yellow-50 flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-semibold text-yellow-800 uppercase tracking-wider">Время на оплату</p>
-                  <p className="text-xs text-yellow-600 mt-0.5">После истечения заявка будет отменена</p>
-                </div>
-                <p className={`text-2xl font-bold font-mono ${timer <= 300 ? 'text-red-600' : 'text-yellow-800'}`}>
-                  {fmt(timer)}
-                </p>
-              </div>
-            )}
-
-            {order.status === 'Не оплачена' && (
-              <div className="p-4 border-2 border-orange-300 bg-orange-50 text-center">
-                <p className="text-sm font-semibold text-orange-800">Время на оплату истекло</p>
-                <p className="text-xs text-orange-600 mt-1">Создайте новую заявку на обмен</p>
-              </div>
-            )}
-
-            {order.status === 'Ожидает оплаты' && timer > 0 && (
-              <Button
-                onClick={() => {
-                  navigator.clipboard.writeText(order.deposit_address);
-                  alert('Адрес скопирован! После отправки средств нажмите "Я отправил"');
-                }}
-                className="w-full h-12 bg-black hover:bg-gray-800 text-white font-semibold text-sm uppercase tracking-wider"
-              >
-                <Icon name="Check" size={18} className="mr-2" />
-                Я отправил
+            {isTerminal && (
+              <Button onClick={() => navigate('/')} className="w-full h-11 bg-black hover:bg-gray-800 text-white font-semibold text-xs uppercase tracking-wider">
+                Новый обмен
               </Button>
             )}
           </CardContent>
