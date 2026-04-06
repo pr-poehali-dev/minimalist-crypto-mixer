@@ -22,6 +22,8 @@ import SupportTab from '@/components/SupportTab';
 import FaqTab from '@/components/FaqTab';
 import Footer from '@/components/Footer';
 import { HowItWorks, PopularPairs, StatsSection, Testimonials, TrustBanner } from '@/components/HeroSections';
+import { InteractiveMenu, InteractiveMenuItem } from '@/components/ui/modern-mobile-menu';
+import { ArrowLeftRight, ClipboardList, Info, Headphones, HelpCircle } from 'lucide-react';
 
 const API = {
   getRates: 'https://functions.poehali.dev/a3025fda-cd60-410f-b176-1e71ee19f4bf',
@@ -31,6 +33,22 @@ const API = {
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
+
+const MOBILE_MENU_ITEMS: InteractiveMenuItem[] = [
+  { label: 'Обмен', icon: ArrowLeftRight, value: 'exchange' },
+  { label: 'Мои обмены', icon: ClipboardList, value: 'my-exchanges' },
+  { label: 'О нас', icon: Info, value: 'about' },
+  { label: 'Поддержка', icon: Headphones, value: 'support' },
+  { label: 'FAQ', icon: HelpCircle, value: 'faq' },
+];
+
+const TAB_TO_INDEX: Record<string, number> = {
+  'exchange': 0,
+  'my-exchanges': 1,
+  'about': 2,
+  'support': 3,
+  'faq': 4,
+};
 
 interface Rates {
   [key: string]: number;
@@ -66,7 +84,6 @@ const Index = () => {
   const [isLoadingExchanges, setIsLoadingExchanges] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const fetchRates = useCallback(async () => {
     setIsLoadingRates(true);
@@ -418,14 +435,81 @@ const Index = () => {
             EXCHANGE
           </h1>
 
-          {/* Mobile burger menu button */}
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} className="text-gray-700" />
-          </button>
+          {/* Mobile auth button */}
+          <div className="md:hidden">
+            {isAuthenticated ? (
+              <Dropdown>
+                <DropdownTrigger className="cursor-pointer">
+                  <AvatarWithName
+                    name={telegramUsername}
+                    fallback={telegramUsername.slice(1, 3).toUpperCase()}
+                    size="sm"
+                    direction="left"
+                  />
+                </DropdownTrigger>
+                <DropdownContent align="end" className="w-56">
+                  {ADMIN_USERNAMES.includes(telegramUsername.toLowerCase()) && (
+                    <>
+                      <DropdownItem className="gap-2" onClick={() => navigate('/admin')}>
+                        <Icon name="Settings" size={16} />
+                        Админ-панель
+                      </DropdownItem>
+                      <DropdownSeparator />
+                    </>
+                  )}
+                  <DropdownItem className="gap-2" onClick={handleLogout} destructive>
+                    <Icon name="LogOut" size={16} />
+                    Выйти
+                  </DropdownItem>
+                </DropdownContent>
+              </Dropdown>
+            ) : (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs">Войти</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 p-0" align="end">
+                  {!isCodeSent ? (
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold mb-2 text-center">Вход через Telegram</h3>
+                      <p className="text-center text-gray-600 mb-4 text-sm">Введите username, мы отправим вам код</p>
+                      <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
+                        <p className="font-semibold mb-1">Первый раз?</p>
+                        <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
+                      </div>
+                      {authError && (
+                        <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
+                      )}
+                      <div className="space-y-4">
+                        <Input
+                          placeholder="@username"
+                          value={inputUsername}
+                          onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
+                          onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
+                          className="border-gray-300 focus:border-blue-500 h-12"
+                        />
+                        <div onClick={handleRequestCode} className="w-full">
+                          <FlowButton text="Получить код" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-6">
+                      {authError && (
+                        <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
+                      )}
+                      <OTPVerification
+                        inputCount={4}
+                        onVerify={handleVerifyCode}
+                        onResend={handleResendCode}
+                        telegram_username={telegramUsername}
+                      />
+                    </div>
+                  )}
+                </PopoverContent>
+              </Popover>
+            )}
+          </div>
 
           {/* Desktop tab bar */}
           <div className="hidden md:inline-flex h-9 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 p-0.5 shadow-sm border border-blue-100 overflow-hidden">
@@ -554,128 +638,9 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Mobile slide-out menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="md:hidden overflow-hidden border-t border-gray-100 bg-white"
-            >
-              <nav className="px-4 py-3 space-y-1">
-                {[
-                  { value: 'exchange', label: 'Обмен', icon: 'ArrowLeftRight' },
-                  { value: 'my-exchanges', label: 'Мои обмены', icon: 'ClipboardList' },
-                  { value: 'about', label: 'О нас', icon: 'Info' },
-                  { value: 'support', label: 'Поддержка', icon: 'HeadphonesIcon' },
-                  { value: 'faq', label: 'FAQ', icon: 'HelpCircle' },
-                ].map((tab) => (
-                  <button
-                    key={tab.value}
-                    type="button"
-                    onClick={() => { setActiveTab(tab.value); setIsMobileMenuOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                      activeTab === tab.value
-                        ? 'bg-blue-50 text-blue-600'
-                        : 'text-gray-600 hover:bg-gray-50'
-                    }`}
-                  >
-                    <Icon name={tab.icon} size={18} />
-                    {tab.label}
-                  </button>
-                ))}
-              </nav>
-              <div className="px-4 py-3 border-t border-gray-100">
-                {isAuthenticated ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 px-3 py-2">
-                      <AvatarWithName
-                        name={telegramUsername}
-                        fallback={telegramUsername.slice(1, 3).toUpperCase()}
-                        size="sm"
-                        direction="right"
-                      />
-                    </div>
-                    {ADMIN_USERNAMES.includes(telegramUsername.toLowerCase()) && (
-                      <button
-                        type="button"
-                        onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-                      >
-                        <Icon name="Settings" size={18} />
-                        Админ-панель
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
-                    >
-                      <Icon name="LogOut" size={18} />
-                      Выйти
-                    </button>
-                  </div>
-                ) : (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full">Войти через Telegram</Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80 p-0" align="center">
-                      {!isCodeSent ? (
-                        <div className="p-6">
-                          <h3 className="text-lg font-semibold mb-2 text-center">Вход через Telegram</h3>
-                          <p className="text-center text-gray-600 mb-4 text-sm">
-                            Введите username, мы отправим вам код
-                          </p>
-                          <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
-                            <p className="font-semibold mb-1">Первый раз?</p>
-                            <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
-                          </div>
-                          {authError && (
-                            <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">
-                              {authError}
-                            </div>
-                          )}
-                          <div className="space-y-4">
-                            <Input
-                              placeholder="@username"
-                              value={inputUsername}
-                              onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
-                              onKeyDown={(e) => e.key === 'Enter' && handleRequestCode()}
-                              className="border-gray-300 focus:border-blue-500 h-12"
-                            />
-                            <div onClick={handleRequestCode} className="w-full">
-                              <FlowButton text="Получить код" />
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="p-6">
-                          {authError && (
-                            <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">
-                              {authError}
-                            </div>
-                          )}
-                          <OTPVerification
-                            inputCount={4}
-                            onVerify={handleVerifyCode}
-                            onResend={handleResendCode}
-                            telegram_username={telegramUsername}
-                          />
-                        </div>
-                      )}
-                    </PopoverContent>
-                  </Popover>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
 
-      <main className="flex-1 px-3 py-6 md:px-4 md:py-12 overflow-y-auto">
+      <main className="flex-1 px-3 py-6 md:px-4 md:py-12 pb-20 md:pb-12 overflow-y-auto">
         <div className="max-w-5xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsContent value="exchange" className="animate-fade-in">
@@ -888,6 +853,17 @@ const Index = () => {
           </Tabs>
         </div>
       </main>
+
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden safe-area-bottom">
+        <InteractiveMenu
+          items={MOBILE_MENU_ITEMS}
+          activeIndex={TAB_TO_INDEX[activeTab] ?? 0}
+          accentColor="hsl(220, 80%, 55%)"
+          onItemClick={(_index, item) => {
+            if (item.value) setActiveTab(item.value);
+          }}
+        />
+      </div>
     </div>
   );
 };
