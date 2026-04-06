@@ -81,7 +81,7 @@ const COINS_LIST: CoinInfo[] = [
   { symbol: 'DASH', name: 'Dash', logo: 'https://assets.coingecko.com/coins/images/19/small/dash-logo.png', rateKey: 'DASH', color: '#008CE7' },
   { symbol: 'ZEC', name: 'Zcash', logo: 'https://assets.coingecko.com/coins/images/486/small/circle-zcash-color.png', rateKey: 'ZEC', color: '#ECB244' },
   { symbol: 'EOS', name: 'EOS', logo: 'https://assets.coingecko.com/coins/images/738/small/eos-eos-logo.png', rateKey: 'EOS', color: '#000000' },
-  { symbol: 'CAKE', name: 'PancakeSwap', logo: 'https://assets.coingecko.com/coins/images/12632/small/pancakeswap-cake-logo.png', rateKey: 'CAKE', color: '#D1884F' },
+  { symbol: 'CAKE', name: 'PancakeSwap', logo: 'https://assets.coingecko.com/coins/images/12632/small/pancakeswap-cake-logo_%281%29.png', rateKey: 'CAKE', color: '#D1884F' },
   { symbol: 'ENS', name: 'Ethereum Name Service', logo: 'https://assets.coingecko.com/coins/images/19785/small/acatxTm8_400x400.jpg', rateKey: 'ENS', color: '#5284FF' },
   { symbol: 'WLD', name: 'Worldcoin', logo: 'https://assets.coingecko.com/coins/images/31069/small/worldcoin.jpeg', rateKey: 'WLD', color: '#000000' },
   { symbol: 'SEI', name: 'Sei', logo: 'https://assets.coingecko.com/coins/images/28205/small/Sei_Logo_-_Transparent.png', rateKey: 'SEI', color: '#9B1B30' },
