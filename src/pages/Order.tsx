@@ -55,7 +55,7 @@ const TRACKING_STEPS = [
 interface OrderData {
   id: number; short_id: string; from_currency: string; to_currency: string;
   from_amount: string; to_amount: string; rate: string; deposit_address: string;
-  output_address: string; status: string; created_at: string; updated_at: string;
+  output_address: string; status: string; tx_hash?: string; created_at: string; updated_at: string;
 }
 
 const Order = () => {
@@ -293,6 +293,18 @@ const Order = () => {
                     );
                   })}
                 </div>
+
+                {order.tx_hash && (
+                  <div className="mt-4 p-3 border border-green-200 bg-green-50">
+                    <p className="text-[10px] text-green-600 uppercase tracking-wider font-semibold mb-1">Transaction Hash</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-mono text-xs text-green-800 break-all flex-1">{order.tx_hash}</p>
+                      <button onClick={() => navigator.clipboard.writeText(order.tx_hash || '')} className="text-green-400 hover:text-green-700 transition-colors flex-shrink-0">
+                        <Icon name="Copy" size={12} />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -319,11 +331,7 @@ const Order = () => {
               <p className="font-mono text-sm text-black break-all">{order.output_address}</p>
             </div>
 
-            {isTerminal && (
-              <Button onClick={() => navigate('/')} className="w-full h-11 bg-black hover:bg-gray-800 text-white font-semibold text-xs uppercase tracking-wider">
-                Новый обмен
-              </Button>
-            )}
+
           </CardContent>
         </Card>
       </main>

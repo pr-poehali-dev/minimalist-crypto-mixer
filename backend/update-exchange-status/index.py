@@ -46,6 +46,7 @@ def handler(event: dict, context) -> dict:
     body = json.loads(event.get('body', '{}'))
     exchange_id = body.get('exchange_id')
     new_status = body.get('status')
+    tx_hash = body.get('tx_hash', '')
 
     if not exchange_id or not new_status:
         return {
@@ -66,10 +67,16 @@ def handler(event: dict, context) -> dict:
     conn = psycopg2.connect(database_url)
     cur = conn.cursor()
 
-    cur.execute(
-        f'''UPDATE {schema}.exchanges SET status = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s RETURNING id''',
-        (new_status, exchange_id)
-    )
+    if tx_hash and new_status == 'Отправлено':
+        cur.execute(
+            f'''UPDATE {schema}.exchanges SET status = %s, tx_hash = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s RETURNING id''',
+            (new_status, tx_hash, exchange_id)
+        )
+    else:
+        cur.execute(
+            f'''UPDATE {schema}.exchanges SET status = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s RETURNING id''',
+            (new_status, exchange_id)
+        )
     result = cur.fetchone()
 
     if not result:

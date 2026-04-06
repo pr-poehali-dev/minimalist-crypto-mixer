@@ -44,6 +44,8 @@ const Admin = () => {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [loadingExchanges, setLoadingExchanges] = useState(false);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [hashInput, setHashInput] = useState<Record<number, string>>({});
+  const [showHashInput, setShowHashInput] = useState<number | null>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -117,19 +119,29 @@ const Admin = () => {
     setMarkupSaving(false);
   };
 
-  const handleUpdateStatus = async (exchangeId: number, newStatus: string) => {
+  const handleStatusChange = (exchangeId: number, newStatus: string) => {
+    if (newStatus === 'Отправлено') {
+      setShowHashInput(exchangeId);
+      return;
+    }
+    handleUpdateStatus(exchangeId, newStatus, '');
+  };
+
+  const handleUpdateStatus = async (exchangeId: number, newStatus: string, txHash: string) => {
     setUpdatingId(exchangeId);
     try {
       const resp = await fetch(API.updateStatus, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-User-Username': username },
-        body: JSON.stringify({ exchange_id: exchangeId, status: newStatus }),
+        body: JSON.stringify({ exchange_id: exchangeId, status: newStatus, tx_hash: txHash }),
       });
       const data = await resp.json();
       if (data.success) {
         setExchanges(prev => prev.map(ex =>
           ex.id === exchangeId ? { ...ex, status: newStatus, updated_at: new Date().toISOString() } : ex
         ));
+        setShowHashInput(null);
+        setHashInput(prev => { const n = { ...prev }; delete n[exchangeId]; return n; });
       }
     } catch (e) {
       console.error('Failed to update status', e);
@@ -282,16 +294,42 @@ const Admin = () => {
                             </span>
                           </td>
                           <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                            <select
-                              value={ex.status}
-                              onChange={(e) => handleUpdateStatus(ex.id, e.target.value)}
-                              disabled={updatingId === ex.id}
-                              className="text-xs border border-gray-300 rounded px-2 py-1 bg-white font-mono"
-                            >
-                              {STATUSES.map(s => (
-                                <option key={s} value={s}>{s}</option>
-                              ))}
-                            </select>
+                            <div className="flex flex-col gap-1">
+                              <select
+                                value={showHashInput === ex.id ? 'Отправлено' : ex.status}
+                                onChange={(e) => handleStatusChange(ex.id, e.target.value)}
+                                disabled={updatingId === ex.id}
+                                className="text-xs border border-gray-300 rounded px-2 py-1 bg-white font-mono"
+                              >
+                                {STATUSES.map(s => (
+                                  <option key={s} value={s}>{s}</option>
+                                ))}
+                              </select>
+                              {showHashInput === ex.id && (
+                                <div className="flex gap-1 mt-1">
+                                  <input
+                                    type="text"
+                                    placeholder="TX Hash..."
+                                    value={hashInput[ex.id] || ''}
+                                    onChange={(e) => setHashInput(prev => ({ ...prev, [ex.id]: e.target.value }))}
+                                    className="text-xs border border-gray-300 rounded px-2 py-1 font-mono flex-1 min-w-0"
+                                  />
+                                  <button
+                                    onClick={() => handleUpdateStatus(ex.id, 'Отправлено', hashInput[ex.id] || '')}
+                                    disabled={updatingId === ex.id}
+                                    className="text-xs bg-black text-white px-2 py-1 rounded hover:bg-gray-800"
+                                  >
+                                    OK
+                                  </button>
+                                  <button
+                                    onClick={() => setShowHashInput(null)}
+                                    className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300"
+                                  >
+                                    ✕
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </td>
                         </tr>
                         {expandedRow === ex.id && (
