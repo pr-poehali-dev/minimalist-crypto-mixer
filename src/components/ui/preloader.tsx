@@ -5,37 +5,15 @@ import { motion } from "framer-motion"
 
 const words = ["Здравствуйте", "Hello", "Hallo", "Bonjour", "Ciao", "Olà", "やあ", "Hallå", "مرحبا", "你好"]
 
-const opacity = {
-  initial: {
-    opacity: 0,
-  },
-  enter: {
-    opacity: 0.75,
-    transition: { duration: 1, delay: 0.2 },
-  },
-}
-const slideUp = {
-  initial: {
-    top: 0,
-  },
-  exit: {
-    top: "-100vh",
-    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.2 },
-  },
-}
-
 interface PreloaderProps {
   onComplete?: () => void
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
- 
   const [index, setIndex] = useState(0)
-  const [dimension, setDimension] = useState({ width: 0, height: 0 })
   const [isExiting, setIsExiting] = useState(false)
 
   useEffect(() => {
-    setDimension({ width: window.innerWidth, height: window.innerHeight })
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = ''
@@ -49,7 +27,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         setTimeout(() => {
           document.body.style.overflow = ''
           onComplete?.()
-        }, 1000)
+        }, 900)
       }, 1000)
       return
     }
@@ -62,51 +40,28 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     )
   }, [index, onComplete])
 
-  const h = dimension.height + 600
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${h} Q${dimension.width / 2} ${h + 300} 0 ${h} L0 0`
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${h} Q${dimension.width / 2} ${h} 0 ${h} L0 0`
-
-  const curve = {
-    initial: {
-      d: initialPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
-    },
-    exit: {
-      d: targetPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3 },
-    },
-  }
-
   return (
     <motion.div
-      variants={slideUp}
-      initial="initial"
-      animate={isExiting ? "exit" : "initial"}
-      className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 z-[99999999999]"
-      style={{ width: '100vw', height: '100dvh', top: 0, left: 0 }}
+      initial={{ y: 0 }}
+      animate={{ y: isExiting ? "-100%" : 0 }}
+      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+      className="fixed inset-0 flex items-center justify-center z-[99999999999]"
+      style={{
+        width: '100vw',
+        height: 'calc(100dvh + env(safe-area-inset-bottom, 0px))',
+        background: 'linear-gradient(135deg, #2563eb 0%, #4338ca 100%)',
+        willChange: 'transform',
+      }}
     >
-      {dimension.width > 0 && (
-        <>
-          <motion.p
-            variants={opacity}
-            initial="initial"
-            animate="enter"
-            className="flex items-center text-white text-4xl md:text-5xl lg:text-6xl absolute z-10 font-medium"
-          >
-            <span className="block w-2.5 h-2.5 bg-white rounded-full mr-2.5"></span>
-            {words[index]}
-          </motion.p>
-          <svg className="absolute top-0 left-0 w-full" style={{ height: `${h + 300}px` }}>
-            <defs>
-              <linearGradient id="preloaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#2563eb" />
-                <stop offset="100%" stopColor="#4338ca" />
-              </linearGradient>
-            </defs>
-            <motion.path variants={curve} initial="initial" animate={isExiting ? "exit" : "initial"} fill="url(#preloaderGrad)" />
-          </svg>
-        </>
-      )}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.75 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="flex items-center text-white text-4xl md:text-5xl lg:text-6xl absolute z-10 font-medium"
+      >
+        <span className="block w-2.5 h-2.5 bg-white rounded-full mr-2.5"></span>
+        {words[index]}
+      </motion.p>
     </motion.div>
   );
 }
