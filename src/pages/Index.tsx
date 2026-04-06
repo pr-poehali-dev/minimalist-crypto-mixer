@@ -13,6 +13,7 @@ import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ExchangesTable, Exchange } from '@/components/ui/exchanges-table';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
+import CryptoChartsDisplay from '@/components/ui/crypto-charts-display';
 import Icon from '@/components/ui/icon';
 import { useNavigate } from 'react-router-dom';
 
@@ -701,12 +702,7 @@ const Index = () => {
                   </>
                 }
               >
-                <img
-                  src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/files/b4aca1f2-e9ed-47b6-9c80-00dc588d8bc4.jpg"
-                  alt="Платформа обмена криптовалют"
-                  className="mx-auto rounded-2xl object-cover h-full w-full object-center"
-                  draggable={false}
-                />
+                <CryptoChartsDisplay />
               </ContainerScroll>
             </TabsContent>
 
