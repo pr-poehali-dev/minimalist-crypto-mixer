@@ -21,10 +21,34 @@ const API = {
   telegramAuth: 'https://functions.poehali.dev/aba6998f-8142-4edd-8e22-c24c005cf258',
 };
 
-const COIN_ICONS: Record<string, string> = {
-  BTC: 'Bitcoin', ETH: 'Gem', USDT: 'DollarSign', USDC: 'CircleDollarSign',
-  BNB: 'Hexagon', SOL: 'Sun', XRP: 'Droplets', ADA: 'Heart',
-  DOGE: 'Dog', LTC: 'Coins', XMR: 'Shield', TRX: 'Triangle', TON: 'Diamond',
+interface CoinInfo {
+  symbol: string;
+  name: string;
+  logo: string;
+  network?: string;
+  rateKey: string;
+}
+
+const COINS_LIST: CoinInfo[] = [
+  { symbol: 'BTC', name: 'Bitcoin', logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', rateKey: 'BTC' },
+  { symbol: 'ETH', name: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', rateKey: 'ETH' },
+  { symbol: 'USDT-TRC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'TRC20', rateKey: 'USDT' },
+  { symbol: 'USDT-ERC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'ERC20', rateKey: 'USDT' },
+  { symbol: 'USDC-ERC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'ERC20', rateKey: 'USDC' },
+  { symbol: 'USDC-TRC20', name: 'USD Coin', logo: 'https://assets.coingecko.com/coins/images/6319/small/usdc.png', network: 'TRC20', rateKey: 'USDC' },
+  { symbol: 'BNB', name: 'BNB', logo: 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png', rateKey: 'BNB' },
+  { symbol: 'SOL', name: 'Solana', logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png', rateKey: 'SOL' },
+  { symbol: 'XRP', name: 'Ripple', logo: 'https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png', rateKey: 'XRP' },
+  { symbol: 'ADA', name: 'Cardano', logo: 'https://assets.coingecko.com/coins/images/975/small/cardano.png', rateKey: 'ADA' },
+  { symbol: 'DOGE', name: 'Dogecoin', logo: 'https://assets.coingecko.com/coins/images/5/small/dogecoin.png', rateKey: 'DOGE' },
+  { symbol: 'LTC', name: 'Litecoin', logo: 'https://assets.coingecko.com/coins/images/2/small/litecoin.png', rateKey: 'LTC' },
+  { symbol: 'XMR', name: 'Monero', logo: 'https://assets.coingecko.com/coins/images/69/small/monero_logo.png', rateKey: 'XMR' },
+  { symbol: 'TRX', name: 'TRON', logo: 'https://assets.coingecko.com/coins/images/1094/small/tron-logo.png', rateKey: 'TRX' },
+  { symbol: 'TON', name: 'Toncoin', logo: 'https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png', rateKey: 'TON' },
+];
+
+const getCoinInfo = (symbol: string): CoinInfo => {
+  return COINS_LIST.find(c => c.symbol === symbol) || { symbol, name: symbol, logo: '', rateKey: symbol };
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
@@ -54,7 +78,6 @@ const Index = () => {
 
   const [rates, setRates] = useState<Rates>({});
   const [markupPercent, setMarkupPercent] = useState(2);
-  const [coins, setCoins] = useState<string[]>([]);
   const [isLoadingRates, setIsLoadingRates] = useState(true);
 
   const [showFromDropdown, setShowFromDropdown] = useState(false);
@@ -79,7 +102,6 @@ const Index = () => {
       const data = await resp.json();
       setRates(data.rates || {});
       setMarkupPercent(data.markup_percent || 2);
-      setCoins(data.coins || []);
     } catch (e) {
       console.error('Failed to load rates', e);
     }
@@ -93,8 +115,10 @@ const Index = () => {
   }, [fetchRates]);
 
   const getExchangeRate = useCallback((from: string, to: string) => {
-    if (!rates[from] || !rates[to]) return 0;
-    const rawRate = rates[from] / rates[to];
+    const fromKey = getCoinInfo(from).rateKey;
+    const toKey = getCoinInfo(to).rateKey;
+    if (!rates[fromKey] || !rates[toKey]) return 0;
+    const rawRate = rates[fromKey] / rates[toKey];
     const withMarkup = rawRate * (1 - markupPercent / 100);
     return withMarkup;
   }, [rates, markupPercent]);
@@ -297,38 +321,48 @@ const Index = () => {
     setIsOpen: (v: boolean) => void;
     onSelect: (coin: string) => void;
     label: string;
-  }) => (
-    <div className="relative">
-      <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">{label}</label>
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between bg-neutral-100 border-2 border-gray-300 px-4 h-11 text-black font-mono text-sm hover:border-gray-400 transition-colors"
-      >
-        <span className="flex items-center gap-2">
-          <Icon name={COIN_ICONS[selected] || 'Circle'} size={16} />
-          {selected}
-        </span>
-        <Icon name="ChevronDown" size={14} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-      </button>
-      {isOpen && (
-        <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border-2 border-gray-300 shadow-lg max-h-60 overflow-y-auto">
-          {coins.map(coin => (
-            <button
-              key={coin}
-              type="button"
-              onClick={() => onSelect(coin)}
-              className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm font-mono hover:bg-neutral-100 transition-colors ${coin === selected ? 'bg-neutral-100 font-semibold' : ''}`}
-            >
-              <Icon name={COIN_ICONS[coin] || 'Circle'} size={14} />
-              {coin}
-              {rates[coin] && <span className="ml-auto text-xs text-gray-400">${rates[coin].toLocaleString()}</span>}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  }) => {
+    const info = getCoinInfo(selected);
+    return (
+      <div className="relative">
+        <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">{label}</label>
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between bg-neutral-100 border-2 border-gray-300 px-3 h-11 text-black font-mono text-sm hover:border-gray-400 transition-colors"
+        >
+          <span className="flex items-center gap-2">
+            {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
+            <span className="truncate">{info.network ? `${info.rateKey}` : info.symbol}</span>
+            {info.network && <span className="text-[10px] bg-gray-200 text-gray-600 px-1 rounded">{info.network}</span>}
+          </span>
+          <Icon name="ChevronDown" size={14} className={`text-gray-400 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+        {isOpen && (
+          <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border-2 border-gray-300 shadow-lg max-h-72 overflow-y-auto" style={{ minWidth: '220px' }}>
+            {COINS_LIST.map(coin => (
+              <button
+                key={coin.symbol}
+                type="button"
+                onClick={() => onSelect(coin.symbol)}
+                className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-sm hover:bg-neutral-100 transition-colors ${coin.symbol === selected ? 'bg-neutral-100 font-semibold' : ''}`}
+              >
+                <img src={coin.logo} alt={coin.symbol} className="w-5 h-5 rounded-full flex-shrink-0" />
+                <span className="flex flex-col items-start">
+                  <span className="font-mono text-sm flex items-center gap-1.5">
+                    {coin.rateKey}
+                    {coin.network && <span className="text-[10px] bg-gray-200 text-gray-500 px-1 rounded font-normal">{coin.network}</span>}
+                  </span>
+                  <span className="text-[10px] text-gray-400 font-normal">{coin.name}</span>
+                </span>
+                {rates[coin.rateKey] && <span className="ml-auto text-xs text-gray-400 font-mono">${rates[coin.rateKey].toLocaleString()}</span>}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -536,7 +570,7 @@ const Index = () => {
                     <CardContent className="pt-6">
                       <form onSubmit={handleSubmitExchange} className="space-y-4">
                         <div className="p-5 bg-neutral-50 border-2 border-gray-200 space-y-4">
-                          <div className="grid grid-cols-[1fr_140px] gap-3">
+                          <div className="grid grid-cols-[1fr_170px] gap-3">
                             <div>
                               <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Отдаёте</label>
                               <Input
@@ -569,7 +603,7 @@ const Index = () => {
                         </div>
 
                         <div className="p-5 bg-neutral-50 border-2 border-gray-200 space-y-4">
-                          <div className="grid grid-cols-[1fr_140px] gap-3">
+                          <div className="grid grid-cols-[1fr_170px] gap-3">
                             <div>
                               <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Получаете</label>
                               <Input
@@ -640,13 +674,13 @@ const Index = () => {
                     </CardHeader>
                     <CardContent className="pt-4">
                       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                        {coins.filter(c => rates[c]).map(coin => (
-                          <div key={coin} className="p-2.5 bg-neutral-50 border border-gray-200 hover:border-gray-300 transition-colors">
+                        {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
+                          <div key={coin.symbol} className="p-2.5 bg-neutral-50 border border-gray-200 hover:border-gray-300 transition-colors">
                             <div className="flex items-center gap-1.5 mb-1">
-                              <Icon name={COIN_ICONS[coin] || 'Circle'} size={12} className="text-gray-500" />
-                              <span className="text-xs font-semibold text-gray-700">{coin}</span>
+                              <img src={coin.logo} alt={coin.symbol} className="w-4 h-4 rounded-full" />
+                              <span className="text-xs font-semibold text-gray-700">{coin.symbol}</span>
                             </div>
-                            <p className="font-mono text-xs text-black">${rates[coin].toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+                            <p className="font-mono text-xs text-black">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
                           </div>
                         ))}
                       </div>
@@ -742,10 +776,11 @@ const Index = () => {
                     <div className="mt-8 p-5 bg-neutral-100 border-2 border-gray-300">
                       <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-3">Поддерживаемые валюты</h3>
                       <div className="flex flex-wrap gap-2">
-                        {coins.map(coin => (
-                          <span key={coin} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-sm font-mono">
-                            <Icon name={COIN_ICONS[coin] || 'Circle'} size={12} />
-                            {coin}
+                        {COINS_LIST.map(coin => (
+                          <span key={coin.symbol} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-sm font-mono">
+                            <img src={coin.logo} alt={coin.symbol} className="w-4 h-4 rounded-full" />
+                            {coin.rateKey}
+                            {coin.network && <span className="text-[10px] bg-gray-100 text-gray-500 px-1 rounded">{coin.network}</span>}
                           </span>
                         ))}
                       </div>
