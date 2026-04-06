@@ -354,22 +354,30 @@ const Index = () => {
             <RadioGroup
               value={activeTab}
               onValueChange={setActiveTab}
-              className="group relative inline-grid grid-cols-[1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-1/3 after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=exchange]:after:translate-x-0 data-[state=my-exchanges]:after:translate-x-full data-[state=faq]:after:translate-x-[200%]"
+              className="group relative inline-grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center gap-0 text-sm font-medium after:absolute after:inset-y-0 after:w-[20%] after:rounded-md after:bg-gradient-to-br after:from-blue-500 after:to-blue-600 after:shadow-[0_0_6px_rgba(59,130,246,0.4),0_2px_8px_rgba(59,130,246,0.3)] after:transition-all after:duration-500 after:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=exchange]:after:translate-x-0 data-[state=my-exchanges]:after:translate-x-[100%] data-[state=about]:after:translate-x-[200%] data-[state=support]:after:translate-x-[300%] data-[state=faq]:after:translate-x-[400%]"
               data-state={activeTab}
             >
               <div
                 className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md pointer-events-none"
                 style={{ filter: 'url("#radio-glass")' }}
               />
-              <label className="relative z-10 inline-flex h-full min-w-[80px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=exchange]:text-white group-data-[state=exchange]:font-semibold">
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=exchange]:text-white group-data-[state=exchange]:font-semibold">
                 Обмен
                 <RadioGroupItem id="tab-exchange-h" value="exchange" className="sr-only" />
               </label>
-              <label className="relative z-10 inline-flex h-full min-w-[80px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=my-exchanges]:text-white group-data-[state=my-exchanges]:font-semibold">
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=my-exchanges]:text-white group-data-[state=my-exchanges]:font-semibold">
                 Мои обмены
                 <RadioGroupItem id="tab-my-exchanges-h" value="my-exchanges" className="sr-only" />
               </label>
-              <label className="relative z-10 inline-flex h-full min-w-[80px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=faq]:text-white group-data-[state=faq]:font-semibold">
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=about]:text-white group-data-[state=about]:font-semibold">
+                О нас
+                <RadioGroupItem id="tab-about-h" value="about" className="sr-only" />
+              </label>
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=support]:text-white group-data-[state=support]:font-semibold">
+                Поддержка
+                <RadioGroupItem id="tab-support-h" value="support" className="sr-only" />
+              </label>
+              <label className="relative z-10 inline-flex h-full min-w-[70px] cursor-pointer select-none items-center justify-center whitespace-nowrap px-3 transition-colors text-xs text-gray-600 group-data-[state=faq]:text-white group-data-[state=faq]:font-semibold">
                 FAQ
                 <RadioGroupItem id="tab-faq-h" value="faq" className="sr-only" />
               </label>
@@ -619,6 +627,94 @@ const Index = () => {
                 ) : (
                   <ExchangesTable exchanges={exchanges} />
                 )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="about" className="animate-fade-in">
+              <div className="max-w-3xl mx-auto">
+                <Card className="border-2 border-gray-300 bg-white shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-3xl">О нас</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-gray-700 leading-relaxed">
+                      Мы — сервис быстрого и безопасного обмена криптовалют. Наша платформа позволяет обменивать цифровые активы напрямую, без посредников и скрытых комиссий.
+                    </p>
+                    <div className="grid grid-cols-3 gap-4 mt-6">
+                      <div className="p-4 bg-neutral-50 border border-gray-200 text-center rounded-lg">
+                        <p className="text-2xl font-bold text-black">13+</p>
+                        <p className="text-xs text-gray-500 mt-1">Криптовалют</p>
+                      </div>
+                      <div className="p-4 bg-neutral-50 border border-gray-200 text-center rounded-lg">
+                        <p className="text-2xl font-bold text-black">24/7</p>
+                        <p className="text-xs text-gray-500 mt-1">Работаем</p>
+                      </div>
+                      <div className="p-4 bg-neutral-50 border border-gray-200 text-center rounded-lg">
+                        <p className="text-2xl font-bold text-black">30 мин</p>
+                        <p className="text-xs text-gray-500 mt-1">Среднее время</p>
+                      </div>
+                    </div>
+                    <div className="space-y-3 mt-4">
+                      <div className="flex items-start gap-3">
+                        <Icon name="Shield" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-black text-sm">Безопасность</p>
+                          <p className="text-xs text-gray-600">Все операции защищены. Мы не храним ваши средства.</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Icon name="Zap" size={18} className="text-yellow-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-black text-sm">Скорость</p>
+                          <p className="text-xs text-gray-600">Обмен обрабатывается оператором в кратчайшие сроки.</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Icon name="Eye" size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-black text-sm">Прозрачность</p>
+                          <p className="text-xs text-gray-600">Актуальные курсы, отслеживание статуса в реальном времени.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="support" className="animate-fade-in">
+              <div className="max-w-3xl mx-auto">
+                <Card className="border-2 border-gray-300 bg-white shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-3xl">Поддержка</CardTitle>
+                    <p className="text-gray-600 mt-2">Свяжитесь с нами любым удобным способом</p>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <a
+                      href="https://t.me/wi_exchange_auth_bot"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 p-4 border-2 border-gray-200 bg-neutral-50 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                        <Icon name="Send" size={18} className="text-white" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-black">Telegram бот</p>
+                        <p className="text-xs text-gray-500">@wi_exchange_auth_bot — для авторизации и вопросов</p>
+                      </div>
+                    </a>
+                    <div className="p-4 border-2 border-gray-200 bg-neutral-50 rounded-lg">
+                      <p className="font-semibold text-black mb-2">Часы работы поддержки</p>
+                      <p className="text-sm text-gray-600">Ежедневно, 24/7. Среднее время ответа — 15 минут.</p>
+                    </div>
+                    <div className="p-4 border-2 border-yellow-200 bg-yellow-50 rounded-lg">
+                      <p className="text-sm text-yellow-800">
+                        <strong>Важно:</strong> Мы никогда не просим ваши пароли или seed-фразы. Будьте бдительны.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </TabsContent>
 
