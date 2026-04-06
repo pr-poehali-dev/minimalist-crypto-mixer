@@ -346,10 +346,27 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <header className="border-b border-border/50">
-        <div className="px-8 py-6 flex items-center justify-between h-[73px]">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            EXCHANGE
-          </h1>
+        <div className="px-8 py-6 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              EXCHANGE
+            </h1>
+            {!isLoadingRates && Object.keys(rates).length > 0 && (
+              <div className="mt-4 space-y-2">
+                {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
+                  <div key={coin.symbol} className="flex items-center gap-3">
+                    <img src={coin.logo} alt={coin.symbol} className="w-7 h-7 rounded-full" />
+                    <span className="text-base font-bold text-gray-800 w-14">{coin.symbol}</span>
+                    <span className="font-mono text-base text-black font-bold">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                  </div>
+                ))}
+                <button onClick={fetchRates} className="text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1 mt-1">
+                  <Icon name="RefreshCw" size={11} />
+                  Обновить курсы
+                </button>
+              </div>
+            )}
+          </div>
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
               <Dropdown>
@@ -441,29 +458,6 @@ const Index = () => {
           </div>
         </div>
       </header>
-
-      {!isLoadingRates && Object.keys(rates).length > 0 && (
-        <div className="border-b border-border/50 bg-card overflow-x-auto">
-          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-4">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1.5 flex-shrink-0">
-              <Icon name="TrendingUp" size={12} />
-              Курсы
-            </span>
-            <div className="flex items-center gap-3 overflow-x-auto">
-              {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
-                <div key={coin.symbol} className="flex items-center gap-2 px-3 py-1.5 bg-neutral-50 border border-gray-200 rounded-lg flex-shrink-0">
-                  <img src={coin.logo} alt={coin.symbol} className="w-5 h-5 rounded-full" />
-                  <span className="text-sm font-semibold text-gray-800">{coin.symbol}</span>
-                  <span className="font-mono text-sm text-black font-bold">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                </div>
-              ))}
-            </div>
-            <button onClick={fetchRates} className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
-              <Icon name="RefreshCw" size={14} />
-            </button>
-          </div>
-        </div>
-      )}
 
       <main className="flex-1 px-4 py-12 overflow-y-auto">
         <div className="max-w-5xl mx-auto">
