@@ -466,8 +466,9 @@ const Index = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <header className="border-b border-border/50">
         <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
-          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex-shrink-0">
-            LYCHEX
+          <h1 className="flex items-center gap-2 text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex-shrink-0">
+            <img src="https://cdn.poehali.dev/projects/3306a222-60eb-449b-b09c-fcee64a12f0b/files/5c852811-9ffa-4e18-9ad6-6c2318cd14e6.jpg" alt="SHIFTLY" className="h-7 md:h-8 w-7 md:w-8 rounded-md object-cover" />
+            SHIFTLY
           </h1>
 
           {/* Mobile auth button */}
