@@ -86,7 +86,7 @@ const Index = () => {
 
   const getExchangeRate = useCallback((from: string, to: string) => {
     if (!rates[from] || !rates[to]) return 0;
-    const rawRate = rates[to] / rates[from];
+    const rawRate = rates[from] / rates[to];
     const withMarkup = rawRate * (1 - markupPercent / 100);
     return withMarkup;
   }, [rates, markupPercent]);
