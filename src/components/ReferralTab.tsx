@@ -44,6 +44,12 @@ interface Withdrawal {
   processed_at: string | null;
 }
 
+const STEPS = [
+  { icon: 'Link', title: 'Поделитесь кодом', desc: 'Отправьте свой код друзьям' },
+  { icon: 'UserPlus', title: 'Друг регистрируется', desc: 'Использует ваш код при обмене' },
+  { icon: 'Wallet', title: 'Вы получаете 1%', desc: 'С каждого обмена реферала' },
+];
+
 const ReferralTab = ({ telegramUsername, isAuthenticated }: ReferralTabProps) => {
   const [referralCode, setReferralCode] = useState<ReferralCode | null>(null);
   const [referrals, setReferrals] = useState<Referral[]>([]);
@@ -51,6 +57,7 @@ const ReferralTab = ({ telegramUsername, isAuthenticated }: ReferralTabProps) =>
   const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
   const [balance, setBalance] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeSection, setActiveSection] = useState<'overview' | 'referrals' | 'withdraw'>('overview');
 
   const [applyCode, setApplyCode] = useState('');
   const [applyMessage, setApplyMessage] = useState('');
@@ -138,20 +145,10 @@ const ReferralTab = ({ telegramUsername, isAuthenticated }: ReferralTabProps) =>
   const handleWithdraw = async () => {
     setWithdrawMessage('');
     setWithdrawError('');
-
-    if (!walletAddress.trim()) {
-      setWithdrawError('Укажите адрес кошелька');
-      return;
-    }
+    if (!walletAddress.trim()) { setWithdrawError('Укажите адрес кошелька'); return; }
     const amount = parseFloat(withdrawAmount);
-    if (isNaN(amount) || amount <= 0) {
-      setWithdrawError('Укажите корректную сумму');
-      return;
-    }
-    if (amount < 5) {
-      setWithdrawError('Минимальная сумма вывода $5');
-      return;
-    }
+    if (isNaN(amount) || amount <= 0) { setWithdrawError('Укажите корректную сумму'); return; }
+    if (amount < 5) { setWithdrawError('Минимальная сумма вывода $5'); return; }
 
     setIsWithdrawing(true);
     try {
@@ -177,49 +174,109 @@ const ReferralTab = ({ telegramUsername, isAuthenticated }: ReferralTabProps) =>
 
   if (!isAuthenticated) {
     return (
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center space-y-3 md:space-y-4 py-4 md:py-8">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-800">Партнёрство</h2>
-          <p className="text-sm md:text-lg text-gray-500">Приглашайте друзей и зарабатывайте 1% от их обменов</p>
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center py-6 md:py-10">
+          <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-2">Партнёрская программа</h2>
+          <p className="text-sm md:text-base text-gray-500">Зарабатывайте 1% с каждого обмена ваших рефералов</p>
         </div>
-        <div className="rounded-xl md:rounded-2xl border border-gray-200 bg-white p-6 md:p-12 text-center">
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-xl shadow-blue-500/20">
-            <Icon name="Lock" size={28} className="text-white md:hidden" />
-            <Icon name="Lock" size={36} className="text-white hidden md:block" />
+
+        <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
+          {STEPS.map((s, i) => (
+            <div key={i} className="relative rounded-xl border border-gray-200 bg-white p-4 md:p-6 text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-3">
+                <Icon name={s.icon} size={20} className="text-blue-600" />
+              </div>
+              <p className="font-semibold text-gray-800 text-xs md:text-sm mb-1">{s.title}</p>
+              <p className="text-[10px] md:text-xs text-gray-500">{s.desc}</p>
+              {i < STEPS.length - 1 && (
+                <div className="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 text-gray-300">
+                  <Icon name="ChevronRight" size={20} />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-xl border border-gray-200 bg-white p-8 md:p-12 text-center">
+          <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4">
+            <Icon name="Lock" size={24} className="text-blue-600" />
           </div>
-          <p className="text-base md:text-xl font-bold text-gray-800">Авторизуйтесь для доступа к партнёрской программе</p>
-          <p className="text-xs md:text-sm text-gray-500 mt-2">Войдите через Telegram, чтобы получить свой реферальный код</p>
+          <p className="text-lg font-bold text-gray-800 mb-1">Войдите для доступа</p>
+          <p className="text-sm text-gray-500">Авторизуйтесь через Telegram, чтобы получить реферальный код</p>
         </div>
         <Footer />
       </div>
     );
   }
 
+  const sections = [
+    { id: 'overview' as const, icon: 'LayoutDashboard', label: 'Обзор' },
+    { id: 'referrals' as const, icon: 'Users', label: 'Рефералы' },
+    { id: 'withdraw' as const, icon: 'ArrowDownToLine', label: 'Вывод' },
+  ];
+
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="space-y-5 md:space-y-8">
-        <div className="text-center space-y-3 md:space-y-4 py-4 md:py-8">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-800">Партнёрство</h2>
-          <p className="text-sm md:text-lg text-gray-500">Приглашайте друзей и зарабатывайте 1% от их обменов</p>
+    <div className="max-w-3xl mx-auto">
+      <div className="text-center py-6 md:py-10">
+        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-2">Партнёрская программа</h2>
+        <p className="text-sm md:text-base text-gray-500">Зарабатывайте 1% с каждого обмена ваших рефералов</p>
+      </div>
+
+      <div className="flex gap-1 p-1 bg-gray-100 rounded-lg mb-6">
+        {sections.map(s => (
+          <button
+            key={s.id}
+            onClick={() => setActiveSection(s.id)}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-md text-sm font-medium transition-all ${
+              activeSection === s.id
+                ? 'bg-white text-gray-800 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Icon name={s.icon} size={16} />
+            <span className="hidden sm:inline">{s.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {activeSection === 'overview' && (
+        <div className="space-y-5">
+          <ReferralCodeCard
+            referralCode={referralCode}
+            balance={balance}
+            isLoading={isLoading}
+            applyCode={applyCode}
+            setApplyCode={setApplyCode}
+            onApplyCode={handleApplyCode}
+            isApplying={isApplying}
+            applyMessage={applyMessage}
+            applyError={applyError}
+          />
+
+          <div className="grid grid-cols-3 gap-3 md:gap-4">
+            {STEPS.map((s, i) => (
+              <div key={i} className="relative rounded-xl border border-gray-200 bg-white p-4 md:p-5 text-center">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-2">
+                  <Icon name={s.icon} size={18} className="text-blue-600" />
+                </div>
+                <p className="font-semibold text-gray-800 text-[11px] md:text-sm">{s.title}</p>
+                <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">{s.desc}</p>
+                {i < STEPS.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-3 -translate-y-1/2 text-gray-300">
+                    <Icon name="ChevronRight" size={18} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
+      )}
 
-        <ReferralCodeCard
-          referralCode={referralCode}
-          balance={balance}
-          isLoading={isLoading}
-          applyCode={applyCode}
-          setApplyCode={setApplyCode}
-          onApplyCode={handleApplyCode}
-          isApplying={isApplying}
-          applyMessage={applyMessage}
-          applyError={applyError}
-        />
+      {activeSection === 'referrals' && (
+        <ReferralList referrals={referrals} earnings={earnings} />
+      )}
 
-        <ReferralList
-          referrals={referrals}
-          earnings={earnings}
-        />
-
+      {activeSection === 'withdraw' && (
         <ReferralWithdrawal
           balance={balance}
           withdrawals={withdrawals}
@@ -234,7 +291,7 @@ const ReferralTab = ({ telegramUsername, isAuthenticated }: ReferralTabProps) =>
           withdrawMessage={withdrawMessage}
           withdrawError={withdrawError}
         />
-      </div>
+      )}
 
       <Footer />
     </div>

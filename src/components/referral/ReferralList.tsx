@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Icon from '@/components/ui/icon';
 
 interface Referral {
@@ -20,103 +21,124 @@ interface ReferralListProps {
   earnings: Earning[];
 }
 
-const formatDate = (dateStr: string | null) => {
-  if (!dateStr) return '-';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
-};
-
-const statusBadge = (status: string) => {
-  const map: Record<string, string> = {
-    'Ожидает': 'bg-yellow-100 text-yellow-700',
-    'Выполнено': 'bg-green-100 text-green-700',
-    'Отклонено': 'bg-red-100 text-red-700',
-    'начислено': 'bg-blue-100 text-blue-700',
-  };
-  const cls = map[status] || 'bg-gray-100 text-gray-600';
-  return (
-    <span className={`inline-block text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-full ${cls}`}>
-      {status}
-    </span>
-  );
+const formatDate = (d: string | null) => {
+  if (!d) return '—';
+  const date = new Date(d);
+  return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' });
 };
 
 const ReferralList = ({ referrals, earnings }: ReferralListProps) => {
+  const [tab, setTab] = useState<'referrals' | 'earnings'>('referrals');
+
+  const totalEarned = earnings.reduce((s, e) => s + e.amount_usd, 0);
+
   return (
-    <>
-      <div className="rounded-xl md:rounded-2xl border border-gray-200 bg-white p-4 md:p-8">
-        <div className="flex items-center gap-3 mb-4 md:mb-6">
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
-            <Icon name="Users" size={18} className="text-white md:hidden" />
-            <Icon name="Users" size={22} className="text-white hidden md:block" />
-          </div>
-          <div>
-            <p className="font-bold text-gray-800 text-sm md:text-lg">Ваши рефералы</p>
-            <p className="text-[10px] md:text-xs text-gray-500">Пользователи, зарегистрированные по вашему коду</p>
-          </div>
-        </div>
-
-        {referrals.length === 0 ? (
-          <div className="text-center py-6 md:py-8">
-            <Icon name="UserX" size={32} className="text-gray-300 mx-auto mb-2" />
-            <p className="text-sm text-gray-400">Пока нет рефералов</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {referrals.map((r, i) => (
-              <div key={i} className="flex items-center justify-between p-3 md:p-4 bg-neutral-50 border border-gray-100 rounded-lg md:rounded-xl">
-                <div className="flex items-center gap-2 md:gap-3 min-w-0">
-                  <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
-                    <Icon name="User" size={14} className="text-white" />
-                  </div>
-                  <span className="text-sm md:text-base font-medium text-gray-800 truncate">{r.username}</span>
-                </div>
-                <span className="text-[10px] md:text-xs text-gray-500 flex-shrink-0 ml-2">{formatDate(r.joined_at)}</span>
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="space-y-4">
+      <div className="flex gap-1 p-1 bg-gray-100 rounded-lg">
+        <button
+          onClick={() => setTab('referrals')}
+          className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+            tab === 'referrals' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Icon name="Users" size={15} />
+          Рефералы
+          {referrals.length > 0 && (
+            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-1.5 py-0.5 rounded-full">{referrals.length}</span>
+          )}
+        </button>
+        <button
+          onClick={() => setTab('earnings')}
+          className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+            tab === 'earnings' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Icon name="DollarSign" size={15} />
+          Начисления
+          {earnings.length > 0 && (
+            <span className="bg-green-100 text-green-700 text-xs font-bold px-1.5 py-0.5 rounded-full">{earnings.length}</span>
+          )}
+        </button>
       </div>
 
-      <div className="rounded-xl md:rounded-2xl border border-gray-200 bg-white p-4 md:p-8">
-        <div className="flex items-center gap-3 mb-4 md:mb-6">
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
-            <Icon name="Coins" size={18} className="text-white md:hidden" />
-            <Icon name="Coins" size={22} className="text-white hidden md:block" />
-          </div>
-          <div>
-            <p className="font-bold text-gray-800 text-sm md:text-lg">Начисления</p>
-            <p className="text-[10px] md:text-xs text-gray-500">1% от каждого обмена ваших рефералов</p>
-          </div>
-        </div>
-
-        {earnings.length === 0 ? (
-          <div className="text-center py-6 md:py-8">
-            <Icon name="CircleDollarSign" size={32} className="text-gray-300 mx-auto mb-2" />
-            <p className="text-sm text-gray-400">Нет начислений</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {earnings.map((e) => (
-              <div key={e.id} className="flex items-center justify-between p-3 md:p-4 bg-neutral-50 border border-gray-100 rounded-lg md:rounded-xl gap-2">
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm md:text-base font-medium text-gray-800">
-                      +{e.amount_usd.toFixed(4)} {e.currency}
-                    </span>
-                    {statusBadge(e.status)}
-                  </div>
-                  <p className="text-[10px] md:text-xs text-gray-500 mt-0.5">
-                    Обмен #{e.exchange_id} от {e.referred_username}
-                  </p>
-                </div>
-                <span className="text-[10px] md:text-xs text-gray-500 flex-shrink-0">{formatDate(e.created_at)}</span>
+      {tab === 'referrals' && (
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          {referrals.length === 0 ? (
+            <div className="p-8 md:p-12 text-center">
+              <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">
+                <Icon name="UserPlus" size={22} className="text-gray-300" />
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </>
+              <p className="font-medium text-gray-600 mb-1">Пока нет рефералов</p>
+              <p className="text-xs text-gray-400">Поделитесь кодом — когда друг его применит, он появится здесь</p>
+            </div>
+          ) : (
+            <div>
+              <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Пользователь</span>
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</span>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {referrals.map((r, i) => (
+                  <div key={i} className="px-4 py-3 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                        <span className="text-sm font-bold text-blue-600">{r.username.replace('@', '').charAt(0).toUpperCase()}</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">{r.username}</span>
+                    </div>
+                    <span className="text-xs text-gray-400">{formatDate(r.joined_at)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab === 'earnings' && (
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          {earnings.length === 0 ? (
+            <div className="p-8 md:p-12 text-center">
+              <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">
+                <Icon name="DollarSign" size={22} className="text-gray-300" />
+              </div>
+              <p className="font-medium text-gray-600 mb-1">Нет начислений</p>
+              <p className="text-xs text-gray-400">Когда реферал совершит обмен, вы получите 1% комиссию</p>
+            </div>
+          ) : (
+            <div>
+              <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">От кого</span>
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Сумма</span>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {earnings.map(e => (
+                  <div key={e.id} className="px-4 py-3 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
+                        <Icon name="ArrowDownLeft" size={14} className="text-green-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">{e.referred_username}</p>
+                        <p className="text-[10px] text-gray-400">{formatDate(e.created_at)}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-green-600">+${e.amount_usd.toFixed(2)}</p>
+                      <p className="text-[10px] text-gray-400">{e.currency}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 border-t border-gray-200 bg-gray-50/80 flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500">Итого</span>
+                <span className="text-sm font-bold text-gray-800">${totalEarned.toFixed(2)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 
