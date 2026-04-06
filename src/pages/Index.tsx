@@ -442,6 +442,29 @@ const Index = () => {
         </div>
       </header>
 
+      {!isLoadingRates && Object.keys(rates).length > 0 && (
+        <div className="border-b border-border/50 bg-card overflow-x-auto">
+          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-4">
+            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1.5 flex-shrink-0">
+              <Icon name="TrendingUp" size={12} />
+              Курсы
+            </span>
+            <div className="flex items-center gap-3 overflow-x-auto">
+              {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
+                <div key={coin.symbol} className="flex items-center gap-2 px-3 py-1.5 bg-neutral-50 border border-gray-200 rounded-lg flex-shrink-0">
+                  <img src={coin.logo} alt={coin.symbol} className="w-5 h-5 rounded-full" />
+                  <span className="text-sm font-semibold text-gray-800">{coin.symbol}</span>
+                  <span className="font-mono text-sm text-black font-bold">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                </div>
+              ))}
+            </div>
+            <button onClick={fetchRates} className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
+              <Icon name="RefreshCw" size={14} />
+            </button>
+          </div>
+        </div>
+      )}
+
       <main className="flex-1 px-4 py-12 overflow-y-auto">
         <div className="max-w-5xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -475,33 +498,7 @@ const Index = () => {
             </div>
 
             <TabsContent value="exchange" className="animate-fade-in">
-              <div className="max-w-5xl mx-auto flex gap-6">
-                {!isLoadingRates && Object.keys(rates).length > 0 && (
-                  <div className="w-[160px] flex-shrink-0 hidden lg:block">
-                    <div className="sticky top-6">
-                      <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1">
-                        <Icon name="TrendingUp" size={10} />
-                        Курсы USD
-                      </p>
-                      <div className="space-y-1.5">
-                        {COINS_LIST.filter(c => !c.network && rates[c.rateKey]).map(coin => (
-                          <div key={coin.symbol} className="flex items-center justify-between py-1.5 px-2 bg-white border border-gray-200 hover:border-gray-300 transition-colors">
-                            <div className="flex items-center gap-1.5">
-                              <img src={coin.logo} alt={coin.symbol} className="w-4 h-4 rounded-full" />
-                              <span className="text-[11px] font-semibold text-gray-700">{coin.symbol}</span>
-                            </div>
-                            <span className="font-mono text-[11px] text-black">${rates[coin.rateKey].toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                          </div>
-                        ))}
-                      </div>
-                      <button onClick={fetchRates} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1 mt-2">
-                        <Icon name="RefreshCw" size={9} />
-                        Обновить
-                      </button>
-                    </div>
-                  </div>
-                )}
-                <div className="flex-1 min-w-0">
+              <div className="max-w-4xl mx-auto">
                   <Card className="border-2 border-gray-300 bg-white shadow-sm">
                     <CardHeader className="border-b-2 border-gray-300">
                       <CardTitle className="text-xl font-medium text-black tracking-tight flex items-center gap-2">
@@ -626,7 +623,6 @@ const Index = () => {
                       </form>
                     </CardContent>
                   </Card>
-                </div>
               </div>
             </TabsContent>
 
