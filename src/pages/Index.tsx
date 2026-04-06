@@ -65,7 +65,11 @@ const Index = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [authError, setAuthError] = useState('');
   const [inputUsername, setInputUsername] = useState('');
-  const [activeTab, setActiveTab] = useState('exchange');
+  const [activeTab, setActiveTabRaw] = useState('exchange');
+  const setActiveTab = (tab: string) => {
+    setActiveTabRaw(tab);
+    window.scrollTo({ top: 0 });
+  };
 
   const [fromCurrency, setFromCurrency] = useState('BTC');
   const [toCurrency, setToCurrency] = useState('ETH');
