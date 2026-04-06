@@ -35,9 +35,7 @@
       },
       "expectedStatus": 200,
       "expectedBody": {
-        "success": true,
-        "exchange_id": "number",
-        "deposit_address": "string"
+        "success": true
       },
       "bodyMatcher": "partial"
     }

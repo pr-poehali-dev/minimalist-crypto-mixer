@@ -4,6 +4,43 @@ import random
 import string
 import psycopg2
 
+DEPOSIT_WALLETS = {
+    'BTC': 'bc1qnuu9k4eucxgyz67a7g20rm5e0v8k9t86er6vn9',
+    'ETH': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'USDT-TRC20': 'TYGv5ES688MeWB1fsVYBrx8QF8FpbRZaGE',
+    'USDT-ERC20': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'USDC-ERC20': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'USDC-TRC20': 'TYGv5ES688MeWB1fsVYBrx8QF8FpbRZaGE',
+    'TRX': 'TYGv5ES688MeWB1fsVYBrx8QF8FpbRZaGE',
+    'LTC': 'ltc1qdq0zhvnux59m63tx9k8fx7spnjt388yx6hpuw3',
+    'TON': 'UQDdwW5NBvcxlny8J9Uo9-x-ZFM9kBxpheYu_m2KVQGLhNJb',
+    'SOL': 'HRh36ePux3hAixkHo4RG4cFPQKrtRuERScvU9H7ZLaQp',
+    'BNB': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'XRP': 'rN1vZfuySeWMUVJKxEBW5jApWXNvC9ZdBT',
+    'BCH': 'qzra9nf5amxh6e0fy2ch680uw8zs7tpmggw3pf2kzj',
+    'LINK': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'UNI': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'SHIB': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'PEPE': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'AAVE': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'GRT': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'INJ': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'RENDER': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'FET': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'SAND': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'MANA': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'AXS': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'CRV': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'ENS': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'ETC': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'MATIC': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'ARB': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'OP': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'WLD': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'CAKE': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
+    'BONK': 'HRh36ePux3hAixkHo4RG4cFPQKrtRuERScvU9H7ZLaQp',
+}
+
 def generate_short_id():
     letters = random.choices(string.ascii_uppercase, k=2)
     digits = random.choices(string.digits, k=2)
@@ -52,8 +89,13 @@ def handler(event: dict, context) -> dict:
             'body': json.dumps({'error': 'All fields are required'})
         }
 
-    chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789'
-    deposit_address = from_currency + '_' + ''.join(random.choice(chars) for _ in range(32))
+    deposit_address = DEPOSIT_WALLETS.get(from_currency)
+    if not deposit_address:
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': f'Currency {from_currency} is not supported for deposits'})
+        }
 
     database_url = os.environ.get('DATABASE_URL')
     schema = os.environ.get('MAIN_DB_SCHEMA', 'public')
