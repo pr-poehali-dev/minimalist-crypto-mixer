@@ -592,14 +592,12 @@ const Index = () => {
                             <div className="flex items-center justify-between mt-1.5 px-1">
                               <span className="text-[11px] font-mono">
                                 {currentRate > 0 && (
-                                  <>
-                                    <span style={{ color: getCoinInfo(fromCurrency).color }}>1 {getCoinInfo(fromCurrency).rateKey}</span>
-                                    <span className="text-gray-400"> = </span>
-                                    <span style={{ color: getCoinInfo(toCurrency).color }}>{currentRate.toFixed(6)} {getCoinInfo(toCurrency).rateKey}</span>
-                                  </>
+                                  <span style={{ color: getCoinInfo(fromCurrency).color }}>
+                                    1 {getCoinInfo(fromCurrency).rateKey} = {currentRate.toFixed(6)} {getCoinInfo(toCurrency).rateKey}
+                                  </span>
                                 )}
                               </span>
-                              <span className="text-[11px] text-gray-400 font-mono">
+                              <span className="text-[11px] font-mono" style={{ color: getCoinInfo(fromCurrency).color + 'AA' }}>
                                 {fromAmount && rates[getCoinInfo(fromCurrency).rateKey] ? `$${(Number(fromAmount) * rates[getCoinInfo(fromCurrency).rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
                               </span>
                             </div>
@@ -640,14 +638,12 @@ const Index = () => {
                             <div className="flex items-center justify-between mt-1.5 px-1">
                               <span className="text-[11px] font-mono">
                                 {currentRate > 0 && (
-                                  <>
-                                    <span style={{ color: getCoinInfo(toCurrency).color }}>1 {getCoinInfo(toCurrency).rateKey}</span>
-                                    <span className="text-gray-400"> = </span>
-                                    <span style={{ color: getCoinInfo(fromCurrency).color }}>{(1 / currentRate).toFixed(8)} {getCoinInfo(fromCurrency).rateKey}</span>
-                                  </>
+                                  <span style={{ color: getCoinInfo(toCurrency).color }}>
+                                    1 {getCoinInfo(toCurrency).rateKey} = {(1 / currentRate).toFixed(8)} {getCoinInfo(fromCurrency).rateKey}
+                                  </span>
                                 )}
                               </span>
-                              <span className="text-[11px] text-gray-400 font-mono">
+                              <span className="text-[11px] font-mono" style={{ color: getCoinInfo(toCurrency).color + 'AA' }}>
                                 {toAmount && rates[getCoinInfo(toCurrency).rateKey] ? `$${(Number(toAmount) * rates[getCoinInfo(toCurrency).rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
                               </span>
                             </div>
