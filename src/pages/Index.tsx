@@ -631,51 +631,90 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="about" className="animate-fade-in">
-              <div className="max-w-3xl mx-auto">
-                <Card className="border-2 border-gray-300 bg-white shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="text-3xl">О нас</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-gray-700 leading-relaxed">
-                      Мы — сервис быстрого и безопасного обмена криптовалют. Наша платформа позволяет обменивать цифровые активы напрямую, без посредников и скрытых комиссий.
-                    </p>
-                    <div className="grid grid-cols-3 gap-4 mt-6">
-                      <div className="p-4 bg-neutral-50 border border-gray-200 text-center rounded-lg">
-                        <p className="text-2xl font-bold text-black">13+</p>
-                        <p className="text-xs text-gray-500 mt-1">Криптовалют</p>
+              <div className="max-w-4xl mx-auto space-y-8">
+                <div className="text-center space-y-4">
+                  <h2 className="text-4xl font-bold text-black">Мгновенный обмен криптовалют</h2>
+                  <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    Наш сервис создан для тех, кто ценит скорость, конфиденциальность и простоту. Обменивайте криптовалюты без регистрации аккаунта, без лимитов и без скрытых комиссий.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-4 gap-4">
+                  {[
+                    { value: '15+', label: 'Криптовалют', icon: 'Coins', color: 'from-blue-500 to-indigo-500' },
+                    { value: '24/7', label: 'Без выходных', icon: 'Clock', color: 'from-green-500 to-emerald-500' },
+                    { value: '~15 мин', label: 'Время обмена', icon: 'Zap', color: 'from-yellow-500 to-orange-500' },
+                    { value: '0%', label: 'Скрытых комиссий', icon: 'BadgePercent', color: 'from-purple-500 to-pink-500' },
+                  ].map(stat => (
+                    <div key={stat.label} className="relative overflow-hidden rounded-xl border border-gray-200 bg-white p-5 text-center">
+                      <div className={`mx-auto w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-3`}>
+                        <Icon name={stat.icon} size={22} className="text-white" />
                       </div>
-                      <div className="p-4 bg-neutral-50 border border-gray-200 text-center rounded-lg">
-                        <p className="text-2xl font-bold text-black">24/7</p>
-                        <p className="text-xs text-gray-500 mt-1">Работаем</p>
-                      </div>
-                      <div className="p-4 bg-neutral-50 border border-gray-200 text-center rounded-lg">
-                        <p className="text-2xl font-bold text-black">30 мин</p>
-                        <p className="text-xs text-gray-500 mt-1">Среднее время</p>
-                      </div>
+                      <p className="text-2xl font-bold text-black">{stat.value}</p>
+                      <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
                     </div>
-                    <div className="space-y-3 mt-4">
-                      <div className="flex items-start gap-3">
-                        <Icon name="Shield" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-black text-sm">Безопасность</p>
-                          <p className="text-xs text-gray-600">Все операции защищены. Мы не храним ваши средства.</p>
+                  ))}
+                </div>
+
+                <Card className="border-2 border-gray-200 bg-white shadow-sm">
+                  <CardContent className="pt-8 pb-8">
+                    <h3 className="text-2xl font-bold text-center text-black mb-8">Почему выбирают нас</h3>
+                    <div className="grid grid-cols-2 gap-6">
+                      {[
+                        { icon: 'Shield', color: '#3B82F6', title: 'Безопасность', desc: 'Мы не храним ваши средства. Каждый обмен — это прямая транзакция между кошельками. Никаких депозитов, никаких рисков.' },
+                        { icon: 'Gauge', color: '#F97316', title: 'Скорость', desc: 'Большинство обменов завершаются в течение 15-30 минут. Оператор обрабатывает заявки в режиме реального времени.' },
+                        { icon: 'Eye', color: '#22C55E', title: 'Прозрачность', desc: 'Курс фиксируется в момент создания заявки. Вы видите точную сумму получения до начала обмена.' },
+                        { icon: 'Lock', color: '#8B5CF6', title: 'Конфиденциальность', desc: 'Минимум данных для обмена. Мы не требуем KYC-верификацию и не передаём данные третьим лицам.' },
+                        { icon: 'HeadphonesIcon', color: '#EC4899', title: 'Поддержка 24/7', desc: 'Наша команда всегда на связи. Возникли вопросы — напишите нам в Telegram, и мы поможем.' },
+                        { icon: 'TrendingUp', color: '#06B6D4', title: 'Лучшие курсы', desc: 'Курсы обновляются каждые 30 секунд. Мы агрегируем данные с ведущих бирж для лучших котировок.' },
+                      ].map(feature => (
+                        <div key={feature.title} className="flex gap-4">
+                          <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: feature.color + '15' }}>
+                            <Icon name={feature.icon} size={20} style={{ color: feature.color }} />
+                          </div>
+                          <div>
+                            <p className="font-bold text-black text-base">{feature.title}</p>
+                            <p className="text-sm text-gray-600 mt-1 leading-relaxed">{feature.desc}</p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <Icon name="Zap" size={18} className="text-yellow-500 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-black text-sm">Скорость</p>
-                          <p className="text-xs text-gray-600">Обмен обрабатывается оператором в кратчайшие сроки.</p>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2 border-gray-200 bg-white shadow-sm">
+                  <CardContent className="pt-8 pb-8">
+                    <h3 className="text-2xl font-bold text-center text-black mb-8">Как это работает</h3>
+                    <div className="grid grid-cols-3 gap-8">
+                      {[
+                        { step: '01', title: 'Выберите валюту', desc: 'Укажите какую криптовалюту хотите обменять и какую получить. Курс рассчитается автоматически.', icon: 'ArrowLeftRight' },
+                        { step: '02', title: 'Отправьте средства', desc: 'Переведите указанную сумму на предоставленный адрес. Нажмите "Я отправил" для подтверждения.', icon: 'Send' },
+                        { step: '03', title: 'Получите результат', desc: 'После подтверждения оплаты оператор отправит криптовалюту на ваш кошелёк. Отслеживайте статус онлайн.', icon: 'CheckCircle' },
+                      ].map(s => (
+                        <div key={s.step} className="text-center">
+                          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20">
+                            <Icon name={s.icon} size={28} className="text-white" />
+                          </div>
+                          <span className="text-xs font-bold text-blue-500 uppercase tracking-wider">Шаг {s.step}</span>
+                          <p className="text-lg font-bold text-black mt-1">{s.title}</p>
+                          <p className="text-sm text-gray-600 mt-2 leading-relaxed">{s.desc}</p>
                         </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <Icon name="Eye" size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-black text-sm">Прозрачность</p>
-                          <p className="text-xs text-gray-600">Актуальные курсы, отслеживание статуса в реальном времени.</p>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2 border-gray-200 bg-white shadow-sm">
+                  <CardContent className="pt-8 pb-8">
+                    <h3 className="text-2xl font-bold text-center text-black mb-6">Поддерживаемые криптовалюты</h3>
+                    <div className="flex flex-wrap justify-center gap-3">
+                      {COINS_LIST.map(coin => (
+                        <div key={coin.symbol} className="flex items-center gap-2 px-4 py-2.5 bg-neutral-50 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors">
+                          <img src={coin.logo} alt={coin.symbol} className="w-6 h-6 rounded-full" />
+                          <span className="font-semibold text-sm text-black">{coin.rateKey}</span>
+                          {coin.network && <span className="text-[10px] bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">{coin.network}</span>}
                         </div>
-                      </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
