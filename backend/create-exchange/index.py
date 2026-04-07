@@ -4,6 +4,7 @@ import random
 import string
 from datetime import datetime, timedelta
 import psycopg2
+import requests
 
 CASH_CURRENCIES = {'USD-CASH', 'RUB-CASH', 'CHF-CASH'}
 
@@ -59,6 +60,34 @@ DEPOSIT_WALLETS = {
     'ZEC': 't1Mj3iTZycg8cwkLMotfVgFbzdgCJTnuXUS',
     'SEI': 'sei1tl89g02kdqqwkm9zauetzqah0z46tzhurarluv',
 }
+
+def notify_admin_new_exchange(username, short_id, from_currency, to_currency, from_amount, to_amount, is_cash, city):
+    bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+    chat_id = os.environ.get('ADMIN_NOTIFY_CHAT_ID')
+    if not bot_token or not chat_id:
+        return
+
+    exchange_type = "💵 Наличный обмен" if is_cash else "🔄 Онлайн-обмен"
+    city_text = f"\n🏙 Город: {city}" if city else ""
+
+    msg = (
+        f"🆕 <b>Новая заявка на обмен</b>\n\n"
+        f"📋 ID: <code>{short_id}</code>\n"
+        f"👤 Пользователь: @{username.lstrip('@')}\n"
+        f"💱 {from_amount} {from_currency} → {to_amount} {to_currency}\n"
+        f"📌 Тип: {exchange_type}{city_text}\n"
+        f"🕐 {datetime.utcnow().strftime('%d.%m.%Y %H:%M')} UTC"
+    )
+
+    try:
+        requests.post(
+            f'https://api.telegram.org/bot{bot_token}/sendMessage',
+            json={'chat_id': chat_id, 'text': msg, 'parse_mode': 'HTML'},
+            timeout=5
+        )
+    except Exception:
+        pass
+
 
 def generate_short_id():
     letters = random.choices(string.ascii_uppercase, k=2)
@@ -177,6 +206,8 @@ def handler(event: dict, context) -> dict:
     conn.commit()
     cur.close()
     conn.close()
+
+    notify_admin_new_exchange(username, short_id, from_currency, to_currency, from_amount, to_amount, is_cash_exchange, city)
 
     return {
         'statusCode': 200,
