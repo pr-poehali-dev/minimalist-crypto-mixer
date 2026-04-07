@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dropdown, DropdownContent, DropdownItem, DropdownSeparator, DropdownTrigger } from '@/components/ui/basic-dropdown';
@@ -46,48 +46,7 @@ const AppHeader = ({
 }: AppHeaderProps) => {
   const navigate = useNavigate();
   const [authOpen, setAuthOpen] = useState(false);
-
-  const authPopoverContent = (
-    <>
-      {!isCodeSent ? (
-        <div className="p-6">
-          <h3 className="text-lg font-semibold mb-2 text-center">Вход через Telegram</h3>
-          <p className="text-center text-gray-600 mb-4 text-sm">Введите username, мы отправим вам код</p>
-          <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
-            <p className="font-semibold mb-1">Первый раз?</p>
-            <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
-          </div>
-          {authError && (
-            <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
-          )}
-          <div className="space-y-4">
-            <Input
-              placeholder="@username"
-              value={inputUsername}
-              onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
-              onKeyDown={(e) => e.key === 'Enter' && onRequestCode()}
-              className="border-gray-300 focus:border-blue-500 h-12"
-            />
-            <div onClick={onRequestCode} className="w-full">
-              <FlowButton text="Получить код" />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="p-6">
-          {authError && (
-            <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
-          )}
-          <OTPVerification
-            inputCount={4}
-            onVerify={onVerifyCode}
-            onResend={onResendCode}
-            telegram_username={telegramUsername}
-          />
-        </div>
-      )}
-    </>
-  );
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const userDropdown = (showNav = false) => (
     <Dropdown>
@@ -138,25 +97,74 @@ const AppHeader = ({
     </Dropdown>
   );
 
+  const rightSection = isAuthenticated ? (
+    <>
+      <div className="md:hidden">{userDropdown()}</div>
+      <div className="hidden md:flex items-center gap-4 flex-shrink-0">{userDropdown(true)}</div>
+    </>
+  ) : (
+    <Popover open={authOpen} onOpenChange={setAuthOpen} modal>
+      <PopoverTrigger asChild>
+        <Button variant="outline" size="sm" className="text-xs md:text-sm">
+          Войти{' '}<span className="hidden md:inline">через Telegram</span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        className="w-80 p-0"
+        align="end"
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          setTimeout(() => inputRef.current?.focus(), 50);
+        }}
+      >
+        {!isCodeSent ? (
+          <div className="p-6">
+            <h3 className="text-lg font-semibold mb-2 text-center">Вход через Telegram</h3>
+            <p className="text-center text-gray-600 mb-4 text-sm">Введите username, мы отправим вам код</p>
+            <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
+              <p className="font-semibold mb-1">Первый раз?</p>
+              <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
+            </div>
+            {authError && (
+              <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
+            )}
+            <div className="space-y-4">
+              <Input
+                ref={inputRef}
+                placeholder="@username"
+                value={inputUsername}
+                onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
+                onKeyDown={(e) => e.key === 'Enter' && onRequestCode()}
+                className="border-gray-300 focus:border-blue-500 h-12"
+              />
+              <div onClick={onRequestCode} className="w-full">
+                <FlowButton text="Получить код" />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="p-6">
+            {authError && (
+              <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
+            )}
+            <OTPVerification
+              inputCount={4}
+              onVerify={onVerifyCode}
+              onResend={onResendCode}
+              telegram_username={telegramUsername}
+            />
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
+  );
+
   return (
     <header className="border-b border-border/50">
       <div className="px-4 py-3 md:px-8 md:py-6 flex items-center justify-between h-[57px] md:h-[73px]">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent flex-shrink-0">
           BLQOU
         </h1>
-
-        <div className="md:hidden">
-          {isAuthenticated ? userDropdown() : (
-            <Popover open={authOpen} onOpenChange={setAuthOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="text-xs md:text-sm">Войти</Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-0" align="end" onOpenAutoFocus={(e) => e.preventDefault()}>
-                {authPopoverContent}
-              </PopoverContent>
-            </Popover>
-          )}
-        </div>
 
         <div className="hidden md:inline-flex h-9 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 p-0.5 shadow-sm border border-blue-100 overflow-hidden">
           <RadioGroup
@@ -197,18 +205,7 @@ const AppHeader = ({
           </RadioGroup>
         </div>
 
-        <div className="hidden md:flex items-center gap-4 flex-shrink-0">
-          {isAuthenticated ? userDropdown(true) : (
-            <Popover open={authOpen} onOpenChange={setAuthOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="text-xs md:text-sm">Войти через Telegram</Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-0" align="end" onOpenAutoFocus={(e) => e.preventDefault()}>
-                {authPopoverContent}
-              </PopoverContent>
-            </Popover>
-          )}
-        </div>
+        {rightSection}
       </div>
     </header>
   );
