@@ -383,13 +383,21 @@ const ExchangeContract = () => {
             </div>
           </div>
 
-          <div className="mt-6 flex justify-center print:hidden">
+          <div className="mt-6 flex justify-center gap-3 print:hidden">
             <Button
               onClick={handlePrint}
               className="h-11 px-8 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-xl gap-2"
             >
               <Icon name="Printer" size={16} />
-              Распечатать договор
+              Распечатать
+            </Button>
+            <Button
+              onClick={handlePrint}
+              variant="outline"
+              className="h-11 px-8 font-medium rounded-xl gap-2 border-gray-300 hover:bg-gray-50"
+            >
+              <Icon name="Download" size={16} />
+              Сохранить PDF
             </Button>
           </div>
         </div>
