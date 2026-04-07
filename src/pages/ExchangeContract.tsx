@@ -41,13 +41,13 @@ const ExchangeContract = () => {
         @media print {
           @page {
             size: A4;
-            margin: 18mm 16mm 16mm 16mm;
+            margin: 0;
           }
           body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
           title { display: none; }
           header, footer, nav { display: none !important; }
           .print-page-break { page-break-before: always; }
-          .contract-page { padding: 0 !important; max-width: 100% !important; }
+          .contract-page { padding: 18mm 16mm 16mm 16mm !important; max-width: 100% !important; }
           .contract-border { border: none !important; border-radius: 0 !important; padding: 0 !important; }
           .print-input { border: none !important; border-bottom: 1.5px solid #9ca3af !important; border-radius: 0 !important; padding-left: 0 !important; padding-right: 0 !important; box-shadow: none !important; background: transparent !important; font-size: 13px !important; height: 32px !important; }
           .print-label { font-size: 10px !important; }
