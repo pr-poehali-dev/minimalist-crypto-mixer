@@ -14,7 +14,8 @@ const ExchangeContract = () => {
     exchangeAmount: "",
     currency: "USDT",
     walletAddress: "",
-    date: new Date().toLocaleDateString("ru-RU"),
+    date: "",
+    city: "",
   });
 
   const handleChange = (field: string, value: string) => {
@@ -22,7 +23,10 @@ const ExchangeContract = () => {
   };
 
   const handlePrint = () => {
+    const originalTitle = document.title;
+    document.title = " ";
     window.print();
+    document.title = originalTitle;
   };
 
   const isCashToCrypto = contractType === "cash-to-crypto";
@@ -36,6 +40,8 @@ const ExchangeContract = () => {
             margin: 18mm 16mm 16mm 16mm;
           }
           body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          title { display: none; }
+          header, footer, nav { display: none !important; }
           .print-page-break { page-break-before: always; }
           .contract-page { padding: 0 !important; max-width: 100% !important; }
           .contract-border { border: none !important; border-radius: 0 !important; padding: 0 !important; }
@@ -109,8 +115,20 @@ const ExchangeContract = () => {
                 </p>
               </div>
               <div className="text-sm text-gray-500 print:text-xs">
-                <p>Дата: <span className="text-gray-900 font-medium">{formData.date}</span></p>
-                <p className="text-xs text-gray-400 mt-0.5">г. __________________</p>
+                <label className="print-label block text-xs font-medium text-gray-500 mb-1">Дата</label>
+                <Input
+                  placeholder="__.__.____"
+                  value={formData.date}
+                  onChange={(e) => handleChange("date", e.target.value)}
+                  className="print-input h-9 w-40 border-gray-200 focus:border-blue-500 text-sm"
+                />
+                <label className="print-label block text-xs font-medium text-gray-500 mt-2 mb-1">Город</label>
+                <Input
+                  placeholder="г. Москва"
+                  value={formData.city || ""}
+                  onChange={(e) => handleChange("city", e.target.value)}
+                  className="print-input h-9 w-40 border-gray-200 focus:border-blue-500 text-sm"
+                />
               </div>
             </div>
 
