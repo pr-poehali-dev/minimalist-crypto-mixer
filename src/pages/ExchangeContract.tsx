@@ -14,6 +14,7 @@ const ExchangeContract = () => {
     exchangeAmount: "",
     currency: "USDT",
     walletAddress: "",
+    clientTelegram: "",
     date: "",
     city: "",
   });
@@ -153,6 +154,15 @@ const ExchangeContract = () => {
                     className="print-input h-11 border-gray-200 focus:border-blue-500"
                   />
                 </div>
+              </div>
+              <div>
+                <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">Telegram клиента</label>
+                <Input
+                  placeholder="@username"
+                  value={formData.clientTelegram}
+                  onChange={(e) => handleChange("clientTelegram", e.target.value)}
+                  className="print-input h-11 border-gray-200 focus:border-blue-500 md:w-1/2"
+                />
               </div>
             </div>
 
