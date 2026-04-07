@@ -287,7 +287,7 @@ const Order = () => {
                   </p>
                 </div>
 
-                {timer > 0 && (
+                {timer > 0 && localStorage.getItem('exchange_username') && (
                   <Button
                     onClick={handleConfirmPayment}
                     disabled={confirming}

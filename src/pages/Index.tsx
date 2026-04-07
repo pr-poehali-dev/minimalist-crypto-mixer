@@ -211,7 +211,7 @@ const Index = () => {
     }
   };
 
-  const handleVerifyCode = async (code: string) => {
+  const handleVerifyCode = async (code: string): Promise<boolean> => {
     setAuthError('');
     try {
       const resp = await fetch(API.telegramAuth, {
@@ -223,12 +223,15 @@ const Index = () => {
       if (data.success) {
         setIsAuthenticated(true);
         localStorage.setItem('exchange_username', telegramUsername);
+        return true;
       } else {
         setAuthError(data.error || 'Неверный код');
+        return false;
       }
     } catch (e) {
       console.error('Verify error', e);
       setAuthError('Ошибка соединения');
+      return false;
     }
   };
 
