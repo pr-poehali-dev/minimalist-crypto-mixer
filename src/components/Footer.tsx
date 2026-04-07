@@ -48,7 +48,7 @@ const Footer = () => {
               <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400">Поддержка</h4>
               <div className="flex flex-col gap-2 text-sm">
                 <a href="https://t.me/wi_exchange_sup_bot" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">Telegram бот</a>
-                <span className="text-gray-600">support@exchange.com</span>
+                <span className="text-gray-600">blqou@mail.ru</span>
                 <span className="text-gray-600">24/7 онлайн</span>
               </div>
             </div>
