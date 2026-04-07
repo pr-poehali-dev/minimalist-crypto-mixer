@@ -105,15 +105,21 @@ const Order = () => {
 
   const handleConfirmPayment = async () => {
     if (!order) return;
+    const storedUsername = localStorage.getItem('telegram_username');
+    if (!storedUsername) {
+      setError('Для подтверждения оплаты необходимо авторизоваться');
+      return;
+    }
     setConfirming(true);
     try {
       const resp = await fetch(API_CONFIRM, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-User-Username': storedUsername },
         body: JSON.stringify({ short_id: order.short_id }),
       });
       const data = await resp.json();
       if (data.success) setOrder(prev => prev ? { ...prev, status: 'Оплата отправлена' } : null);
+      else if (data.error) setError(data.error);
     } catch (e) { console.error('Confirm error:', e); }
     setConfirming(false);
   };

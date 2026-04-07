@@ -1,9 +1,19 @@
 {
   "tests": [
     {
+      "name": "Confirm - no auth",
+      "method": "POST",
+      "path": "/",
+      "body": { "short_id": "AB12" },
+      "expectedStatus": 401,
+      "expectedBody": { "error": "Необходимо авторизоваться" },
+      "bodyMatcher": "partial"
+    },
+    {
       "name": "Confirm - missing short_id",
       "method": "POST",
       "path": "/",
+      "headers": { "X-User-Username": "@testuser" },
       "body": {},
       "expectedStatus": 400,
       "expectedBody": { "error": "short_id is required" },

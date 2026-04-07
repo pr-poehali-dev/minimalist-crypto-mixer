@@ -37,7 +37,7 @@ def handler(event: dict, context) -> dict:
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type'
+                'Access-Control-Allow-Headers': 'Content-Type, X-User-Username'
             },
             'body': ''
         }
@@ -47,6 +47,14 @@ def handler(event: dict, context) -> dict:
             'statusCode': 405,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'error': 'Method not allowed'})
+        }
+
+    username = event.get('headers', {}).get('X-User-Username') or event.get('headers', {}).get('x-user-username')
+    if not username:
+        return {
+            'statusCode': 401,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Необходимо авторизоваться'})
         }
 
     raw_body = event.get('body') or '{}'
@@ -78,6 +86,17 @@ def handler(event: dict, context) -> dict:
             'statusCode': 404,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'error': 'Order not found'})
+        }
+
+    order_username = (row[3] or '').lower().lstrip('@')
+    request_username = username.lower().lstrip('@')
+    if order_username != request_username:
+        cur.close()
+        conn.close()
+        return {
+            'statusCode': 403,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Нет доступа к этой заявке'})
         }
 
     if row[1] == 'Ожидает оплаты' and row[2]:
