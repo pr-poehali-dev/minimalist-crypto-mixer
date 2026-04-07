@@ -64,6 +64,12 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        <div className="mt-6 pt-6 border-t border-gray-200 flex flex-wrap gap-4 text-sm">
+          <Link to="/privacy" className="text-gray-500 hover:text-gray-800 transition-colors">Политика конфиденциальности</Link>
+          <Link to="/terms" className="text-gray-500 hover:text-gray-800 transition-colors">Условия использования</Link>
+          <Link to="/exchange-contract" className="text-gray-500 hover:text-gray-800 transition-colors">Договор обмена</Link>
+        </div>
       </div>
 
       <div className="mt-4 px-5 md:px-12">
@@ -102,13 +108,8 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="mt-4 px-4 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-400">
+      <div className="mt-4 px-4 text-center text-xs text-gray-400">
         <p>&copy;{currentYear} BLQOU. Все права защищены.</p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/privacy" className="hover:text-gray-600 transition-colors">Политика конфиденциальности</Link>
-          <Link to="/terms" className="hover:text-gray-600 transition-colors">Условия использования</Link>
-          <Link to="/exchange-contract" className="hover:text-gray-600 transition-colors">Договор обмена</Link>
-        </div>
       </div>
     </footer>
   );
