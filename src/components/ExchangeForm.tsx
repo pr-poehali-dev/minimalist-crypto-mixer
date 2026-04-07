@@ -255,7 +255,7 @@ const ExchangeForm = ({
             </Button>
 
             <p className="text-center text-[11px] text-gray-400">
-              Минимальная сумма обмена — $25
+              Минимальная сумма обмена — {isCashExchange ? '$10 000' : '$25'}
             </p>
 
             {!isAuthenticated && (

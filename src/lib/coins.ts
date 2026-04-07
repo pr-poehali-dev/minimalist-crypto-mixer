@@ -14,7 +14,7 @@ export const isFiat = (symbol: string) => FIAT_SYMBOLS.includes(symbol);
 export const COINS_LIST: CoinInfo[] = [
   { symbol: 'USD-CASH', name: 'Доллар (наличные)', logo: 'https://cdn-icons-png.flaticon.com/128/555/555526.png', network: 'Cash', rateKey: 'USD', color: '#6B8E23' },
   { symbol: 'RUB-CASH', name: 'Рубль (наличные)', logo: 'https://cdn-icons-png.flaticon.com/128/330/330437.png', network: 'Cash', rateKey: 'RUB', color: '#CC0000' },
-  { symbol: 'CHF-CASH', name: 'Франк (наличные)', logo: 'https://cdn-icons-png.flaticon.com/128/330/330562.png', network: 'Cash', rateKey: 'CHF', color: '#D52B1E' },
+  { symbol: 'CHF-CASH', name: 'Франк (наличные)', logo: 'https://cdn-icons-png.flaticon.com/128/197/197540.png', network: 'Cash', rateKey: 'CHF', color: '#D52B1E' },
   { symbol: 'BTC', name: 'Bitcoin', logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png', rateKey: 'BTC', color: '#F7931A' },
   { symbol: 'ETH', name: 'Ethereum', logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png', rateKey: 'ETH', color: '#627EEA' },
   { symbol: 'USDT-TRC20', name: 'Tether', logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png', network: 'TRC20', rateKey: 'USDT', color: '#26A17B' },

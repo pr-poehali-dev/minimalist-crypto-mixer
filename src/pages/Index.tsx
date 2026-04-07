@@ -288,8 +288,9 @@ const Index = () => {
 
     const fromRateKey = getCoinInfo(fromCurrency).rateKey;
     const fromUsdValue = Number(fromAmount) * (rates[fromRateKey] || 0);
-    if (fromUsdValue < 25) {
-      alert(`Минимальная сумма обмена — $25. Текущая сумма: $${fromUsdValue.toFixed(2)}`);
+    const minAmount = isCash ? 10000 : 25;
+    if (fromUsdValue < minAmount) {
+      alert(`Минимальная сумма обмена — $${minAmount.toLocaleString()}. Текущая сумма: $${fromUsdValue.toFixed(2)}`);
       return;
     }
 
