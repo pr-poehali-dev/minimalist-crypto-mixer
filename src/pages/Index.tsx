@@ -11,7 +11,7 @@ import FaqTab from '@/components/FaqTab';
 import Footer from '@/components/Footer';
 import { HowItWorks, PopularPairs, StatsSection, TrustBanner } from '@/components/HeroSections';
 import { InteractiveMenu, InteractiveMenuItem } from '@/components/ui/modern-mobile-menu';
-import { ArrowLeftRight, ClipboardList, Info, Headphones, HelpCircle, Gift } from 'lucide-react';
+import { ArrowLeftRight, ClipboardList, Headphones, HelpCircle, Gift } from 'lucide-react';
 import ReferralTab from '@/components/ReferralTab';
 import AppHeader from '@/components/AppHeader';
 import ExchangeForm from '@/components/ExchangeForm';
@@ -26,10 +26,9 @@ const API = {
 
 const MOBILE_MENU_ITEMS: InteractiveMenuItem[] = [
   { label: 'Обмен', icon: ArrowLeftRight, value: 'exchange' },
-  { label: 'Обмены', icon: ClipboardList, value: 'my-exchanges' },
-  { label: 'Партнёры', icon: Gift, value: 'referral' },
+  { label: 'Мои обмены', icon: ClipboardList, value: 'my-exchanges' },
+  { label: 'Партнёрство', icon: Gift, value: 'referral' },
   { label: 'Поддержка', icon: Headphones, value: 'support' },
-  { label: 'О нас', icon: Info, value: 'about' },
   { label: 'FAQ', icon: HelpCircle, value: 'faq' },
 ];
 
@@ -38,8 +37,8 @@ const TAB_TO_INDEX: Record<string, number> = {
   'my-exchanges': 1,
   'referral': 2,
   'support': 3,
-  'about': 4,
-  'faq': 5,
+  'about': 0,
+  'faq': 4,
 };
 
 interface Rates {
