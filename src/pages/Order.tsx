@@ -7,7 +7,7 @@ import Icon from '@/components/ui/icon';
 const API_GET_ORDER = 'https://functions.poehali.dev/da825e7a-ffdb-4fe2-8ced-a59edb04e1e6';
 const API_CONFIRM = 'https://functions.poehali.dev/57779eea-72f4-4cc7-8605-2ae935a9a5a0';
 
-import { getCoinInfo, isCashCurrency } from '@/lib/coins';
+import { getCoinInfo, isFiat } from '@/lib/coins';
 
 const STATUS_STYLES: Record<string, string> = {
   'Ожидает оплаты': 'bg-yellow-50 border-yellow-300 text-yellow-700',
@@ -60,7 +60,7 @@ const Order = () => {
       const data = await resp.json();
       if (data.order) {
         setOrder(data.order);
-        const isCash = data.order.is_cash || isCashCurrency(data.order.from_currency) || isCashCurrency(data.order.to_currency);
+        const isCash = data.order.is_cash || isFiat(data.order.from_currency) || isFiat(data.order.to_currency);
         if (isCash && data.order.expires_at) {
           const expiresStr = data.order.expires_at.endsWith('Z') ? data.order.expires_at : data.order.expires_at + 'Z';
           const expires = new Date(expiresStr).getTime();
@@ -153,8 +153,8 @@ const Order = () => {
 
   const from = getCoinInfo(order.from_currency);
   const to = getCoinInfo(order.to_currency);
-  const isCash = order.is_cash || isCashCurrency(order.from_currency) || isCashCurrency(order.to_currency);
-  const receivingCash = isCashCurrency(order.to_currency);
+  const isCash = order.is_cash || isFiat(order.from_currency) || isFiat(order.to_currency);
+  const receivingCash = isFiat(order.to_currency);
   const isWaiting = order.status === 'Ожидает оплаты';
   const isWaitingManager = order.status === 'Ожидание менеджера';
   const isTerminal = ['Завершено', 'Отменено', 'Не оплачена', 'Истекла'].includes(order.status);
