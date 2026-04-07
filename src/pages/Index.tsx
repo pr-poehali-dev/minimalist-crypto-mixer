@@ -4,7 +4,7 @@ import { ExchangesTable, Exchange } from '@/components/ui/exchanges-table';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import CryptoChartsDisplay from '@/components/ui/crypto-charts-display';
 import { useNavigate } from 'react-router-dom';
-import { getCoinInfo } from '@/lib/coins';
+import { getCoinInfo, isFiat } from '@/lib/coins';
 import AboutTab from '@/components/AboutTab';
 import SupportTab from '@/components/SupportTab';
 import FaqTab from '@/components/FaqTab';
@@ -275,7 +275,9 @@ const Index = () => {
       alert('Пожалуйста, авторизуйтесь для создания обмена');
       return;
     }
-    if (!fromAmount || !toAmount || !outputAddress) {
+    const isCash = isFiat(fromCurrency) || isFiat(toCurrency);
+    const receivingCash = isFiat(toCurrency);
+    if (!fromAmount || !toAmount || (!receivingCash && !outputAddress)) {
       alert('Заполните все поля');
       return;
     }
@@ -299,8 +301,9 @@ const Index = () => {
           from_amount: fromAmount,
           to_amount: toAmount,
           rate: rate.toString(),
-          output_address: outputAddress,
+          output_address: receivingCash ? '' : outputAddress,
           use_discount: hasReferralDiscount,
+          is_cash: isCash,
         }),
       });
       const data = await resp.json();

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
-import { getCoinInfo } from '@/lib/coins';
+import { getCoinInfo, isFiat } from '@/lib/coins';
 import CurrencySelector from '@/components/CurrencySelector';
 
 interface ExchangeFormProps {
@@ -57,6 +57,15 @@ const ExchangeForm = ({
 }: ExchangeFormProps) => {
   const fromInfo = getCoinInfo(fromCurrency);
   const toInfo = getCoinInfo(toCurrency);
+  const isCashExchange = isFiat(fromCurrency) || isFiat(toCurrency);
+  const receivingCash = isFiat(toCurrency);
+  const needsAddress = !receivingCash;
+
+  const formatRate = (value: number) => {
+    if (value >= 1000) return value.toFixed(2);
+    if (value >= 1) return value.toFixed(4);
+    return value.toFixed(6);
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -87,7 +96,7 @@ const ExchangeForm = ({
           <CardTitle className="text-lg md:text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
             <Icon name="ArrowLeftRight" size={18} className="md:hidden" />
             <Icon name="ArrowLeftRight" size={20} className="hidden md:block" />
-            Обмен криптовалюты
+            {isCashExchange ? 'Обмен наличных' : 'Обмен криптовалюты'}
           </CardTitle>
           <p className="text-gray-600 mt-1 text-xs md:text-sm">
             {isLoadingRates ? 'Загрузка курсов...' : hasReferralDiscount ? 'Курсы обновляются каждые 30 сек · скидка 1% применена' : 'Курсы обновляются каждые 30 сек'}
@@ -95,11 +104,21 @@ const ExchangeForm = ({
         </CardHeader>
         <CardContent className="pt-4 md:pt-6 px-4 md:px-6">
           <form onSubmit={onSubmit} className="space-y-5">
+            {isCashExchange && (
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 flex items-start gap-2">
+                <Icon name="Clock" size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold">Обмен наличных — заявка на 48 часов</p>
+                  <p className="mt-0.5">Менеджер свяжется с вами в Telegram для согласования деталей встречи</p>
+                </div>
+              </div>
+            )}
+
             <div className="flex flex-col md:flex-row items-stretch md:items-start gap-3">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: fromInfo.color }}>Отправляете</label>
-                  <span className="text-xs" style={{ color: fromInfo.color }}>{fromInfo.name}{fromInfo.network ? ` (${fromInfo.network})` : ''}</span>
+                  <span className="text-xs" style={{ color: fromInfo.color }}>{fromInfo.name}{fromInfo.network && fromInfo.network !== 'Cash' ? ` (${fromInfo.network})` : ''}</span>
                 </div>
                 <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: fromInfo.color + '25' }}>
                   <Input
@@ -122,7 +141,7 @@ const ExchangeForm = ({
                   <span className="text-[11px] font-mono">
                     {currentRate > 0 && (
                       <span style={{ color: fromInfo.color }}>
-                        1 {fromInfo.rateKey} = {currentRate.toFixed(6)} {toInfo.rateKey}
+                        1 {fromInfo.rateKey} = {formatRate(currentRate)} {toInfo.rateKey}
                       </span>
                     )}
                   </span>
@@ -149,7 +168,7 @@ const ExchangeForm = ({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: toInfo.color }}>Получаете</label>
-                  <span className="text-xs" style={{ color: toInfo.color }}>{toInfo.name}{toInfo.network ? ` (${toInfo.network})` : ''}</span>
+                  <span className="text-xs" style={{ color: toInfo.color }}>{toInfo.name}{toInfo.network && toInfo.network !== 'Cash' ? ` (${toInfo.network})` : ''}</span>
                 </div>
                 <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: toInfo.color + '25' }}>
                   <Input
@@ -172,7 +191,7 @@ const ExchangeForm = ({
                   <span className="text-[11px] font-mono">
                     {currentRate > 0 && (
                       <span style={{ color: toInfo.color }}>
-                        1 {toInfo.rateKey} = {(1 / currentRate).toFixed(6)} {fromInfo.rateKey}
+                        1 {toInfo.rateKey} = {formatRate(1 / currentRate)} {fromInfo.rateKey}
                       </span>
                     )}
                   </span>
@@ -183,25 +202,27 @@ const ExchangeForm = ({
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold uppercase tracking-wider text-gray-700">Адрес получения</label>
-                <span className="text-xs text-gray-400">{toInfo.name}{toInfo.network ? ` (${toInfo.network})` : ''}</span>
+            {needsAddress && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-gray-700">Адрес получения</label>
+                  <span className="text-xs text-gray-400">{toInfo.name}{toInfo.network && toInfo.network !== 'Cash' ? ` (${toInfo.network})` : ''}</span>
+                </div>
+                <Input
+                  placeholder={`Ваш ${toInfo.name}${toInfo.network && toInfo.network !== 'Cash' ? ` (${toInfo.network})` : ''} адрес`}
+                  value={outputAddress}
+                  onChange={(e) => setOutputAddress(e.target.value)}
+                  className="bg-neutral-50 border-2 border-gray-300 text-gray-800 font-mono placeholder:text-gray-400 h-12"
+                />
               </div>
-              <Input
-                placeholder={`Ваш ${toInfo.name}${toInfo.network ? ` (${toInfo.network})` : ''} адрес`}
-                value={outputAddress}
-                onChange={(e) => setOutputAddress(e.target.value)}
-                className="bg-neutral-50 border-2 border-gray-300 text-gray-800 font-mono placeholder:text-gray-400 h-12"
-              />
-            </div>
+            )}
 
             <Button
               type="submit"
               className="w-full h-12 text-sm font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white uppercase tracking-wider transition-all"
-              disabled={!fromAmount || !toAmount || !outputAddress || isSubmitting || isLoadingRates}
+              disabled={!fromAmount || !toAmount || (needsAddress && !outputAddress) || isSubmitting || isLoadingRates}
             >
-              {isSubmitting ? 'Создание заявки...' : `Обменять ${fromInfo.rateKey} на ${toInfo.rateKey}`}
+              {isSubmitting ? 'Создание заявки...' : isCashExchange ? `Заявка на обмен ${fromInfo.rateKey} → ${toInfo.rateKey}` : `Обменять ${fromInfo.rateKey} на ${toInfo.rateKey}`}
             </Button>
 
             <p className="text-center text-[11px] text-gray-400">

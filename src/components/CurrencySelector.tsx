@@ -65,7 +65,8 @@ const CurrencySelector = ({
       >
         {info.logo && <img src={info.logo} alt={info.symbol} className="w-5 h-5 rounded-full" />}
         <span className="font-semibold">{info.rateKey}</span>
-        {info.network && <span className="text-[9px] bg-gray-300 text-gray-700 px-1 rounded">{info.network}</span>}
+        {info.network && info.network !== 'Cash' && <span className="text-[9px] bg-gray-300 text-gray-700 px-1 rounded">{info.network}</span>}
+        {info.network === 'Cash' && <span className="text-[9px] bg-amber-200 text-amber-800 px-1 rounded">Нал</span>}
         <Icon name="ChevronDown" size={12} className={`text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       <AnimatePresence>
@@ -130,7 +131,8 @@ const CurrencySelector = ({
                     <span className="flex flex-col items-start">
                       <span className="font-mono text-sm flex items-center gap-1.5">
                         {coin.rateKey}
-                        {coin.network && <span className="text-[10px] bg-gray-200 text-gray-500 px-1 rounded font-normal">{coin.network}</span>}
+                        {coin.network && coin.network !== 'Cash' && <span className="text-[10px] bg-gray-200 text-gray-500 px-1 rounded font-normal">{coin.network}</span>}
+                        {coin.network === 'Cash' && <span className="text-[10px] bg-amber-100 text-amber-700 px-1 rounded font-normal">Наличные</span>}
                       </span>
                       <span className="text-[10px] text-gray-400 font-normal">{coin.name}</span>
                     </span>
