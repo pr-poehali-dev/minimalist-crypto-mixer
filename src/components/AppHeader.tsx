@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dropdown, DropdownContent, DropdownItem, DropdownSeparator, DropdownTrigger } from '@/components/ui/basic-dropdown';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { AvatarWithName } from '@/components/ui/avatar-with-name';
-import { FlowButton } from '@/components/ui/flow-button';
+
 import { OTPVerification } from '@/components/ui/otp-input';
 import { GlassFilter } from '@/components/ui/liquid-radio';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -23,7 +23,7 @@ interface AppHeaderProps {
   inputUsername: string;
   setInputUsername: (v: string) => void;
   setAuthError: (v: string) => void;
-  onRequestCode: () => void;
+  onRequestCode: () => void | Promise<void>;
   onVerifyCode: (code: string) => Promise<void>;
   onResendCode: () => Promise<void>;
   onLogout: () => void;
@@ -46,7 +46,14 @@ const AppHeader = ({
 }: AppHeaderProps) => {
   const navigate = useNavigate();
   const [authOpen, setAuthOpen] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleRequestCode = async () => {
+    setAuthLoading(true);
+    await onRequestCode();
+    setAuthLoading(false);
+  };
 
   const userDropdown = (showNav = false) => (
     <Dropdown>
@@ -134,12 +141,27 @@ const AppHeader = ({
                 placeholder="@username"
                 value={inputUsername}
                 onChange={(e) => { setInputUsername(e.target.value); setAuthError(''); }}
-                onKeyDown={(e) => e.key === 'Enter' && onRequestCode()}
+                onKeyDown={(e) => e.key === 'Enter' && !authLoading && handleRequestCode()}
                 className="border-gray-300 focus:border-blue-500 h-12"
               />
-              <div onClick={onRequestCode} className="w-full">
-                <FlowButton text="Получить код" />
-              </div>
+              <Button
+                type="button"
+                onClick={handleRequestCode}
+                disabled={authLoading || !inputUsername.trim()}
+                className="w-full h-11 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm rounded-lg"
+              >
+                {authLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Отправка...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    Получить код
+                    <Icon name="ArrowRight" size={16} />
+                  </div>
+                )}
+              </Button>
             </div>
           </div>
         ) : (
