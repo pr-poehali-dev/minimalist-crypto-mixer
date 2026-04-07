@@ -7,7 +7,7 @@ import Icon from '@/components/ui/icon';
 const API_GET_ORDER = 'https://functions.poehali.dev/da825e7a-ffdb-4fe2-8ced-a59edb04e1e6';
 const API_CONFIRM = 'https://functions.poehali.dev/57779eea-72f4-4cc7-8605-2ae935a9a5a0';
 
-import { COINS_LIST, getCoinInfo } from '@/lib/coins';
+import { getCoinInfo, isCashCurrency } from '@/lib/coins';
 
 const STATUS_STYLES: Record<string, string> = {
   'Ожидает оплаты': 'bg-yellow-50 border-yellow-300 text-yellow-700',
@@ -18,6 +18,8 @@ const STATUS_STYLES: Record<string, string> = {
   'Завершено': 'bg-green-50 border-green-300 text-green-700',
   'Отменено': 'bg-red-50 border-red-300 text-red-700',
   'Не оплачена': 'bg-orange-50 border-orange-300 text-orange-700',
+  'Ожидание менеджера': 'bg-amber-50 border-amber-300 text-amber-700',
+  'Истекла': 'bg-red-50 border-red-300 text-red-700',
 };
 
 const TRACKING_STEPS = [
@@ -29,10 +31,17 @@ const TRACKING_STEPS = [
   { key: 'Завершено', label: 'Завершено', icon: 'Check', color: '#22C55E' },
 ];
 
+const CASH_TRACKING_STEPS = [
+  { key: 'Ожидание менеджера', label: 'Ожидание менеджера', icon: 'Clock', color: '#F97316' },
+  { key: 'В обработке', label: 'Обработка обмена', icon: 'RefreshCw', color: '#8B5CF6' },
+  { key: 'Завершено', label: 'Завершено', icon: 'Check', color: '#22C55E' },
+];
+
 interface OrderData {
   id: number; short_id: string; from_currency: string; to_currency: string;
   from_amount: string; to_amount: string; rate: string; deposit_address: string;
   output_address: string; status: string; tx_hash?: string; created_at: string; updated_at: string;
+  is_cash?: boolean; expires_at?: string;
 }
 
 const Order = () => {
@@ -51,10 +60,18 @@ const Order = () => {
       const data = await resp.json();
       if (data.order) {
         setOrder(data.order);
-        const createdStr = data.order.created_at.endsWith('Z') ? data.order.created_at : data.order.created_at + 'Z';
-        const created = new Date(createdStr).getTime();
-        const remaining = Math.max(0, Math.floor((created + 1800000 - Date.now()) / 1000));
-        setTimer(remaining);
+        const isCash = data.order.is_cash || isCashCurrency(data.order.from_currency) || isCashCurrency(data.order.to_currency);
+        if (isCash && data.order.expires_at) {
+          const expiresStr = data.order.expires_at.endsWith('Z') ? data.order.expires_at : data.order.expires_at + 'Z';
+          const expires = new Date(expiresStr).getTime();
+          const remaining = Math.max(0, Math.floor((expires - Date.now()) / 1000));
+          setTimer(remaining);
+        } else {
+          const createdStr = data.order.created_at.endsWith('Z') ? data.order.created_at : data.order.created_at + 'Z';
+          const created = new Date(createdStr).getTime();
+          const remaining = Math.max(0, Math.floor((created + 1800000 - Date.now()) / 1000));
+          setTimer(remaining);
+        }
       } else {
         setError('Заказ не найден');
       }
@@ -74,18 +91,24 @@ const Order = () => {
   }, [timer]);
 
   useEffect(() => {
-    if (!order || order.status === 'Завершено' || order.status === 'Отменено' || order.status === 'Не оплачена') return;
+    if (!order || ['Завершено', 'Отменено', 'Не оплачена', 'Истекла'].includes(order.status)) return;
     const interval = setInterval(fetchOrder, 15000);
     return () => clearInterval(interval);
   }, [order, fetchOrder]);
 
   useEffect(() => {
-    if (timer === 0 && order && order.status === 'Ожидает оплаты') {
+    if (timer === 0 && order && (order.status === 'Ожидает оплаты' || order.status === 'Ожидание менеджера')) {
       fetchOrder();
     }
   }, [timer, order, fetchOrder]);
 
-  const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
+  const fmt = (s: number) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  };
 
   const handleConfirmPayment = async () => {
     if (!order) return;
@@ -104,16 +127,6 @@ const Order = () => {
       console.error('Confirm error:', e);
     }
     setConfirming(false);
-  };
-
-  const getStepStatus = (stepKey: string) => {
-    if (!order) return 'pending';
-    const stepIndex = TRACKING_STEPS.findIndex(s => s.key === stepKey);
-    const currentIndex = TRACKING_STEPS.findIndex(s => s.key === order.status);
-    if (currentIndex < 0) return 'pending';
-    if (stepIndex < currentIndex) return 'completed';
-    if (stepIndex === currentIndex) return 'active';
-    return 'pending';
   };
 
   if (loading) {
@@ -140,9 +153,26 @@ const Order = () => {
 
   const from = getCoinInfo(order.from_currency);
   const to = getCoinInfo(order.to_currency);
+  const isCash = order.is_cash || isCashCurrency(order.from_currency) || isCashCurrency(order.to_currency);
+  const receivingCash = isCashCurrency(order.to_currency);
   const isWaiting = order.status === 'Ожидает оплаты';
-  const isTerminal = ['Завершено', 'Отменено', 'Не оплачена'].includes(order.status);
-  const isTracking = !isWaiting && !isTerminal;
+  const isWaitingManager = order.status === 'Ожидание менеджера';
+  const isTerminal = ['Завершено', 'Отменено', 'Не оплачена', 'Истекла'].includes(order.status);
+  const isTracking = !isWaiting && !isWaitingManager && !isTerminal;
+
+  const steps = isCash ? CASH_TRACKING_STEPS : TRACKING_STEPS;
+
+  const getStepStatus = (stepKey: string) => {
+    const stepIndex = steps.findIndex(s => s.key === stepKey);
+    const currentIndex = steps.findIndex(s => s.key === order.status);
+    if (currentIndex < 0) return 'pending';
+    if (stepIndex < currentIndex) return 'completed';
+    if (stepIndex === currentIndex) return 'active';
+    return 'pending';
+  };
+
+  const toAmountFormatted = isCash ? parseFloat(order.to_amount).toFixed(2) : parseFloat(order.to_amount).toFixed(6);
+  const rateFormatted = parseFloat(order.rate) >= 100 ? parseFloat(order.rate).toFixed(2) : parseFloat(order.rate).toFixed(4);
 
   return (
     <div className="min-h-screen bg-background">
@@ -166,6 +196,7 @@ const Order = () => {
                 <CardTitle className="text-xl font-medium text-gray-800 tracking-tight flex items-center gap-2">
                   <Icon name="FileText" size={20} />
                   Заказ #{order.short_id}
+                  {isCash && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-medium">Наличные</span>}
                 </CardTitle>
                 <p className="text-gray-500 mt-1 text-sm">
                   {new Date(order.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })}{' '}
@@ -194,14 +225,43 @@ const Order = () => {
                 <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: to.color }}>Получаете</p>
                 <div className="flex items-center gap-2">
                   <img src={to.logo} alt="" className="w-6 h-6 rounded-full" />
-                  <span className="text-lg font-bold font-mono text-gray-800">{parseFloat(order.to_amount).toFixed(6)}</span>
+                  <span className="text-lg font-bold font-mono text-gray-800">{toAmountFormatted}</span>
                   <span className="font-mono font-semibold" style={{ color: to.color }}>{to.rateKey}</span>
                   {to.network && <span className="text-[9px] bg-gray-200 text-gray-600 px-1 rounded">{to.network}</span>}
                 </div>
               </div>
             </div>
 
-            {isWaiting && (
+            {isWaitingManager && isCash && (
+              <>
+                <div className="p-5 rounded-xl border-2 border-amber-300 bg-gradient-to-r from-amber-50 to-orange-50">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                      <Icon name="MessageCircle" size={24} className="text-amber-600" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-amber-800 text-base">Менеджер скоро свяжется с вами</p>
+                      <p className="text-amber-700 text-sm mt-2">
+                        Наш менеджер свяжется с вами в Telegram для уточнения всех деталей обмена.
+                        Заявка действительна 48 часов.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 border-2 border-amber-200 bg-amber-50 flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-semibold text-amber-800 uppercase tracking-wider">Заявка действительна</p>
+                    <p className="text-xs text-amber-600 mt-0.5">По истечении заявка будет закрыта</p>
+                  </div>
+                  <p className={`text-2xl font-bold font-mono ${timer <= 3600 ? 'text-red-600' : 'text-amber-800'}`}>
+                    {fmt(timer)}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {isWaiting && !isCash && (
               <>
                 <div className="p-4 border-2 border-gray-300 bg-neutral-50">
                   <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">
@@ -242,10 +302,10 @@ const Order = () => {
               <div className="p-5 border-2 border-gray-200 bg-neutral-50">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Отслеживание заказа</p>
                 <div className="space-y-0">
-                  {TRACKING_STEPS.map((step, i) => {
+                  {steps.map((step, i) => {
                     const status = getStepStatus(step.key);
-                    const nextStep = TRACKING_STEPS[i + 1];
-                    const isLast = i === TRACKING_STEPS.length - 1;
+                    const nextStep = steps[i + 1];
+                    const isLast = i === steps.length - 1;
                     return (
                       <div key={step.key} className="flex items-start gap-3">
                         <div className="flex flex-col items-center">
@@ -270,12 +330,7 @@ const Order = () => {
                           {!isLast && (
                             <div className="w-1 h-6 rounded-full overflow-hidden">
                               {status === 'completed' && nextStep ? (
-                                <div
-                                  className="w-full h-full"
-                                  style={{
-                                    background: `linear-gradient(to bottom, ${step.color}, ${nextStep.color})`,
-                                  }}
-                                />
+                                <div className="w-full h-full" style={{ background: `linear-gradient(to bottom, ${step.color}, ${nextStep.color})` }} />
                               ) : (
                                 <div className="w-full h-full bg-gray-200" />
                               )}
@@ -309,9 +364,11 @@ const Order = () => {
               </div>
             )}
 
-            {order.status === 'Не оплачена' && (
+            {(order.status === 'Не оплачена' || order.status === 'Истекла') && (
               <div className="p-4 border-2 border-orange-300 bg-orange-50 text-center">
-                <p className="text-sm font-semibold text-orange-800">Время на оплату истекло</p>
+                <p className="text-sm font-semibold text-orange-800">
+                  {order.status === 'Истекла' ? 'Время заявки истекло' : 'Время на оплату истекло'}
+                </p>
                 <p className="text-xs text-orange-600 mt-1">Создайте новую заявку на обмен</p>
               </div>
             )}
@@ -323,16 +380,27 @@ const Order = () => {
               </div>
               <div className="p-3 bg-neutral-50 border border-gray-200 text-center">
                 <p className="text-[10px] text-gray-400 uppercase tracking-wider">Курс</p>
-                <p className="text-xs font-mono text-gray-800 mt-1">1 {from.rateKey} = {parseFloat(order.rate).toFixed(4)} {to.rateKey}</p>
+                <p className="text-xs font-mono text-gray-800 mt-1">1 {from.rateKey} = {rateFormatted} {to.rateKey}</p>
               </div>
             </div>
 
-            <div className="p-4 border-2 border-gray-300 bg-neutral-50">
-              <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">Адрес получения {to.rateKey}</p>
-              <p className="font-mono text-sm text-gray-800 break-all">{order.output_address}</p>
-            </div>
+            {order.output_address && (
+              <div className="p-4 border-2 border-gray-300 bg-neutral-50">
+                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">Адрес получения {to.rateKey}</p>
+                <p className="font-mono text-sm text-gray-800 break-all">{order.output_address}</p>
+              </div>
+            )}
 
-
+            {isCash && receivingCash && (
+              <div className="p-4 border border-blue-200 bg-blue-50 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <Icon name="Info" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-xs text-blue-700">
+                    Получение наличных будет согласовано менеджером. Детали встречи вы получите в Telegram.
+                  </p>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </main>

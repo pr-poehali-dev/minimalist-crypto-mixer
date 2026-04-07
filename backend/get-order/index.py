@@ -4,6 +4,8 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime, timedelta
 
+CASH_CURRENCIES = {'USD-CASH', 'RUB-CASH', 'CHF-CASH'}
+
 def handler(event: dict, context) -> dict:
     '''Получение заказа по short_id с автоматической отменой просроченных'''
     if event.get('httpMethod') == 'OPTIONS':
@@ -34,7 +36,7 @@ def handler(event: dict, context) -> dict:
 
     cur.execute(
         f'''SELECT id, short_id, from_currency, to_currency, from_amount, to_amount,
-                   rate, deposit_address, output_address, status, tx_hash, created_at, updated_at
+                   rate, deposit_address, output_address, status, tx_hash, created_at, updated_at, is_cash, expires_at
             FROM {schema}.exchanges
             WHERE short_id = %s''',
         (short_id.upper(),)
@@ -50,7 +52,9 @@ def handler(event: dict, context) -> dict:
             'body': json.dumps({'error': 'Order not found'})
         }
 
-    if row['status'] == 'Ожидает оплаты' and row['created_at']:
+    is_cash = row.get('is_cash', False) or row['from_currency'] in CASH_CURRENCIES or row['to_currency'] in CASH_CURRENCIES
+
+    if not is_cash and row['status'] == 'Ожидает оплаты' and row['created_at']:
         expire_time = row['created_at'] + timedelta(minutes=30)
         if datetime.now() > expire_time:
             cur2 = conn.cursor()
@@ -61,6 +65,17 @@ def handler(event: dict, context) -> dict:
             conn.commit()
             cur2.close()
             row['status'] = 'Не оплачена'
+
+    if is_cash and row['status'] == 'Ожидание менеджера' and row.get('expires_at'):
+        if datetime.now() > row['expires_at']:
+            cur2 = conn.cursor()
+            cur2.execute(
+                f"UPDATE {schema}.exchanges SET status = 'Истекла', updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+                (row['id'],)
+            )
+            conn.commit()
+            cur2.close()
+            row['status'] = 'Истекла'
 
     cur.close()
     conn.close()
@@ -77,12 +92,14 @@ def handler(event: dict, context) -> dict:
                 'from_amount': str(row['from_amount']),
                 'to_amount': str(row['to_amount']),
                 'rate': str(row['rate']),
-                'deposit_address': row['deposit_address'],
-                'output_address': row['output_address'],
+                'deposit_address': row['deposit_address'] or '',
+                'output_address': row['output_address'] or '',
                 'status': row['status'],
                 'tx_hash': row.get('tx_hash', ''),
                 'created_at': row['created_at'].isoformat() if row['created_at'] else None,
                 'updated_at': row['updated_at'].isoformat() if row['updated_at'] else None,
+                'is_cash': is_cash,
+                'expires_at': row['expires_at'].isoformat() if row.get('expires_at') else None,
             }
         })
     }

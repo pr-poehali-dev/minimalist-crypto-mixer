@@ -2,7 +2,10 @@ import json
 import os
 import random
 import string
+from datetime import datetime, timedelta
 import psycopg2
+
+CASH_CURRENCIES = {'USD-CASH', 'RUB-CASH', 'CHF-CASH'}
 
 DEPOSIT_WALLETS = {
     'BTC': 'bc1qnuu9k4eucxgyz67a7g20rm5e0v8k9t86er6vn9',
@@ -96,22 +99,38 @@ def handler(event: dict, context) -> dict:
     from_amount = body.get('from_amount')
     to_amount = body.get('to_amount')
     rate = body.get('rate')
-    output_address = body.get('output_address')
+    output_address = body.get('output_address', '')
+    is_cash = body.get('is_cash', False)
 
-    if not all([from_currency, to_currency, from_amount, to_amount, rate, output_address]):
+    is_cash_exchange = from_currency in CASH_CURRENCIES or to_currency in CASH_CURRENCIES
+    if is_cash:
+        is_cash_exchange = True
+
+    receiving_cash = to_currency in CASH_CURRENCIES
+
+    if not all([from_currency, to_currency, from_amount, to_amount, rate]):
         return {
             'statusCode': 400,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
             'body': json.dumps({'error': 'All fields are required'})
         }
 
-    deposit_address = DEPOSIT_WALLETS.get(from_currency)
-    if not deposit_address:
+    if not receiving_cash and not output_address:
         return {
             'statusCode': 400,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-            'body': json.dumps({'error': f'Currency {from_currency} is not supported for deposits'})
+            'body': json.dumps({'error': 'Output address is required'})
         }
+
+    deposit_address = ''
+    if from_currency not in CASH_CURRENCIES:
+        deposit_address = DEPOSIT_WALLETS.get(from_currency, '')
+        if not deposit_address:
+            return {
+                'statusCode': 400,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'error': f'Currency {from_currency} is not supported for deposits'})
+            }
 
     database_url = os.environ.get('DATABASE_URL')
     schema = os.environ.get('MAIN_DB_SCHEMA', 'public')
@@ -141,12 +160,17 @@ def handler(event: dict, context) -> dict:
         if not cur.fetchone():
             break
 
+    status = 'Ожидание менеджера' if is_cash_exchange else 'Ожидает оплаты'
+    expires_at = None
+    if is_cash_exchange:
+        expires_at = datetime.utcnow() + timedelta(hours=48)
+
     cur.execute(
         f'''INSERT INTO {schema}.exchanges
-            (user_username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (user_username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status, is_cash, expires_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id''',
-        (username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, 'Ожидает оплаты')
+        (username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status, is_cash_exchange, expires_at)
     )
     exchange_id = cur.fetchone()[0]
     conn.commit()
@@ -161,6 +185,7 @@ def handler(event: dict, context) -> dict:
             'exchange_id': exchange_id,
             'short_id': short_id,
             'deposit_address': deposit_address,
-            'discount_applied': discount_applied
+            'discount_applied': discount_applied,
+            'is_cash': is_cash_exchange
         })
     }

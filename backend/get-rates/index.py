@@ -54,8 +54,10 @@ COINS = {
     'BONK': 'bonk',
 }
 
+FIAT_VS_CURRENCIES = ['rub', 'chf']
+
 def handler(event: dict, context) -> dict:
-    '''Получение курсов криптовалют с CoinGecko + наценка администратора'''
+    '''Получение курсов криптовалют и фиатных валют с CoinGecko + наценка администратора'''
     if event.get('httpMethod') == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -81,8 +83,9 @@ def handler(event: dict, context) -> dict:
     conn.close()
 
     ids = ','.join(COINS.values())
+    vs_currencies = 'usd,' + ','.join(FIAT_VS_CURRENCIES)
     resp = requests.get(
-        f'https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies=usd',
+        f'https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies={vs_currencies}',
         timeout=10
     )
     data = resp.json()
@@ -91,6 +94,35 @@ def handler(event: dict, context) -> dict:
     for symbol, cg_id in COINS.items():
         if cg_id in data and 'usd' in data[cg_id]:
             rates[symbol] = data[cg_id]['usd']
+
+    rates['USD'] = 1.0
+
+    tether_data = data.get('tether', {})
+    for fiat in FIAT_VS_CURRENCIES:
+        fiat_upper = fiat.upper()
+        if fiat in tether_data and tether_data[fiat] > 0:
+            rates[fiat_upper] = 1.0 / tether_data[fiat]
+
+    if 'RUB' not in rates:
+        try:
+            fiat_resp = requests.get(
+                'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=rub,chf',
+                timeout=10
+            )
+            fiat_data = fiat_resp.json().get('tether', {})
+            if 'rub' in fiat_data and fiat_data['rub'] > 0:
+                rates['RUB'] = 1.0 / fiat_data['rub']
+            if 'chf' in fiat_data and fiat_data['chf'] > 0:
+                rates['CHF'] = 1.0 / fiat_data['chf']
+        except Exception:
+            pass
+
+    if 'RUB' not in rates:
+        rates['RUB'] = 1.0 / 87.0
+    if 'CHF' not in rates:
+        rates['CHF'] = 1.0 / 0.88
+
+    all_keys = list(COINS.keys()) + ['USD', 'RUB', 'CHF']
 
     return {
         'statusCode': 200,
@@ -102,6 +134,6 @@ def handler(event: dict, context) -> dict:
         'body': json.dumps({
             'rates': rates,
             'markup_percent': markup_percent,
-            'coins': list(COINS.keys())
+            'coins': all_keys
         })
     }
