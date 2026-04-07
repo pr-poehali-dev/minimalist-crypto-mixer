@@ -64,7 +64,7 @@ const ExchangeContract = () => {
       `}</style>
 
       <div className="contract-outer min-h-screen bg-white">
-        <div className="contract-page max-w-3xl mx-auto px-4 py-10 md:py-16">
+        <div className="contract-page max-w-3xl mx-auto px-3 sm:px-4 py-6 md:py-16">
           <div className="no-print">
             <Link
               to="/"
@@ -75,41 +75,41 @@ const ExchangeContract = () => {
             </Link>
           </div>
 
-          <div className="text-center mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1">
               Договор обмена {isCashToCrypto ? "наличных средств" : "криптовалюты"}
             </h1>
-            <p className="text-sm text-gray-400">Экземпляр договора</p>
+            <p className="text-xs sm:text-sm text-gray-400">Экземпляр договора</p>
           </div>
 
-          <div className="flex justify-center mb-8 no-print">
-            <div className="inline-flex bg-gray-100 rounded-xl p-1.5 gap-1">
+          <div className="flex justify-center mb-6 sm:mb-8 no-print">
+            <div className="inline-flex bg-gray-100 rounded-xl p-1 sm:p-1.5 gap-1">
               <button
                 onClick={() => setContractType("cash-to-crypto")}
-                className={`px-5 py-3 rounded-lg text-sm font-semibold transition-all flex items-center gap-2.5 ${
+                className={`px-3 sm:px-5 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 sm:gap-2.5 ${
                   isCashToCrypto
                     ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200"
                     : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                 }`}
               >
-                <Icon name="Banknote" size={18} />
+                <Icon name="Banknote" size={16} />
                 Наличные → Крипто
               </button>
               <button
                 onClick={() => setContractType("crypto-to-cash")}
-                className={`px-5 py-3 rounded-lg text-sm font-semibold transition-all flex items-center gap-2.5 ${
+                className={`px-3 sm:px-5 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 sm:gap-2.5 ${
                   !isCashToCrypto
                     ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200"
                     : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                 }`}
               >
-                <Icon name="Bitcoin" size={18} fallback="Coins" />
+                <Icon name="Bitcoin" size={16} fallback="Coins" />
                 Крипто → Наличные
               </button>
             </div>
           </div>
 
-          <div className="contract-box border border-gray-200 rounded-2xl p-6 md:p-10 space-y-7">
+          <div className="contract-box border border-gray-200 rounded-2xl p-4 sm:p-6 md:p-10 space-y-5 sm:space-y-7">
             {/* === СТРАНИЦА 1 === */}
             <div className="flex flex-col md:flex-row justify-between gap-4 pb-5 border-b border-gray-100">
               <div>
@@ -291,7 +291,7 @@ const ExchangeContract = () => {
 
             <div className="space-y-3">
               <h2 className="text-base font-semibold text-gray-900">4. Заявление о происхождении средств</h2>
-              <div className="warn-box bg-amber-50 border border-amber-200 rounded-xl p-5">
+              <div className="warn-box bg-amber-50 border border-amber-200 rounded-xl p-3 sm:p-5">
                 <div className="flex items-start gap-3">
                   <Icon name="AlertTriangle" size={18} className="text-amber-600 mt-0.5 flex-shrink-0 no-print" />
                   <p className="text-sm text-amber-900 leading-relaxed">
@@ -377,10 +377,10 @@ const ExchangeContract = () => {
             </div>
           </div>
 
-          <div className="mt-6 flex justify-center gap-3 no-print">
+          <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 no-print">
             <Button
               onClick={handlePrint}
-              className="h-11 px-8 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-xl gap-2"
+              className="h-10 sm:h-11 px-6 sm:px-8 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-xl gap-2 text-sm"
             >
               <Icon name="Printer" size={16} />
               Распечатать
@@ -388,7 +388,7 @@ const ExchangeContract = () => {
             <Button
               onClick={handlePrint}
               variant="outline"
-              className="h-11 px-8 font-medium rounded-xl gap-2 border-gray-300 hover:bg-gray-50"
+              className="h-10 sm:h-11 px-6 sm:px-8 font-medium rounded-xl gap-2 border-gray-300 hover:bg-gray-50 text-sm"
             >
               <Icon name="Download" size={16} />
               Сохранить PDF

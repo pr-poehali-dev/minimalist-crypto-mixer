@@ -4,7 +4,7 @@ import Icon from "@/components/ui/icon";
 const Privacy = () => {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-4 py-10 md:py-16">
+      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-6 md:py-16">
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-800 transition-colors mb-8"
@@ -13,14 +13,14 @@ const Privacy = () => {
           На главную
         </Link>
 
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
           Политика конфиденциальности
         </h1>
-        <p className="text-sm text-gray-400 mb-10">
+        <p className="text-xs sm:text-sm text-gray-400 mb-6 md:mb-10">
           Последнее обновление: 7 апреля 2026 г.
         </p>
 
-        <div className="space-y-8 text-gray-700 text-[15px] leading-relaxed">
+        <div className="space-y-6 md:space-y-8 text-gray-700 text-sm sm:text-[15px] leading-relaxed">
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">1. Общие положения</h2>
             <p>
@@ -42,7 +42,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">3. Данные, которые мы НЕ собираем</h2>
-            <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 space-y-2">
+            <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 sm:p-5 space-y-2">
               <div className="flex items-start gap-3">
                 <Icon name="ShieldCheck" size={18} className="text-blue-600 mt-0.5 flex-shrink-0" />
                 <p><strong>IP-адреса</strong> — Сервис не хранит, не записывает и не обрабатывает IP-адреса пользователей.</p>
@@ -60,7 +60,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">4. Передача данных третьим лицам</h2>
-            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-5">
+            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 sm:p-5">
               <div className="flex items-start gap-3">
                 <Icon name="Lock" size={18} className="text-emerald-600 mt-0.5 flex-shrink-0" />
                 <p>
