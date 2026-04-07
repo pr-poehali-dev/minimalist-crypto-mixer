@@ -1,8 +1,17 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /order/
+
+User-agent: Yandex
+Allow: /
+Disallow: /admin
+Disallow: /order/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /order/
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +21,9 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /order/
+
+Sitemap: https://blqou.com/sitemap.xml
+
+Host: https://blqou.com
