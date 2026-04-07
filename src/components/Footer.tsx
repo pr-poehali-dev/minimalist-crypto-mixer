@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 
 const Footer = () => {
@@ -67,9 +68,10 @@ const Footer = () => {
 
       <div className="mt-4 px-4 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-400">
         <p>&copy;{currentYear} BLQOU. Все права защищены.</p>
-        <div className="flex gap-4">
-          <span className="hover:text-gray-600 cursor-pointer transition-colors">Политика конфиденциальности</span>
-          <span className="hover:text-gray-600 cursor-pointer transition-colors">Условия использования</span>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link to="/privacy" className="hover:text-gray-600 transition-colors">Политика конфиденциальности</Link>
+          <Link to="/terms" className="hover:text-gray-600 transition-colors">Условия использования</Link>
+          <Link to="/exchange-contract" className="hover:text-gray-600 transition-colors">Договор обмена</Link>
         </div>
       </div>
     </footer>

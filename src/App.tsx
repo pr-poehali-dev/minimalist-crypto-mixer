@@ -9,6 +9,9 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Order from "./pages/Order";
 import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import ExchangeContract from "./pages/ExchangeContract";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +34,9 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/order/:shortId" element={<Order />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/exchange-contract" element={<ExchangeContract />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
