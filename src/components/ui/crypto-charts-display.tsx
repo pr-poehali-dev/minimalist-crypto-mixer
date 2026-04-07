@@ -5,7 +5,7 @@ const ADVANTAGES = [
   {
     icon: 'Zap',
     title: 'Мгновенный обмен',
-    desc: 'Обмен проходит за 2–15 минут. Никаких очередей и ожиданий — всё автоматизировано.',
+    desc: 'Обмен проходит примерно за 5 минут. Никаких очередей и ожиданий — всё автоматизировано.',
     bg: 'bg-amber-50',
     border: 'border-amber-200',
     iconBg: 'bg-amber-500',
@@ -40,7 +40,7 @@ const ADVANTAGES = [
   },
   {
     icon: 'Coins',
-    title: '60+ криптовалют',
+    title: '50+ криптовалют',
     desc: 'BTC, ETH, USDT, SOL, TON и другие. Все популярные сети и токены.',
     bg: 'bg-orange-50',
     border: 'border-orange-200',

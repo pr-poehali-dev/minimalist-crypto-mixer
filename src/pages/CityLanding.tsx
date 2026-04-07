@@ -197,7 +197,7 @@ const CityLanding = () => {
   const advantages = [
     { icon: "Car", title: "Выезд на дом", desc: `Менеджер приедет к вам домой или в удобное место в ${data.namePrep} для обмена наличных на криптовалюту.` },
     { icon: "ShieldCheck", title: "Без KYC", desc: "Не требуем паспорт и верификацию. Полная анонимность обмена." },
-    { icon: "Zap", title: "Мгновенно", desc: "Среднее время обмена — 5–15 минут. Курс фиксируется при создании заявки." },
+    { icon: "Zap", title: "Мгновенно", desc: "Примерное время обмена — 5 минут. Курс фиксируется при создании заявки." },
     { icon: "Clock", title: "24/7", desc: `Работаем круглосуточно в ${data.namePrep} и Московской области. Выезд курьера в любое время.` },
     { icon: "Banknote", title: "Наличный обмен", desc: `Обмен наличных на криптовалюту и обратно при личной встрече в ${data.namePrep}.` },
     { icon: "Lock", title: "Безопасно", desc: "Не храним IP-адреса. Не передаём данные третьим лицам." },
@@ -240,7 +240,7 @@ const CityLanding = () => {
             в {data.namePrep} с выездом на дом
           </h1>
           <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
-            Купить и продать Bitcoin, USDT, Ethereum и 60+ других криптовалют
+            Купить и продать Bitcoin, USDT, Ethereum и 50+ других криптовалют
             за наличные в {data.namePrep} — {data.description}. Выезд менеджера к вам домой или в удобное место. Без KYC, мгновенно, анонимно.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -289,7 +289,7 @@ const CityLanding = () => {
           ))}
         </div>
         <p className="text-center text-sm text-gray-400 mt-6">
-          И ещё <span className="font-semibold text-gray-600">60+ криптовалют</span> доступны для обмена
+          И ещё <span className="font-semibold text-gray-600">50+ криптовалют</span> доступны для обмена
         </p>
       </section>
 

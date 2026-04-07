@@ -12,10 +12,10 @@ const fadeUp = {
 
 export const HowItWorks = () => {
   const steps = [
-    { num: '01', icon: 'Coins', title: 'Выберите валюты', desc: 'Укажите что отдаёте и что хотите получить из 170+ криптовалют' },
+    { num: '01', icon: 'Coins', title: 'Выберите валюты', desc: 'Укажите что отдаёте и что хотите получить из 50+ криптовалют' },
     { num: '02', icon: 'Wallet', title: 'Введите адрес', desc: 'Укажите адрес кошелька для получения обменянной криптовалюты' },
     { num: '03', icon: 'Send', title: 'Отправьте средства', desc: 'Переведите указанную сумму на адрес, который мы предоставим' },
-    { num: '04', icon: 'CheckCircle', title: 'Получите крипту', desc: 'Средства поступят на ваш кошелёк в течение 2–15 минут' },
+    { num: '04', icon: 'CheckCircle', title: 'Получите крипту', desc: 'Средства поступят на ваш кошелёк примерно за 5 минут' },
   ];
 
   return (
@@ -136,9 +136,9 @@ export const PopularPairs = () => {
 
 export const StatsSection = () => {
   const stats = [
-    { value: '170+', label: 'Криптовалют', icon: 'Coins' },
+    { value: '50+', label: 'Криптовалют', icon: 'Coins' },
     { value: '50K+', label: 'Обменов', icon: 'ArrowLeftRight' },
-    { value: '2 мин', label: 'Среднее время', icon: 'Zap' },
+    { value: '~5 мин', label: 'Примерное время', icon: 'Zap' },
     { value: '24/7', label: 'Поддержка', icon: 'Headphones' },
   ];
 
