@@ -66,6 +66,42 @@ const Footer = () => {
         </div>
       </div>
 
+      <div className="mt-4 px-5 md:px-12">
+        <p className="text-xs font-bold uppercase tracking-wider text-gray-300 mb-3">Обмен криптовалют по городам</p>
+        <div className="flex flex-wrap gap-1.5">
+          {[
+            { slug: "moskva", name: "Москва" },
+            { slug: "odintsovo", name: "Одинцово" },
+            { slug: "krasnogorsk", name: "Красногорск" },
+            { slug: "khimki", name: "Химки" },
+            { slug: "mytishchi", name: "Мытищи" },
+            { slug: "balashikha", name: "Балашиха" },
+            { slug: "podolsk", name: "Подольск" },
+            { slug: "lubertsy", name: "Люберцы" },
+            { slug: "korolev", name: "Королёв" },
+            { slug: "domodedovo", name: "Домодедово" },
+            { slug: "shchyolkovo", name: "Щёлково" },
+            { slug: "dolgoprudny", name: "Долгопрудный" },
+            { slug: "reutov", name: "Реутов" },
+            { slug: "vidnoe", name: "Видное" },
+            { slug: "zhukovsky", name: "Жуковский" },
+            { slug: "pushkino", name: "Пушкино" },
+            { slug: "sergiev-posad", name: "Сергиев Посад" },
+            { slug: "noginsk", name: "Ногинск" },
+            { slug: "elektrostal", name: "Электросталь" },
+            { slug: "kolomna", name: "Коломна" },
+          ].map((c) => (
+            <Link
+              key={c.slug}
+              to={`/city/${c.slug}`}
+              className="px-2.5 py-1 bg-gray-100 hover:bg-blue-50 hover:text-blue-600 rounded-md text-[11px] text-gray-500 transition-colors"
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       <div className="mt-4 px-4 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-400">
         <p>&copy;{currentYear} BLQOU. Все права защищены.</p>
         <div className="flex flex-wrap justify-center gap-4">
