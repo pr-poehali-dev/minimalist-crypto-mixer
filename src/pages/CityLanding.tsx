@@ -170,7 +170,7 @@ const CityLanding = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (data) {
-      document.title = `Обмен криптовалют в ${data.namePrep} | Купить BTC, USDT — BLQOU`;
+      document.title = `Обмен криптовалют в ${data.namePrep} с выездом на дом | Купить BTC, USDT за наличные — BLQOU`;
     }
   }, [data]);
 
@@ -195,12 +195,12 @@ const CityLanding = () => {
   ];
 
   const advantages = [
+    { icon: "Car", title: "Выезд на дом", desc: `Менеджер приедет к вам домой или в удобное место в ${data.namePrep} для обмена наличных на криптовалюту.` },
     { icon: "ShieldCheck", title: "Без KYC", desc: "Не требуем паспорт и верификацию. Полная анонимность обмена." },
     { icon: "Zap", title: "Мгновенно", desc: "Среднее время обмена — 5–15 минут. Курс фиксируется при создании заявки." },
-    { icon: "Clock", title: "24/7", desc: `Работаем круглосуточно в ${data.namePrep} и Московской области.` },
+    { icon: "Clock", title: "24/7", desc: `Работаем круглосуточно в ${data.namePrep} и Московской области. Выезд курьера в любое время.` },
     { icon: "Banknote", title: "Наличный обмен", desc: `Обмен наличных на криптовалюту и обратно при личной встрече в ${data.namePrep}.` },
     { icon: "Lock", title: "Безопасно", desc: "Не храним IP-адреса. Не передаём данные третьим лицам." },
-    { icon: "HeadphonesIcon", title: "Поддержка", desc: "Telegram-бот поддержки на связи 24/7 для решения любых вопросов." },
   ];
 
   const otherCities = Object.entries(CITIES)
@@ -237,11 +237,11 @@ const CityLanding = () => {
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-5">
             Обмен криптовалют <br className="hidden md:block" />
-            в {data.namePrep}
+            в {data.namePrep} с выездом на дом
           </h1>
           <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
             Купить и продать Bitcoin, USDT, Ethereum и 60+ других криптовалют
-            за наличные в {data.namePrep} — {data.description}. Без KYC, мгновенно, анонимно.
+            за наличные в {data.namePrep} — {data.description}. Выезд менеджера к вам домой или в удобное место. Без KYC, мгновенно, анонимно.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
@@ -336,12 +336,44 @@ const CityLanding = () => {
       )}
 
       <section className="max-w-5xl mx-auto px-4 py-10 md:py-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-3">
+          Как работает выезд на дом в {data.namePrep}
+        </h2>
+        <p className="text-center text-gray-500 mb-8 md:mb-12">Обмен криптовалюты за наличные без посещения офиса</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {[
+            { num: "01", icon: "MessageCircle", title: "Оставьте заявку", desc: "Свяжитесь с нами через Telegram или оформите заявку на сайте" },
+            { num: "02", icon: "MapPin", title: "Согласуйте место", desc: `Менеджер свяжется с вами и согласует удобное место и время встречи в ${data.namePrep}` },
+            { num: "03", icon: "Car", title: "Встреча с курьером", desc: "Менеджер приедет к вам домой, в кафе или в любое удобное место" },
+            { num: "04", icon: "CheckCircle", title: "Обмен на месте", desc: "Подписание договора, передача наличных и отправка криптовалюты при вас" },
+          ].map((step, i) => (
+            <motion.div
+              key={step.num}
+              custom={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              className="relative bg-white border border-gray-200 rounded-2xl p-5 text-center hover:border-blue-200 hover:shadow-sm transition-all"
+            >
+              <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">{step.num}</span>
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mt-2 mb-3 shadow-md shadow-blue-200/30">
+                <Icon name={step.icon} size={20} className="text-white" />
+              </div>
+              <h3 className="font-bold text-gray-800 text-sm">{step.title}</h3>
+              <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">{step.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-4 py-10 md:py-16">
         <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 md:p-14 text-center text-white">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">
-            Готовы обменять криптовалюту в {data.namePrep}?
+            Обмен криптовалют с выездом в {data.namePrep}
           </h2>
           <p className="text-blue-100 mb-8 max-w-lg mx-auto">
-            Переходите на главную страницу, выбирайте направление обмена и получите лучший курс прямо сейчас.
+            Закажите выезд менеджера на дом или перейдите к онлайн-обмену — лучший курс ждёт вас прямо сейчас.
           </p>
           <Link
             to="/"
@@ -377,11 +409,13 @@ const CityLanding = () => {
         </h2>
         <div className="space-y-4">
           {[
-            { q: `Как купить Bitcoin в ${data.namePrep}?`, a: `Перейдите на главную страницу BLQOU, выберите пару обмена (например, RUB → BTC), укажите сумму и адрес кошелька. Также доступен обмен наличных при личной встрече в ${data.namePrep}.` },
+            { q: `Как заказать выезд курьера для обмена криптовалют в ${data.namePrep}?`, a: `Свяжитесь с нами через Telegram-бот или оставьте заявку на сайте. Менеджер свяжется с вами, согласует удобное время и место, и приедет к вам домой или в любое удобное место в ${data.namePrep}.` },
+            { q: `Как купить Bitcoin в ${data.namePrep}?`, a: `Перейдите на главную страницу BLQOU, выберите пару обмена (например, RUB → BTC), укажите сумму и адрес кошелька. Также доступен обмен наличных с выездом менеджера на дом в ${data.namePrep}.` },
             { q: "Нужна ли верификация для обмена?", a: "Нет. BLQOU работает без KYC — мы не запрашиваем паспортные данные, не храним IP-адреса и не передаём информацию третьим лицам." },
-            { q: `Можно ли обменять наличные на криптовалюту в ${data.namePrep}?`, a: `Да. Мы предоставляем услугу обмена наличных на криптовалюту и обратно при личной встрече с менеджером в ${data.namePrep}. Для этого оформляется договор обмена.` },
+            { q: `Сколько стоит выезд курьера в ${data.namePrep}?`, a: `Выезд менеджера в ${data.namePrep} и ближайшие районы — бесплатно. Стоимость обмена включена в курс, никаких скрытых комиссий.` },
+            { q: `Можно ли обменять наличные на криптовалюту в ${data.namePrep}?`, a: `Да. Мы предоставляем услугу обмена наличных на криптовалюту и обратно с выездом менеджера на дом в ${data.namePrep}. Для этого оформляется договор обмена.` },
             { q: "Какие криптовалюты доступны?", a: "Более 60 криптовалют: Bitcoin (BTC), Ethereum (ETH), Tether (USDT), Litecoin (LTC), Solana (SOL), Tron (TRX) и многие другие." },
-            { q: "Сколько времени занимает обмен?", a: "Онлайн-обмен занимает от 2 до 15 минут. Обмен наличных — по договорённости при личной встрече." },
+            { q: `В какое время можно заказать выезд в ${data.namePrep}?`, a: "Работаем круглосуточно, 24/7. Менеджер может приехать в любое удобное для вас время, включая выходные и праздничные дни." },
           ].map((item, i) => (
             <motion.details
               key={i}
