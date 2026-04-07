@@ -221,7 +221,7 @@ const ExchangeContract = () => {
               </div>
               <div>
                 <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
-                  Курс обмена (1 {formData.cryptoCurrency || "крипто"} = ? {formData.cashCurrency || "нал."})
+                  Курс обмена (? {formData.cashCurrency || "нал."} = 1 {formData.cryptoCurrency || "крипто"})
                 </label>
                 <Input
                   placeholder="95.50"
@@ -277,7 +277,7 @@ const ExchangeContract = () => {
                 )}
                 <p>
                   3.3. Курс обмена составляет{" "}
-                  <strong>1 {formData.cryptoCurrency || "___"} = {formData.exchangeRate || "___"} {formData.cashCurrency || "___"}</strong>.
+                  <strong>{formData.exchangeRate || "___"} {formData.cashCurrency || "___"} = 1 {formData.cryptoCurrency || "___"}</strong>.
                   Курс фиксируется на момент создания заявки и не подлежит изменению после подписания настоящего Договора.
                 </p>
                 <p>
