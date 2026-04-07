@@ -1,7 +1,33 @@
 import json
 import os
 import psycopg2
+import requests
 from datetime import datetime, timedelta
+
+
+def notify_admin_payment_sent(short_id, username, from_currency, to_currency, from_amount, to_amount):
+    bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+    chat_id = os.environ.get('ADMIN_NOTIFY_CHAT_ID')
+    if not bot_token or not chat_id:
+        return
+
+    msg = (
+        f"💸 <b>Пользователь подтвердил оплату</b>\n\n"
+        f"📋 ID: <code>{short_id}</code>\n"
+        f"👤 Пользователь: @{username.lstrip('@')}\n"
+        f"💱 {from_amount} {from_currency} → {to_amount} {to_currency}\n"
+        f"🕐 {datetime.now().strftime('%d.%m.%Y %H:%M')}\n\n"
+        f"⚡ Проверьте поступление средств!"
+    )
+
+    try:
+        requests.post(
+            f'https://api.telegram.org/bot{bot_token}/sendMessage',
+            json={'chat_id': chat_id, 'text': msg, 'parse_mode': 'HTML'},
+            timeout=5
+        )
+    except Exception:
+        pass
 
 def handler(event: dict, context) -> dict:
     '''Пользователь подтверждает отправку средств'''
@@ -40,7 +66,7 @@ def handler(event: dict, context) -> dict:
     cur = conn.cursor()
 
     cur.execute(
-        f"SELECT id, status, created_at FROM {schema}.exchanges WHERE short_id = %s",
+        f"SELECT id, status, created_at, user_username, from_currency, to_currency, from_amount, to_amount FROM {schema}.exchanges WHERE short_id = %s",
         (short_id.upper(),)
     )
     row = cur.fetchone()
@@ -86,6 +112,15 @@ def handler(event: dict, context) -> dict:
     conn.commit()
     cur.close()
     conn.close()
+
+    notify_admin_payment_sent(
+        short_id.upper(),
+        row[3] or '',
+        row[4] or '',
+        row[5] or '',
+        row[6] or '',
+        row[7] or ''
+    )
 
     return {
         'statusCode': 200,
