@@ -51,6 +51,11 @@ const Footer = () => {
                 <span className="text-gray-600">support@exchange.com</span>
                 <span className="text-gray-600">24/7 онлайн</span>
               </div>
+              <div className="flex flex-col gap-2 text-sm mt-3">
+                <Link to="/privacy" className="text-gray-500 hover:text-gray-800 transition-colors">Политика конфиденциальности</Link>
+                <Link to="/terms" className="text-gray-500 hover:text-gray-800 transition-colors">Условия использования</Link>
+                <Link to="/exchange-contract" className="text-gray-500 hover:text-gray-800 transition-colors">Договор обмена</Link>
+              </div>
             </div>
 
             <div className="hidden md:flex flex-col gap-3">
@@ -65,11 +70,6 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200 flex flex-wrap gap-4 text-sm">
-          <Link to="/privacy" className="text-gray-500 hover:text-gray-800 transition-colors">Политика конфиденциальности</Link>
-          <Link to="/terms" className="text-gray-500 hover:text-gray-800 transition-colors">Условия использования</Link>
-          <Link to="/exchange-contract" className="text-gray-500 hover:text-gray-800 transition-colors">Договор обмена</Link>
-        </div>
       </div>
 
       <div className="mt-4 px-5 md:px-12">
