@@ -165,9 +165,9 @@ const AppHeader = ({
             </div>
           </div>
         ) : (
-          <div className="p-6">
+          <div className="p-5">
             {authError && (
-              <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>
+              <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700 rounded-lg">{authError}</div>
             )}
             <OTPVerification
               inputCount={4}
