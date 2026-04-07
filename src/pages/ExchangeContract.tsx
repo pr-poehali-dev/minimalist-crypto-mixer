@@ -11,8 +11,11 @@ const ExchangeContract = () => {
   const [formData, setFormData] = useState({
     clientName: "",
     managerName: "",
-    exchangeAmount: "",
-    currency: "USDT",
+    cashAmount: "",
+    cashCurrency: "RUB",
+    cryptoAmount: "",
+    cryptoCurrency: "USDT",
+    exchangeRate: "",
     walletAddress: "",
     clientTelegram: "",
     date: "",
@@ -171,26 +174,61 @@ const ExchangeContract = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:gap-3">
                 <div>
                   <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
-                    {isCashToCrypto ? "Сумма наличных" : "Сумма криптовалюты"}
+                    Сумма наличных
                   </label>
                   <Input
-                    placeholder={isCashToCrypto ? "100 000 ₽" : "1 000 USDT"}
-                    value={formData.exchangeAmount}
-                    onChange={(e) => handleChange("exchangeAmount", e.target.value)}
+                    placeholder="100 000"
+                    value={formData.cashAmount}
+                    onChange={(e) => handleChange("cashAmount", e.target.value)}
                     className="print-input h-11 border-gray-200 focus:border-blue-500"
                   />
                 </div>
                 <div>
                   <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
-                    {isCashToCrypto ? "Валюта получения (крипто)" : "Валюта выдачи (наличные)"}
+                    Валюта наличных
                   </label>
                   <Input
-                    placeholder={isCashToCrypto ? "USDT / BTC / ETH" : "RUB / USD / EUR"}
-                    value={formData.currency}
-                    onChange={(e) => handleChange("currency", e.target.value)}
+                    placeholder="RUB / USD / EUR / CHF"
+                    value={formData.cashCurrency}
+                    onChange={(e) => handleChange("cashCurrency", e.target.value)}
                     className="print-input h-11 border-gray-200 focus:border-blue-500"
                   />
                 </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:gap-3">
+                <div>
+                  <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
+                    Криптовалюта
+                  </label>
+                  <Input
+                    placeholder="USDT / BTC / ETH"
+                    value={formData.cryptoCurrency}
+                    onChange={(e) => handleChange("cryptoCurrency", e.target.value)}
+                    className="print-input h-11 border-gray-200 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
+                    Сумма криптовалюты
+                  </label>
+                  <Input
+                    placeholder="1 000"
+                    value={formData.cryptoAmount}
+                    onChange={(e) => handleChange("cryptoAmount", e.target.value)}
+                    className="print-input h-11 border-gray-200 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
+                  Курс обмена (1 {formData.cryptoCurrency || "крипто"} = ? {formData.cashCurrency || "нал."})
+                </label>
+                <Input
+                  placeholder="95.50"
+                  value={formData.exchangeRate}
+                  onChange={(e) => handleChange("exchangeRate", e.target.value)}
+                  className="print-input h-11 border-gray-200 focus:border-blue-500 md:w-1/2"
+                />
               </div>
               <div>
                 <label className="print-label block text-xs font-medium text-gray-500 mb-1.5 print:mb-1">
@@ -213,8 +251,10 @@ const ExchangeContract = () => {
                 {isCashToCrypto ? (
                   <>
                     <p>
-                      3.1. Клиент передаёт Менеджеру наличные денежные средства в размере, указанном в
-                      разделе «Параметры обмена», для обмена на криптовалюту.
+                      3.1. Клиент передаёт Менеджеру наличные денежные средства в размере{" "}
+                      <strong>{formData.cashAmount || "___"} {formData.cashCurrency || "___"}</strong> для
+                      обмена на криптовалюту <strong>{formData.cryptoCurrency || "___"}</strong> в
+                      количестве <strong>{formData.cryptoAmount || "___"}</strong>.
                     </p>
                     <p>
                       3.2. Менеджер обязуется отправить криптовалюту на указанный Клиентом адрес кошелька
@@ -224,18 +264,21 @@ const ExchangeContract = () => {
                 ) : (
                   <>
                     <p>
-                      3.1. Клиент отправляет криптовалюту в размере, указанном в разделе «Параметры обмена»,
-                      на кошелёк Менеджера для обмена на наличные денежные средства.
+                      3.1. Клиент отправляет криптовалюту <strong>{formData.cryptoCurrency || "___"}</strong> в
+                      количестве <strong>{formData.cryptoAmount || "___"}</strong> на кошелёк Менеджера для
+                      обмена на наличные денежные средства в размере{" "}
+                      <strong>{formData.cashAmount || "___"} {formData.cashCurrency || "___"}</strong>.
                     </p>
                     <p>
-                      3.2. Менеджер обязуется выдать Клиенту наличные денежные средства в согласованной
-                      валюте и сумме после подтверждения поступления криптовалюты в блокчейн-сети.
+                      3.2. Менеджер обязуется выдать Клиенту наличные денежные средства в указанной
+                      сумме и валюте после подтверждения поступления криптовалюты в блокчейн-сети.
                     </p>
                   </>
                 )}
                 <p>
-                  3.3. Курс обмена фиксируется на момент подписания настоящего Договора и не подлежит
-                  изменению после передачи средств.
+                  3.3. Курс обмена составляет{" "}
+                  <strong>1 {formData.cryptoCurrency || "___"} = {formData.exchangeRate || "___"} {formData.cashCurrency || "___"}</strong>.
+                  Курс фиксируется на момент создания заявки и не подлежит изменению после подписания настоящего Договора.
                 </p>
                 <p>
                   3.4. Стороны подтверждают, что ознакомлены с рисками, связанными с операциями с
