@@ -36,7 +36,7 @@ def handler(event: dict, context) -> dict:
 
     cur.execute(
         f'''SELECT id, short_id, from_currency, to_currency, from_amount, to_amount,
-                   rate, deposit_address, output_address, status, tx_hash, created_at, updated_at, is_cash, expires_at
+                   rate, deposit_address, output_address, status, tx_hash, created_at, updated_at, is_cash, expires_at, city
             FROM {schema}.exchanges
             WHERE short_id = %s''',
         (short_id.upper(),)
@@ -100,6 +100,7 @@ def handler(event: dict, context) -> dict:
                 'updated_at': row['updated_at'].isoformat() if row['updated_at'] else None,
                 'is_cash': is_cash,
                 'expires_at': row['expires_at'].isoformat() if row.get('expires_at') else None,
+                'city': row.get('city', ''),
             }
         })
     }

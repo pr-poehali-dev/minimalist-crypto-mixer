@@ -101,6 +101,7 @@ def handler(event: dict, context) -> dict:
     rate = body.get('rate')
     output_address = body.get('output_address', '')
     is_cash = body.get('is_cash', False)
+    city = body.get('city', '')
 
     is_cash_exchange = from_currency in CASH_CURRENCIES or to_currency in CASH_CURRENCIES
     if is_cash:
@@ -167,10 +168,10 @@ def handler(event: dict, context) -> dict:
 
     cur.execute(
         f'''INSERT INTO {schema}.exchanges
-            (user_username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status, is_cash, expires_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (user_username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status, is_cash, expires_at, city)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id''',
-        (username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status, is_cash_exchange, expires_at)
+        (username, from_currency, to_currency, from_amount, to_amount, rate, deposit_address, output_address, short_id, status, is_cash_exchange, expires_at, city)
     )
     exchange_id = cur.fetchone()[0]
     conn.commit()

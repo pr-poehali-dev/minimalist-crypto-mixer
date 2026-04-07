@@ -6,6 +6,12 @@ import Icon from '@/components/ui/icon';
 import { getCoinInfo, isFiat } from '@/lib/coins';
 import CurrencySelector from '@/components/CurrencySelector';
 
+const CITIES: Record<string, string[]> = {
+  'Россия': ['Москва', 'Ростов-на-Дону', 'Краснодар', 'Новороссийск'],
+  'Швейцария': ['Цюрих', 'Женева', 'Люцерн', 'Берн'],
+  'Германия': ['Берлин', 'Мюнхен', 'Франкфурт', 'Кёльн'],
+};
+
 interface ExchangeFormProps {
   fromCurrency: string;
   toCurrency: string;
@@ -20,6 +26,8 @@ interface ExchangeFormProps {
   hasReferralDiscount: boolean;
   showFromDropdown: boolean;
   showToDropdown: boolean;
+  selectedCity: string;
+  setSelectedCity: (v: string) => void;
   setShowFromDropdown: (v: boolean) => void;
   setShowToDropdown: (v: boolean) => void;
   setOutputAddress: (v: string) => void;
@@ -45,6 +53,8 @@ const ExchangeForm = ({
   hasReferralDiscount,
   showFromDropdown,
   showToDropdown,
+  selectedCity,
+  setSelectedCity,
   setShowFromDropdown,
   setShowToDropdown,
   setOutputAddress,
@@ -104,16 +114,6 @@ const ExchangeForm = ({
         </CardHeader>
         <CardContent className="pt-4 md:pt-6 px-4 md:px-6">
           <form onSubmit={onSubmit} className="space-y-5">
-            {isCashExchange && (
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 flex items-start gap-2">
-                <Icon name="Clock" size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold">Обмен наличных — заявка на 48 часов</p>
-                  <p className="mt-0.5">Менеджер свяжется с вами в Telegram для согласования деталей встречи</p>
-                </div>
-              </div>
-            )}
-
             <div className="flex flex-col md:flex-row items-stretch md:items-start gap-3">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-2">
@@ -202,6 +202,35 @@ const ExchangeForm = ({
               </div>
             </div>
 
+            {isCashExchange && (
+              <div className="space-y-3">
+                <label className="text-xs font-semibold uppercase tracking-wider text-gray-700">Город встречи</label>
+                <div className="space-y-2">
+                  {Object.entries(CITIES).map(([country, cities]) => (
+                    <div key={country}>
+                      <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1.5 font-semibold">{country}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {cities.map(city => (
+                          <button
+                            key={city}
+                            type="button"
+                            onClick={() => setSelectedCity(city)}
+                            className={`px-3 py-1.5 text-xs rounded-lg border transition-all ${
+                              selectedCity === city
+                                ? 'bg-blue-500 text-white border-blue-500 font-semibold'
+                                : 'bg-neutral-50 text-gray-700 border-gray-200 hover:border-gray-400'
+                            }`}
+                          >
+                            {city}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {needsAddress && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -220,9 +249,9 @@ const ExchangeForm = ({
             <Button
               type="submit"
               className="w-full h-12 text-sm font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white uppercase tracking-wider transition-all"
-              disabled={!fromAmount || !toAmount || (needsAddress && !outputAddress) || isSubmitting || isLoadingRates}
+              disabled={!fromAmount || !toAmount || (needsAddress && !outputAddress) || (isCashExchange && !selectedCity) || isSubmitting || isLoadingRates}
             >
-              {isSubmitting ? 'Создание заявки...' : isCashExchange ? `Заявка на обмен ${fromInfo.rateKey} → ${toInfo.rateKey}` : `Обменять ${fromInfo.rateKey} на ${toInfo.rateKey}`}
+              {isSubmitting ? 'Создание заявки...' : isCashExchange ? `Заявка: ${fromInfo.rateKey} → ${toInfo.rateKey}` : `Обменять ${fromInfo.rateKey} на ${toInfo.rateKey}`}
             </Button>
 
             <p className="text-center text-[11px] text-gray-400">

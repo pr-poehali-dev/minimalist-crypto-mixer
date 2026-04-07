@@ -41,7 +41,7 @@ interface OrderData {
   id: number; short_id: string; from_currency: string; to_currency: string;
   from_amount: string; to_amount: string; rate: string; deposit_address: string;
   output_address: string; status: string; tx_hash?: string; created_at: string; updated_at: string;
-  is_cash?: boolean; expires_at?: string;
+  is_cash?: boolean; expires_at?: string; city?: string;
 }
 
 const Order = () => {
@@ -242,12 +242,21 @@ const Order = () => {
                     <div>
                       <p className="font-bold text-amber-800 text-base">Менеджер скоро свяжется с вами</p>
                       <p className="text-amber-700 text-sm mt-2">
-                        Наш менеджер свяжется с вами в Telegram для уточнения всех деталей обмена.
-                        Заявка действительна 48 часов.
+                        Наш менеджер свяжется с вами в Telegram для уточнения деталей обмена и встречи.
                       </p>
                     </div>
                   </div>
                 </div>
+
+                {order.city && (
+                  <div className="p-4 border-2 border-blue-200 bg-blue-50 flex items-center gap-3">
+                    <Icon name="MapPin" size={18} className="text-blue-500 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-semibold text-blue-800 uppercase tracking-wider">Город встречи</p>
+                      <p className="text-sm font-semibold text-blue-900 mt-0.5">{order.city}</p>
+                    </div>
+                  </div>
+                )}
 
                 <div className="p-4 border-2 border-amber-200 bg-amber-50 flex items-center justify-between">
                   <div>

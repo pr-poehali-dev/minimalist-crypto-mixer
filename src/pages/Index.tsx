@@ -77,6 +77,7 @@ const Index = () => {
 
   const [showFromDropdown, setShowFromDropdown] = useState(false);
   const [showToDropdown, setShowToDropdown] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('');
 
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [isLoadingExchanges, setIsLoadingExchanges] = useState(false);
@@ -281,6 +282,10 @@ const Index = () => {
       alert('Заполните все поля');
       return;
     }
+    if (isCash && !selectedCity) {
+      alert('Выберите город встречи');
+      return;
+    }
 
     const fromRateKey = getCoinInfo(fromCurrency).rateKey;
     const fromUsdValue = Number(fromAmount) * (rates[fromRateKey] || 0);
@@ -304,6 +309,7 @@ const Index = () => {
           output_address: receivingCash ? '' : outputAddress,
           use_discount: hasReferralDiscount,
           is_cash: isCash,
+          city: isCash ? selectedCity : '',
         }),
       });
       const data = await resp.json();
@@ -353,6 +359,8 @@ const Index = () => {
                 isSubmitting={isSubmitting}
                 isAuthenticated={isAuthenticated}
                 hasReferralDiscount={hasReferralDiscount}
+                selectedCity={selectedCity}
+                setSelectedCity={setSelectedCity}
                 showFromDropdown={showFromDropdown}
                 showToDropdown={showToDropdown}
                 setShowFromDropdown={setShowFromDropdown}
