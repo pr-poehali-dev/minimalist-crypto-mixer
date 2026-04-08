@@ -65,11 +65,11 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-3 text-[11px] md:text-sm">
-          <Link to="/privacy" className="text-blue-500 hover:text-blue-700 transition-colors font-medium">Конфиденциальность</Link>
-          <span className="text-gray-300">·</span>
-          <Link to="/terms" className="text-blue-500 hover:text-blue-700 transition-colors font-medium">Условия</Link>
-          <span className="text-gray-300">·</span>
+        <div className="mt-8 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-2 gap-y-1.5 md:gap-x-3 text-[11px] md:text-sm">
+          <Link to="/privacy" className="text-blue-500 hover:text-blue-700 transition-colors font-medium">Политика конфиденциальности</Link>
+          <span className="text-gray-300 hidden sm:inline">·</span>
+          <Link to="/terms" className="text-blue-500 hover:text-blue-700 transition-colors font-medium">Условия пользования</Link>
+          <span className="text-gray-300 hidden sm:inline">·</span>
           <Link to="/exchange-contract" className="text-blue-500 hover:text-blue-700 transition-colors font-medium">Договор обмена</Link>
         </div>
       </div>
