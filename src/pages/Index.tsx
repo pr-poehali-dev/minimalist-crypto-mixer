@@ -157,17 +157,17 @@ const Index = () => {
   const handleSwapCurrencies = () => {
     const newFrom = toCurrency;
     const newTo = fromCurrency;
-    const newFromAmount = fromAmount;
+    const prevToAmount = toAmount;
     setFromCurrency(newFrom);
     setToCurrency(newTo);
-    setFromAmount(newFromAmount);
+    setFromAmount(prevToAmount);
     const fromKey = getCoinInfo(newFrom).rateKey;
     const toKey = getCoinInfo(newTo).rateKey;
-    if (newFromAmount && !isNaN(Number(newFromAmount)) && rates[fromKey] && rates[toKey]) {
+    if (prevToAmount && !isNaN(Number(prevToAmount)) && rates[fromKey] && rates[toKey]) {
       const rawRate = rates[fromKey] / rates[toKey];
       const effectiveMarkup = hasReferralDiscount ? Math.max(0, markupPercent - 1) : markupPercent;
       const withMarkup = rawRate * (1 - effectiveMarkup / 100);
-      setToAmount(withMarkup > 0 ? (Number(newFromAmount) * withMarkup).toFixed(8) : '');
+      setToAmount(withMarkup > 0 ? (Number(prevToAmount) * withMarkup).toFixed(8) : '');
     } else {
       setToAmount('');
     }
