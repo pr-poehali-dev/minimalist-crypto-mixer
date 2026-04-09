@@ -1,0 +1,1 @@
+{"tests": [{"name": "Access denied without admin", "method": "GET", "path": "/", "expectedStatus": 403, "expectedBody": {"error": "string"}, "bodyMatcher": "partial"}]}

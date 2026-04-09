@@ -10,6 +10,7 @@ const API = {
   adminExchanges: 'https://functions.poehali.dev/a2afbcdb-20fd-4338-8912-027e06990b01',
   updateStatus: 'https://functions.poehali.dev/f665b00d-ddae-42aa-8edb-1178981736e1',
   referral: 'https://functions.poehali.dev/2ae57ed9-acd8-4db7-badf-3788ebdbf00b',
+  exportRates: 'https://functions.poehali.dev/7f16db62-ea7b-4ed3-8dba-524c8846a3c0',
 };
 
 const ADMIN_USERNAMES = ['@admin', '@cryptocurrency_mixer_bot', '@fafaker123'];
@@ -53,6 +54,7 @@ const Admin = () => {
   const [referralData, setReferralData] = useState<any>(null);
   const [loadingReferrals, setLoadingReferrals] = useState(false);
   const [processingWithdrawal, setProcessingWithdrawal] = useState<number | null>(null);
+  const [exportingRates, setExportingRates] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('exchange_username');
@@ -188,6 +190,31 @@ const Admin = () => {
     setProcessingWithdrawal(null);
   };
 
+  const handleExportRates = async () => {
+    setExportingRates(true);
+    try {
+      const resp = await fetch(API.exportRates, {
+        headers: { 'X-User-Username': username },
+      });
+      const data = await resp.json();
+      if (data.csv_base64) {
+        const bytes = atob(data.csv_base64);
+        const arr = new Uint8Array(bytes.length);
+        for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+        const blob = new Blob([arr], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = data.filename || 'rates.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (e) {
+      console.error('Failed to export rates', e);
+    }
+    setExportingRates(false);
+  };
+
   const getStatusStyle = (status: string) => {
     const map: Record<string, string> = {
       'Ожидает оплаты': 'bg-yellow-50 border-yellow-200 text-yellow-700',
@@ -276,8 +303,19 @@ const Admin = () => {
                 {markupSaving ? 'Сохранение...' : markupSaved ? 'Сохранено!' : 'Сохранить'}
               </Button>
             </div>
-            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 text-xs text-blue-800">
-              Наценка применяется ко всем обменным операциям. При наценке {markup}% курс для клиента будет на {markup}% менее выгодным, чем рыночный.
+            <div className="mt-4 flex items-center justify-between">
+              <div className="p-3 bg-blue-50 border border-blue-200 text-xs text-blue-800 flex-1 mr-4">
+                Наценка применяется ко всем обменным операциям. При наценке {markup}% курс для клиента будет на {markup}% менее выгодным, чем рыночный.
+              </div>
+              <Button
+                onClick={handleExportRates}
+                disabled={exportingRates}
+                variant="outline"
+                className="h-11 border-2 border-gray-400 font-semibold text-xs uppercase tracking-wider whitespace-nowrap"
+              >
+                <Icon name="Download" size={14} className="mr-2" />
+                {exportingRates ? 'Загрузка...' : 'Скачать курсы CSV'}
+              </Button>
             </div>
           </CardContent>
         </Card>
