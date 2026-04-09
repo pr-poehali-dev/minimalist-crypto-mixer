@@ -60,21 +60,24 @@ def handler(event: dict, context) -> dict:
     cur.close()
     conn.close()
 
-    ids = ','.join(COINS.values())
+    tether_id = COINS.get('USDT', 'tether')
+    other_ids = [cg_id for sym, cg_id in COINS.items() if sym != 'USDT']
+    ids = ','.join(other_ids)
+
     resp = requests.get(
-        f'https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies=usd,rub',
+        f'https://api.coingecko.com/api/v3/simple/price?ids={ids},{tether_id}&vs_currencies=usd',
         timeout=10
     )
     data = resp.json()
 
-    rates_usd = {}
-    rates_rub = {}
+    usdt_usd = data.get(tether_id, {}).get('usd', 1.0)
+
+    rates_usdt = {}
     for symbol, cg_id in COINS.items():
-        if cg_id in data:
-            if 'usd' in data[cg_id]:
-                rates_usd[symbol] = data[cg_id]['usd']
-            if 'rub' in data[cg_id]:
-                rates_rub[symbol] = data[cg_id]['rub']
+        if symbol == 'USDT':
+            continue
+        if cg_id in data and 'usd' in data[cg_id]:
+            rates_usdt[symbol] = data[cg_id]['usd'] / usdt_usd
 
     markup_mult = 1 + markup_percent / 100
     now = datetime.utcnow().strftime('%d.%m.%Y %H:%M UTC')
@@ -86,19 +89,12 @@ def handler(event: dict, context) -> dict:
     writer.writerow([f'Курсы BLQOU на {now}'])
     writer.writerow([f'Наценка: {markup_percent}%'])
     writer.writerow([])
-    writer.writerow(['Монета', 'Курс USD (бирж.)', 'Курс USD (с наценкой)', 'Курс RUB (бирж.)', 'Курс RUB (с наценкой)'])
+    writer.writerow(['Монета', 'Курс USDT (с наценкой)'])
 
-    for symbol in sorted(COINS.keys()):
-        usd_raw = rates_usd.get(symbol)
-        rub_raw = rates_rub.get(symbol)
-        if usd_raw is None:
-            continue
-
-        usd_markup = round(usd_raw * markup_mult, 6)
-        rub_markup = round(rub_raw * markup_mult, 2) if rub_raw else ''
-        rub_raw_str = round(rub_raw, 2) if rub_raw else ''
-
-        writer.writerow([symbol, usd_raw, usd_markup, rub_raw_str, rub_markup])
+    for symbol in sorted(rates_usdt.keys()):
+        rate = rates_usdt[symbol]
+        rate_with_markup = round(rate * markup_mult, 6)
+        writer.writerow([symbol, rate_with_markup])
 
     csv_content = output.getvalue()
     csv_base64 = base64.b64encode(csv_content.encode('utf-8')).decode('utf-8')
@@ -110,7 +106,7 @@ def handler(event: dict, context) -> dict:
             'csv_base64': csv_base64,
             'filename': f'blqou_rates_{datetime.utcnow().strftime("%Y%m%d_%H%M")}.csv',
             'markup_percent': markup_percent,
-            'coins_count': len([s for s in COINS if s in rates_usd]),
+            'coins_count': len(rates_usdt),
             'generated_at': now
         })
     }
