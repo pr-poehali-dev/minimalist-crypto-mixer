@@ -51,18 +51,22 @@ def handler(event: dict, context) -> dict:
     cur.close()
     conn.close()
 
+    print(f'[WEBHOOK] chat_id={chat_id}, username={telegram_username}, text={text}')
+
     if text == '/start':
         bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
+        print(f'[WEBHOOK] bot_token exists={bool(bot_token)}, token_start={bot_token[:10] if bot_token else "NONE"}...')
         if bot_token:
-            requests.post(
+            resp = requests.post(
                 f'https://api.telegram.org/bot{bot_token}/sendMessage',
                 json={
                     'chat_id': chat_id,
-                    'text': 'Вы успешно подключены к обменнику!\n\nТеперь вы можете авторизоваться на сайте — введите ваш username и получите код прямо сюда.',
+                    'text': 'Вы успешно подключены к BLQOU!\n\nТеперь вы можете авторизоваться на сайте — введите ваш username и получите код прямо сюда.',
                     'parse_mode': 'HTML'
                 },
                 timeout=5
             )
+            print(f'[WEBHOOK] TG response: {resp.status_code} {resp.text}')
 
     return ok()
 
