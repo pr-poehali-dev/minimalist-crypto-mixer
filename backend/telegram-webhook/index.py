@@ -41,6 +41,12 @@ def handler(event: dict, context) -> dict:
     cur = conn.cursor()
 
     cur.execute(
+        f'SELECT 1 FROM {schema}.telegram_users WHERE telegram_username = %s',
+        (telegram_username,)
+    )
+    is_new_user = cur.fetchone() is None
+
+    cur.execute(
         f'''INSERT INTO {schema}.telegram_users (telegram_username, chat_id)
             VALUES (%s, %s)
             ON CONFLICT (telegram_username)
@@ -51,22 +57,30 @@ def handler(event: dict, context) -> dict:
     cur.close()
     conn.close()
 
-    print(f'[WEBHOOK] chat_id={chat_id}, username={telegram_username}, text={text}')
-
     if text == '/start':
         bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
-        print(f'[WEBHOOK] bot_token exists={bool(bot_token)}, token_start={bot_token[:10] if bot_token else "NONE"}...')
         if bot_token:
-            resp = requests.post(
+            if is_new_user:
+                msg = (
+                    '✅ <b>Регистрация прошла успешно!</b>\n\n'
+                    f'Добро пожаловать в <b>BLQOU</b>, {telegram_username}!\n\n'
+                    'Теперь вы можете авторизоваться на сайте:\n'
+                    '1. Перейдите на <b>blqou.com</b>\n'
+                    '2. Введите ваш Telegram username\n'
+                    '3. Получите код авторизации прямо сюда\n\n'
+                    '🔐 Код действует 10 минут.'
+                )
+            else:
+                msg = (
+                    '👋 <b>С возвращением!</b>\n\n'
+                    f'{telegram_username}, вы уже зарегистрированы.\n'
+                    'Перейдите на <b>blqou.com</b> и авторизуйтесь — код придёт в этот чат.'
+                )
+            requests.post(
                 f'https://api.telegram.org/bot{bot_token}/sendMessage',
-                json={
-                    'chat_id': chat_id,
-                    'text': 'Вы успешно подключены к BLQOU!\n\nТеперь вы можете авторизоваться на сайте — введите ваш username и получите код прямо сюда.',
-                    'parse_mode': 'HTML'
-                },
+                json={'chat_id': chat_id, 'text': msg, 'parse_mode': 'HTML'},
                 timeout=5
             )
-            print(f'[WEBHOOK] TG response: {resp.status_code} {resp.text}')
 
     return ok()
 
