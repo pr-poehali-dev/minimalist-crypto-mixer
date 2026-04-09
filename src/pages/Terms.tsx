@@ -147,7 +147,7 @@ const Terms = () => {
             <p>
               По любым вопросам обращайтесь через{" "}
               <a
-                href="https://t.me/wi_exchange_sup_bot"
+                href="https://t.me/blqou_help_bot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"

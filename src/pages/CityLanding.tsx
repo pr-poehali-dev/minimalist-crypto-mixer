@@ -252,7 +252,7 @@ const CityLanding = () => {
               <Icon name="ArrowRight" size={18} />
             </Link>
             <a
-              href="https://t.me/wi_exchange_sup_bot"
+              href="https://t.me/blqou_help_bot"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all text-base"

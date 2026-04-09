@@ -130,7 +130,7 @@ const AppHeader = ({
             <p className="text-center text-gray-600 mb-4 text-sm">Введите username, мы отправим вам код</p>
             <div className="p-3 bg-blue-50 border border-blue-200 mb-4 text-xs text-blue-800">
               <p className="font-semibold mb-1">Первый раз?</p>
-              <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/wi_exchange_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@wi_exchange_auth_bot</a></p>
+              <p>Сначала напишите <strong>/start</strong> нашему боту: <a href="https://t.me/blqou_auth_bot" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@blqou_auth_bot</a></p>
             </div>
             {authError && (
               <div className="p-3 bg-red-50 border border-red-200 mb-4 text-xs text-red-700">{authError}</div>

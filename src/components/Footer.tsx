@@ -15,7 +15,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-3 mt-2">
               <a
-                href="https://t.me/wi_exchange_sup_bot"
+                href="https://t.me/blqou_help_bot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:border-blue-300 hover:bg-blue-50 transition-colors"
@@ -23,7 +23,7 @@ const Footer = () => {
                 <Icon name="Send" size={15} className="text-gray-600" />
               </a>
               <a
-                href="https://t.me/wi_exchange_auth_bot"
+                href="https://t.me/blqou_auth_bot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:border-blue-300 hover:bg-blue-50 transition-colors"
@@ -47,7 +47,7 @@ const Footer = () => {
             <div className="flex flex-col gap-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-gray-400">Поддержка</h4>
               <div className="flex flex-col gap-2 text-sm">
-                <a href="https://t.me/wi_exchange_sup_bot" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">Telegram бот</a>
+                <a href="https://t.me/blqou_help_bot" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">Telegram бот</a>
                 <span className="text-gray-600">blqou@mail.ru</span>
                 <span className="text-gray-600">24/7 онлайн</span>
               </div>

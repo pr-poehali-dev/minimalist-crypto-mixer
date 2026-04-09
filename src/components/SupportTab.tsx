@@ -12,7 +12,7 @@ const SupportTab = () => {
 
         <div className="rounded-xl md:rounded-2xl border border-gray-200 bg-white p-4 md:p-8">
           <a
-            href="https://t.me/wi_exchange_sup_bot"
+            href="https://t.me/blqou_help_bot"
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6 p-4 md:p-6 border-2 border-blue-100 bg-blue-50/50 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all"
@@ -23,7 +23,7 @@ const SupportTab = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-base md:text-xl text-gray-800">Написать в поддержку</p>
-              <p className="text-xs md:text-sm text-gray-500 mt-1">@wi_exchange_sup_bot — бот поддержки</p>
+              <p className="text-xs md:text-sm text-gray-500 mt-1">@blqou_help_bot — бот поддержки</p>
               <p className="text-xs text-blue-600 mt-1 md:mt-2 font-medium">Создайте тикет или просто напишите вопрос — оператор ответит</p>
             </div>
             <Icon name="ExternalLink" size={20} className="text-gray-400 flex-shrink-0 hidden md:block" />
@@ -84,7 +84,7 @@ const SupportTab = () => {
           <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">Как создать тикет</h3>
           <div className="grid grid-cols-3 gap-3 md:gap-6">
             {[
-              { step: '1', title: 'Откройте бота', desc: 'Перейдите по ссылке @wi_exchange_sup_bot в Telegram', icon: 'ExternalLink' },
+              { step: '1', title: 'Откройте бота', desc: 'Перейдите по ссылке @blqou_help_bot в Telegram', icon: 'ExternalLink' },
               { step: '2', title: 'Опишите проблему', desc: 'Напишите сообщение или используйте /ticket', icon: 'PenLine' },
               { step: '3', title: 'Получите ответ', desc: 'Оператор ответит в том же чате в течение 15 минут', icon: 'CheckCircle' },
             ].map(s => (
@@ -125,7 +125,7 @@ const SupportTab = () => {
             </div>
             <div className="min-w-0">
               <p className="font-bold text-yellow-800 text-sm md:text-base">Будьте бдительны</p>
-              <p className="text-xs md:text-sm text-yellow-700 mt-1">Мы никогда не просим ваши пароли, seed-фразы или приватные ключи. Не отправляйте средства по ссылкам из непроверенных источников. Наш единственный бот поддержки — @wi_exchange_sup_bot.</p>
+              <p className="text-xs md:text-sm text-yellow-700 mt-1">Мы никогда не просим ваши пароли, seed-фразы или приватные ключи. Не отправляйте средства по ссылкам из непроверенных источников. Наш единственный бот поддержки — @blqou_help_bot.</p>
             </div>
           </div>
         </div>

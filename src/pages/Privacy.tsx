@@ -104,7 +104,7 @@ const Privacy = () => {
             <p className="mt-3">
               Для реализации этих прав свяжитесь с нашей службой поддержки через{" "}
               <a
-                href="https://t.me/wi_exchange_sup_bot"
+                href="https://t.me/blqou_help_bot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
@@ -128,7 +128,7 @@ const Privacy = () => {
             <p>
               По вопросам, связанным с конфиденциальностью, обращайтесь через{" "}
               <a
-                href="https://t.me/wi_exchange_sup_bot"
+                href="https://t.me/blqou_help_bot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
