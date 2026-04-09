@@ -8,6 +8,58 @@ import requests
 
 CASH_CURRENCIES = {'USD-CASH', 'RUB-CASH', 'CHF-CASH'}
 
+COINS = {
+    'BTC': 'bitcoin', 'ETH': 'ethereum', 'USDT': 'tether', 'USDC': 'usd-coin',
+    'BNB': 'binancecoin', 'SOL': 'solana', 'XRP': 'ripple', 'ADA': 'cardano',
+    'DOGE': 'dogecoin', 'LTC': 'litecoin', 'TRX': 'tron', 'TON': 'the-open-network',
+    'AVAX': 'avalanche-2', 'DOT': 'polkadot', 'MATIC': 'matic-network',
+    'LINK': 'chainlink', 'UNI': 'uniswap', 'ATOM': 'cosmos', 'FIL': 'filecoin',
+    'APT': 'aptos', 'NEAR': 'near', 'ARB': 'arbitrum', 'OP': 'optimism',
+    'SUI': 'sui', 'SHIB': 'shiba-inu', 'PEPE': 'pepe', 'ETC': 'ethereum-classic',
+    'BCH': 'bitcoin-cash', 'XLM': 'stellar', 'ALGO': 'algorand', 'VET': 'vechain',
+    'FTM': 'fantom', 'AAVE': 'aave', 'GRT': 'the-graph', 'INJ': 'injective-protocol',
+    'RENDER': 'render-token', 'FET': 'fetch-ai', 'SAND': 'the-sandbox',
+    'MANA': 'decentraland', 'AXS': 'axie-infinity', 'CRV': 'curve-dao-token',
+    'DASH': 'dash', 'ZEC': 'zcash', 'CAKE': 'pancakeswap-token',
+    'ENS': 'ethereum-name-service', 'WLD': 'worldcoin-wld', 'SEI': 'sei-network',
+    'BONK': 'bonk',
+}
+
+RATE_KEY_MAP = {
+    'USDT-TRC20': 'USDT', 'USDT-ERC20': 'USDT',
+    'USDC-ERC20': 'USDC', 'USDC-TRC20': 'USDC',
+    'USD-CASH': 'USD', 'RUB-CASH': 'RUB', 'CHF-CASH': 'CHF',
+}
+
+FIAT_VS = ['rub', 'chf']
+
+def get_rate_key(currency):
+    return RATE_KEY_MAP.get(currency, currency)
+
+def fetch_server_rates():
+    ids = ','.join(COINS.values())
+    vs = 'usd,' + ','.join(FIAT_VS)
+    resp = requests.get(
+        f'https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies={vs}',
+        timeout=10
+    )
+    data = resp.json()
+    rates = {}
+    for symbol, cg_id in COINS.items():
+        if cg_id in data and 'usd' in data[cg_id]:
+            rates[symbol] = data[cg_id]['usd']
+    rates['USD'] = 1.0
+    tether_data = data.get('tether', {})
+    for fiat in FIAT_VS:
+        fu = fiat.upper()
+        if fiat in tether_data and tether_data[fiat] > 0:
+            rates[fu] = 1.0 / tether_data[fiat]
+    if 'RUB' not in rates:
+        rates['RUB'] = 1.0 / 87.0
+    if 'CHF' not in rates:
+        rates['CHF'] = 1.0 / 0.88
+    return rates
+
 DEPOSIT_WALLETS = {
     'BTC': 'bc1qnuu9k4eucxgyz67a7g20rm5e0v8k9t86er6vn9',
     'ETH': '0xcF53BC73cc1b39056d2013723F1eE6340F40eef7',
@@ -138,7 +190,7 @@ def handler(event: dict, context) -> dict:
 
     receiving_cash = to_currency in CASH_CURRENCIES
 
-    if not all([from_currency, to_currency, from_amount, to_amount, rate]):
+    if not all([from_currency, to_currency, from_amount]):
         return {
             'statusCode': 400,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
@@ -167,6 +219,12 @@ def handler(event: dict, context) -> dict:
     conn = psycopg2.connect(database_url)
     cur = conn.cursor()
 
+    markup_percent = 2.0
+    cur.execute(f'SELECT markup_percent FROM {schema}.exchange_markup ORDER BY id DESC LIMIT 1')
+    row = cur.fetchone()
+    if row:
+        markup_percent = float(row[0])
+
     discount_applied = False
     use_discount = body.get('use_discount', False)
 
@@ -183,6 +241,27 @@ def handler(event: dict, context) -> dict:
                 (link_row[0],)
             )
             discount_applied = True
+
+    effective_markup = max(0, markup_percent - 1) if discount_applied else markup_percent
+
+    server_rates = fetch_server_rates()
+    from_key = get_rate_key(from_currency)
+    to_key = get_rate_key(to_currency)
+
+    if from_key not in server_rates or to_key not in server_rates:
+        conn.close()
+        return {
+            'statusCode': 400,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps({'error': 'Unable to fetch current rates'})
+        }
+
+    raw_rate = server_rates[from_key] / server_rates[to_key]
+    server_rate = raw_rate * (1 - effective_markup / 100)
+
+    from_amount_num = float(from_amount)
+    to_amount = round(from_amount_num * server_rate, 8)
+    rate = server_rate
 
     for _ in range(10):
         short_id = generate_short_id()
@@ -218,6 +297,8 @@ def handler(event: dict, context) -> dict:
             'short_id': short_id,
             'deposit_address': deposit_address,
             'discount_applied': discount_applied,
-            'is_cash': is_cash_exchange
+            'is_cash': is_cash_exchange,
+            'server_rate': rate,
+            'to_amount': to_amount
         })
     }

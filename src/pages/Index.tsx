@@ -155,10 +155,22 @@ const Index = () => {
   };
 
   const handleSwapCurrencies = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
-    setFromAmount(toAmount);
-    setToAmount(fromAmount);
+    const newFrom = toCurrency;
+    const newTo = fromCurrency;
+    const newFromAmount = fromAmount;
+    setFromCurrency(newFrom);
+    setToCurrency(newTo);
+    setFromAmount(newFromAmount);
+    const fromKey = getCoinInfo(newFrom).rateKey;
+    const toKey = getCoinInfo(newTo).rateKey;
+    if (newFromAmount && !isNaN(Number(newFromAmount)) && rates[fromKey] && rates[toKey]) {
+      const rawRate = rates[fromKey] / rates[toKey];
+      const effectiveMarkup = hasReferralDiscount ? Math.max(0, markupPercent - 1) : markupPercent;
+      const withMarkup = rawRate * (1 - effectiveMarkup / 100);
+      setToAmount(withMarkup > 0 ? (Number(newFromAmount) * withMarkup).toFixed(8) : '');
+    } else {
+      setToAmount('');
+    }
   };
 
   const selectFromCurrency = (coin: string) => {
@@ -299,7 +311,6 @@ const Index = () => {
 
     setIsSubmitting(true);
     try {
-      const rate = getExchangeRate(fromCurrency, toCurrency);
       const resp = await fetch(API.createExchange, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-User-Username': telegramUsername },
@@ -307,8 +318,6 @@ const Index = () => {
           from_currency: fromCurrency,
           to_currency: toCurrency,
           from_amount: fromAmount,
-          to_amount: toAmount,
-          rate: rate.toString(),
           output_address: receivingCash ? '' : outputAddress,
           use_discount: hasReferralDiscount,
           is_cash: isCash,
@@ -319,6 +328,8 @@ const Index = () => {
       if (data.success) {
         if (data.discount_applied) setHasReferralDiscount(false);
         navigate(`/order/${data.short_id}`);
+      } else if (data.error) {
+        alert(data.error);
       }
     } catch (err) {
       console.error('Exchange creation failed', err);
