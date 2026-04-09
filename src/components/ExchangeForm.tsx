@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -65,11 +66,17 @@ const ExchangeForm = ({
   onSelectToCurrency,
   onSubmit,
 }: ExchangeFormProps) => {
+  const [swapKey, setSwapKey] = useState(0);
   const fromInfo = getCoinInfo(fromCurrency);
   const toInfo = getCoinInfo(toCurrency);
   const isCashExchange = isFiat(fromCurrency) || isFiat(toCurrency);
   const receivingCash = isFiat(toCurrency);
   const needsAddress = !receivingCash;
+
+  const handleSwap = () => {
+    setSwapKey(k => k + 1);
+    onSwapCurrencies();
+  };
 
   const formatRate = (value: number) => {
     if (value >= 1000) return value.toFixed(2);
@@ -115,46 +122,54 @@ const ExchangeForm = ({
         <CardContent className="pt-4 md:pt-6 px-4 md:px-6">
           <form onSubmit={onSubmit} className="space-y-5">
             <div className="flex flex-col md:flex-row items-stretch md:items-start gap-3">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: fromInfo.color }}>Отправляете</label>
-                  <span className="text-xs" style={{ color: fromInfo.color }}>{fromInfo.name}{fromInfo.network && fromInfo.network !== 'Cash' ? ` (${fromInfo.network})` : ''}</span>
-                </div>
-                <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: fromInfo.color + '25' }}>
-                  <Input
-                    type="number"
-                    step="any"
-                    placeholder="0.00"
-                    value={fromAmount}
-                    onChange={(e) => onFromAmountChange(e.target.value)}
-                    className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0 rounded-lg"
-                  />
-                  <CurrencySelector
-                    selected={fromCurrency}
-                    isOpen={showFromDropdown}
-                    setIsOpen={(v) => { setShowFromDropdown(v); setShowToDropdown(false); }}
-                    onSelect={onSelectFromCurrency}
-                    rates={rates}
-                  />
-                </div>
-                <div className="flex items-center justify-between mt-1.5 px-1">
-                  <span className="text-[11px] font-mono">
-                    {currentRate > 0 && (
-                      <span style={{ color: fromInfo.color }}>
-                        1 {fromInfo.rateKey} = {formatRate(currentRate)} {toInfo.rateKey}
-                      </span>
-                    )}
-                  </span>
-                  <span className="text-[11px] font-mono" style={{ color: fromInfo.color + 'AA' }}>
-                    {fromAmount && rates[fromInfo.rateKey] ? `$${(Number(fromAmount) * rates[fromInfo.rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
-                  </span>
-                </div>
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`from-${swapKey}`}
+                  className="flex-1 min-w-0"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25, duration: 0.3 }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: fromInfo.color }}>Отправляете</label>
+                    <span className="text-xs" style={{ color: fromInfo.color }}>{fromInfo.name}{fromInfo.network && fromInfo.network !== 'Cash' ? ` (${fromInfo.network})` : ''}</span>
+                  </div>
+                  <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: fromInfo.color + '25' }}>
+                    <Input
+                      type="number"
+                      step="any"
+                      placeholder="0.00"
+                      value={fromAmount}
+                      onChange={(e) => onFromAmountChange(e.target.value)}
+                      className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0 rounded-lg"
+                    />
+                    <CurrencySelector
+                      selected={fromCurrency}
+                      isOpen={showFromDropdown}
+                      setIsOpen={(v) => { setShowFromDropdown(v); setShowToDropdown(false); }}
+                      onSelect={onSelectFromCurrency}
+                      rates={rates}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between mt-1.5 px-1">
+                    <span className="text-[11px] font-mono">
+                      {currentRate > 0 && (
+                        <span style={{ color: fromInfo.color }}>
+                          1 {fromInfo.rateKey} = {formatRate(currentRate)} {toInfo.rateKey}
+                        </span>
+                      )}
+                    </span>
+                    <span className="text-[11px] font-mono" style={{ color: fromInfo.color + 'AA' }}>
+                      {fromAmount && rates[fromInfo.rateKey] ? `$${(Number(fromAmount) * rates[fromInfo.rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
 
               <div className="flex items-center justify-center md:pt-8">
                 <motion.button
                   type="button"
-                  onClick={onSwapCurrencies}
+                  onClick={handleSwap}
                   className="w-10 h-10 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center hover:bg-neutral-50 hover:border-gray-400 transition-all"
                   whileTap={{ scale: 0.9, rotate: 180 }}
                   whileHover={{ scale: 1.08 }}
@@ -165,41 +180,49 @@ const ExchangeForm = ({
                 </motion.button>
               </div>
 
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: toInfo.color }}>Получаете</label>
-                  <span className="text-xs" style={{ color: toInfo.color }}>{toInfo.name}{toInfo.network && toInfo.network !== 'Cash' ? ` (${toInfo.network})` : ''}</span>
-                </div>
-                <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: toInfo.color + '25' }}>
-                  <Input
-                    type="number"
-                    step="any"
-                    placeholder="0.00"
-                    value={toAmount}
-                    onChange={(e) => onToAmountChange(e.target.value)}
-                    className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0 rounded-lg"
-                  />
-                  <CurrencySelector
-                    selected={toCurrency}
-                    isOpen={showToDropdown}
-                    setIsOpen={(v) => { setShowToDropdown(v); setShowFromDropdown(false); }}
-                    onSelect={onSelectToCurrency}
-                    rates={rates}
-                  />
-                </div>
-                <div className="flex items-center justify-between mt-1.5 px-1">
-                  <span className="text-[11px] font-mono">
-                    {currentRate > 0 && (
-                      <span style={{ color: toInfo.color }}>
-                        1 {toInfo.rateKey} = {formatRate(1 / currentRate)} {fromInfo.rateKey}
-                      </span>
-                    )}
-                  </span>
-                  <span className="text-[11px] font-mono" style={{ color: toInfo.color + 'AA' }}>
-                    {toAmount && rates[toInfo.rateKey] ? `$${(Number(toAmount) * rates[toInfo.rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
-                  </span>
-                </div>
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`to-${swapKey}`}
+                  className="flex-1 min-w-0"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25, duration: 0.3 }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: toInfo.color }}>Получаете</label>
+                    <span className="text-xs" style={{ color: toInfo.color }}>{toInfo.name}{toInfo.network && toInfo.network !== 'Cash' ? ` (${toInfo.network})` : ''}</span>
+                  </div>
+                  <div className="flex items-center border border-gray-200 bg-neutral-50 h-12 rounded-lg transition-colors" style={{ borderColor: toInfo.color + '25' }}>
+                    <Input
+                      type="number"
+                      step="any"
+                      placeholder="0.00"
+                      value={toAmount}
+                      onChange={(e) => onToAmountChange(e.target.value)}
+                      className="border-0 bg-transparent text-gray-800 font-mono placeholder:text-gray-400 h-full text-lg font-semibold shadow-none focus-visible:ring-0 rounded-lg"
+                    />
+                    <CurrencySelector
+                      selected={toCurrency}
+                      isOpen={showToDropdown}
+                      setIsOpen={(v) => { setShowToDropdown(v); setShowFromDropdown(false); }}
+                      onSelect={onSelectToCurrency}
+                      rates={rates}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between mt-1.5 px-1">
+                    <span className="text-[11px] font-mono">
+                      {currentRate > 0 && (
+                        <span style={{ color: toInfo.color }}>
+                          1 {toInfo.rateKey} = {formatRate(1 / currentRate)} {fromInfo.rateKey}
+                        </span>
+                      )}
+                    </span>
+                    <span className="text-[11px] font-mono" style={{ color: toInfo.color + 'AA' }}>
+                      {toAmount && rates[toInfo.rateKey] ? `$${(Number(toAmount) * rates[toInfo.rateKey]).toLocaleString(undefined, { maximumFractionDigits: 2 })}` : ''}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {isCashExchange && (
